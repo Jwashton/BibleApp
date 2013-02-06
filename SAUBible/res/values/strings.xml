@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">SAU Bible</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">I can push to GIT!!</string>
     <string name="menu_settings">Settings</string>
 
 </resources>
