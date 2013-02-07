@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">SAU Bible</string>
-    <string name="hello_world">It's a trap! Please let this work!</string>
+    <string name="hello_world">It\'s a trap! Please let this work!</string>
     <string name="menu_settings">Settings</string>
+    <string name="title_activity_bible_navigation">Bible Navigation</string>
 
 </resources>
