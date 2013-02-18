@@ -1,8 +1,9 @@
-package edu.southern.cs.saubible;
+package edu.southern;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import edu.southern.R;
 
 public class BibleNavigation extends Activity {
 
