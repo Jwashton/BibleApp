@@ -15,7 +15,9 @@
         android:theme="@style/AppTheme"
         android:name="BibleApp">
         <activity
-            android:name="edu.southern.HomeScreen"  android:label="@string/app_name" >
+            android:name="edu.southern.HomeScreen"  
+            android:label="@string/app_name" 
+            android:theme="@style/BibleTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +26,8 @@
         </activity>
         <activity
             android:name="edu.southern.BibleNavigation" 
-            android:label="@string/title_activity_bible_navigation" >
+            android:label="@string/title_activity_bible_navigation"
+            android:theme="@style/BibleTheme" >
         </activity>
     </application>
 

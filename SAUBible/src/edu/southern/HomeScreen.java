@@ -2,6 +2,8 @@ package edu.southern;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import edu.southern.R;
@@ -16,12 +18,23 @@ public class HomeScreen extends Activity {
     transferAssetFiles();
     // initiallize the engine and store it on the application
     initiallizeBibleEngine();
+    
+    
+    // Add Home fragment to view group as default view
+    FragmentManager fragmentManager = getFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    
+    Home homeFragment = new Home();
+    fragmentTransaction.add(R.id.homeFragmentContainer, homeFragment);
+    fragmentTransaction.commit();
+    
   }
   
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.activity_home_screen, menu);
+    getMenuInflater().inflate(R.menu.primary_nav_menu, menu);    
+    
     return true;
   }
   
