@@ -12,7 +12,11 @@
     <string name="Bible">Bible</string>
     <string name="Bookmarks">Bookmarks</string>
     
-    <!-- Bible Fragment Text -->
-	<string name="BibleTextFrag">Hello from the Home Fragment!</string>
+    <!-- Home Fragment Text -->
+	<string name="HomeTextFrag">Hello from the Home Fragment!</string>
+	
+	<!-- Bible Fragment Text -->
+	<string name="BibleTextFrag">Hello from the Bible Fragment!</string>
+	
 	
 </resources>

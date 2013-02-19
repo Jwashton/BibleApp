@@ -6,10 +6,16 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import edu.southern.R;
 
+
+
 public class HomeScreen extends Activity {
-  
+
+  FragmentManager fragmentManager = getFragmentManager();
+  FragmentTransaction fragmentTransaction;
+	
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -21,8 +27,7 @@ public class HomeScreen extends Activity {
     
     
     // Add Home fragment to view group as default view
-    FragmentManager fragmentManager = getFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    fragmentTransaction = fragmentManager.beginTransaction();
     
     Home homeFragment = new Home();
     fragmentTransaction.add(R.id.homeFragmentContainer, homeFragment);
@@ -33,9 +38,33 @@ public class HomeScreen extends Activity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
+  	// Adding the Primary Navigation to the Action Bar
     getMenuInflater().inflate(R.menu.primary_nav_menu, menu);    
     
     return true;
+  }
+  
+  
+  // Switch Fragments When menu buttons in action bar selected
+  public void onViewMenuSelection(MenuItem item) {
+  	
+  	fragmentTransaction = fragmentManager.beginTransaction();
+  	
+  	// Switch to appropriate fragment
+	  switch (item.getItemId()) {
+		  case R.id.Home:
+			  Home homeFragment = new Home();
+			  fragmentTransaction.replace(R.id.homeFragmentContainer, homeFragment);
+			  break;
+		  case R.id.Bible:
+			  Bible bibleFragment = new Bible();
+			  fragmentTransaction.replace(R.id.homeFragmentContainer, bibleFragment);
+			  break;
+		  default:
+			  break;
+	  }
+	  
+	  fragmentTransaction.commit();
   }
   
   protected void initiallizeBibleEngine(){
