@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import edu.southern.R;
-
+import edu.southern.resources.*;
 
 
 public class HomeScreen extends Activity {
@@ -24,7 +24,6 @@ public class HomeScreen extends Activity {
     transferAssetFiles();
     // initiallize the engine and store it on the application
     initiallizeBibleEngine();
-    
     
     // Add Home fragment to view group as default view
     fragmentTransaction = fragmentManager.beginTransaction();
@@ -69,14 +68,14 @@ public class HomeScreen extends Activity {
   
   protected void initiallizeBibleEngine(){
 	  // create a bible engine and start the various aspects of it
-	  CBibleEngine BibleEngine = new CBibleEngine();
+	  CBibleEngine engine = new CBibleEngine();
 	  String DATA_SOURCE = "data/data/edu.southern/lighthouse/";
-	  BibleEngine.StartEngine(DATA_SOURCE, "KJV");
-	  BibleEngine.StartLexiconEngine(DATA_SOURCE);
-	  BibleEngine.StartMarginEngine(DATA_SOURCE);
+	  engine.StartEngine(DATA_SOURCE, "KJV");
+	  engine.StartLexiconEngine(DATA_SOURCE);
+	  engine.StartMarginEngine(DATA_SOURCE);
 	  // store the app on the application class
 	  BibleApp app = (BibleApp)getApplication();
-	  app.SetEngine(BibleEngine);
+	  app.SetEngine(engine);
 	  /*
 	   * IMPORTANT
 	   * In order to get the Bible Engine, use these lines
