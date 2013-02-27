@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Sliding Menu Dimension Definitions -->
+    <dimen name="shadow_width">25dp</dimen>
+    <dimen name="slidingmenu_offset">100dp</dimen>
+    
+</resources>
