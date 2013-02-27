@@ -8,9 +8,13 @@
     <string name="bible_button_2">Bible Branch Demonstration</string>
     
     <!-- Menu Strings -->
+    <string name="Back">Back</string>
     <string name="Home">Home</string>
     <string name="Bible">Bible</string>
     <string name="Bookmarks">Bookmarks</string>
+    
+    <!-- Drawer Fragment Text -->
+	<string name="DrawerTextFrag">Hello from the Drawer Fragment!</string>
     
     <!-- Home Fragment Text -->
 	<string name="HomeTextFrag">Hello from the Home Fragment!</string>
