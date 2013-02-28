@@ -6,17 +6,18 @@
     <string name="title_activity_bible_navigation">Bible Navigation</string>
     <string name="bible_button">Bible Branch 4</string>
     <string name="bible_button_2">Bible Branch Demonstration</string>
-    
+
     <!-- Menu Strings -->
     <string name="Home">Home</string>
     <string name="Bible">Bible</string>
     <string name="Bookmarks">Bookmarks</string>
-    
+
     <!-- Home Fragment Text -->
-	<string name="HomeTextFrag">Hello from the Home Fragment!</string>
-	
-	<!-- Bible Fragment Text -->
-	<string name="BibleTextFrag">Hello from the Bible Fragment!</string>
-	
-	
+    <string name="HomeTextFrag">Hello from the Home Fragment!</string>
+
+    <!-- Bible Fragment Text -->
+    <string name="BibleTextFrag">Hello from the Bible Fragment!</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_chapter_selection">ChapterSelection</string>
+
 </resources>

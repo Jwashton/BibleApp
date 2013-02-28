@@ -1,13 +1,13 @@
 package edu.southern;
 
+
 import android.app.ListFragment;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class Bible extends ListFragment {
 	static ArrayAdapter<String> adapter;
@@ -35,23 +35,15 @@ public class Bible extends ListFragment {
 		            R.id.row_textview1,
 		            books);
 		 setListAdapter(adapter);
-		 /*
-		 listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	            @Override
-	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	                SharedPreferences settings = getSharedPreferences("edu.southern", 0);
-	        		SharedPreferences.Editor editor = settings.edit();
-	        		editor.putInt("book_value", position);
-	        		editor.commit();
-	        		Intent intent = new Intent(getApplicationContext(), Bible_Chapters.class);
-	        			//This method will start the other activity.
-	        		startActivity(intent);
-	        		
-	        		//commented out. crashes everytime I try to open the new activity.
-	        		//I don't know why it crashes for you, for some reason it works fine in my computer
-	        		//We will be using fragments eventually so I would not worry too much
-	            }
-	        });*/
 	 }
-  
-}
+	 
+	 public void onListItemClick(ListView l, View v, int position, long id) {
+		String whereAreYou = (String) l.getItemAtPosition(position);//assigns book name
+		Toast.makeText(getActivity(), whereAreYou + " selected", Toast.LENGTH_LONG).show();
+        SharedPreferences settings = this.getActivity().getSharedPreferences("edu.southern", 0);
+ 		SharedPreferences.Editor editor = settings.edit();
+ 		editor.putInt("book_value", position);
+ 		editor.commit();
+ 		
+     }
+  }
