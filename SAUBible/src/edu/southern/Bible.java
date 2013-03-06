@@ -1,6 +1,9 @@
 package edu.southern;
 
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -45,5 +48,18 @@ public class Bible extends ListFragment {
  		editor.putInt("book_value", position);
  		editor.commit();
  		
+ 		FragmentManager fragmentManager = getFragmentManager();
+ 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+ 		// Create new fragment and transaction
+ 		Fragment chapterFragment = new ChapterSelection();
+ 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+ 		// Replace whatever is in the fragment_container view with this fragment,
+ 		// and add the transaction to the back stack
+ 		transaction.replace(R.id.homeFragmentContainer, chapterFragment);
+ 		transaction.addToBackStack(null);
+
+ 		// Commit the transaction
+ 		transaction.commit();
      }
   }
