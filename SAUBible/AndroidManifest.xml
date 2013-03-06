@@ -28,6 +28,10 @@
             android:name="edu.southern.ChapterSelection"
             android:label="@string/title_activity_chapter_selection" >
         </activity>
+        <activity
+            android:name="edu.southern.VerseSelection"
+            android:label="@string/title_activity_verse_selection" >
+        </activity>
     </application>
 
 </manifest>

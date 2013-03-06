@@ -19,5 +19,6 @@
     <string name="BibleTextFrag">Hello from the Bible Fragment!</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_chapter_selection">ChapterSelection</string>
+    <string name="title_activity_verse_selection">VerseSelection</string>
 
 </resources>

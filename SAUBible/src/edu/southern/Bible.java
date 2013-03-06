@@ -41,8 +41,8 @@ public class Bible extends ListFragment {
 	 }
 	 
 	 public void onListItemClick(ListView l, View v, int position, long id) {
-		String whereAreYou = (String) l.getItemAtPosition(position);//assigns book name
-		Toast.makeText(getActivity(), whereAreYou + " selected", Toast.LENGTH_LONG).show();
+		//String whereAreYou = (String) l.getItemAtPosition(position);//assigns book name
+		//Toast.makeText(getActivity(), whereAreYou + " selected", Toast.LENGTH_LONG).show();
         SharedPreferences settings = this.getActivity().getSharedPreferences("edu.southern", 0);
  		SharedPreferences.Editor editor = settings.edit();
  		editor.putInt("book_value", position);
