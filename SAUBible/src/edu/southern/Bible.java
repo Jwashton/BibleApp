@@ -2,7 +2,6 @@ package edu.southern;
 
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class Bible extends ListFragment {
 	static ArrayAdapter<String> adapter;
@@ -34,22 +32,20 @@ public class Bible extends ListFragment {
 	            
 		 super.onActivityCreated(savedInstanceState);
 		 adapter = new ArrayAdapter<String>(getActivity(),
-		            R.layout.list_row,
+		            R.layout.bible_selection,
 		            R.id.row_textview1,
 		            books);
 		 setListAdapter(adapter);
 	 }
 	 
 	 public void onListItemClick(ListView l, View v, int position, long id) {
-		//String whereAreYou = (String) l.getItemAtPosition(position);//assigns book name
-		//Toast.makeText(getActivity(), whereAreYou + " selected", Toast.LENGTH_LONG).show();
         SharedPreferences settings = this.getActivity().getSharedPreferences("edu.southern", 0);
  		SharedPreferences.Editor editor = settings.edit();
  		editor.putInt("book_value", position);
  		editor.commit();
  		
- 		FragmentManager fragmentManager = getFragmentManager();
- 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+ 		//FragmentManager fragmentManager = getFragmentManager();
+ 		//FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
  		// Create new fragment and transaction
  		Fragment chapterFragment = new ChapterSelection();
  		FragmentTransaction transaction = getFragmentManager().beginTransaction();

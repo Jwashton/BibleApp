@@ -4,7 +4,6 @@ package edu.southern;
 import java.util.ArrayList;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,11 +17,13 @@ import android.widget.GridView;
 
 public class ChapterSelection extends Fragment {
 	static ArrayAdapter<Integer> adapter;
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_bible__chapters, container, false);
+        return inflater.inflate(R.layout.bible_chapter_verse_selection, container, false);
 	}
+	
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -39,7 +40,7 @@ public class ChapterSelection extends Fragment {
 	    	numberChapters.add(i);
 	    }
         adapter = new ArrayAdapter<Integer>(getActivity(),
-        		R.layout.activity_chapter_selection,
+        		R.layout.bible_chapter_verse_container,
 	            R.id.chapter_verse,
 	            numberChapters);
         View fragmentView=getView();
@@ -53,8 +54,6 @@ public class ChapterSelection extends Fragment {
          		editor.putInt("chapter_value", position);
          		editor.commit();
          		
-         		FragmentManager fragmentManager = getFragmentManager();
-         		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
          		// Create new fragment and transaction
          		Fragment chapterFragment = new VerseSelection();
          		FragmentTransaction transaction = getFragmentManager().beginTransaction();
