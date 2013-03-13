@@ -16,6 +16,7 @@ public class Bible extends ListFragment {
 	
 	 @Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		 //temporary data
 		 String books[] = { "Genesis", "Exodus", "Leviticus", "Numbers",
 					"Deuteronomy", "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel",
 					"1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra",
@@ -29,7 +30,8 @@ public class Bible extends ListFragment {
 					"1 Timothy", "2 Timothy", "Titus", "Philemon", "Hebrews", "James",
 					"1 Peter", "2 Peter", "1 John", "2 John", "3 John", "Jude",
 					"Revelation" };
-	            
+	    
+		 //populate the List       
 		 super.onActivityCreated(savedInstanceState);
 		 adapter = new ArrayAdapter<String>(getActivity(),
 		            R.layout.bible_selection,
@@ -39,6 +41,7 @@ public class Bible extends ListFragment {
 	 }
 	 
 	 public void onListItemClick(ListView l, View v, int position, long id) {
+		//Save the value of the book selected in SharedPreferences
         SharedPreferences settings = this.getActivity().getSharedPreferences("edu.southern", 0);
  		SharedPreferences.Editor editor = settings.edit();
  		editor.putInt("book_value", position);

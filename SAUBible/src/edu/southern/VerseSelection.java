@@ -25,6 +25,7 @@ public class VerseSelection extends Fragment {
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
 	    		"edu.southern", Context.MODE_PRIVATE); 
 	    int id_value = prefs.getInt("chapter_value",1);
@@ -33,6 +34,8 @@ public class VerseSelection extends Fragment {
 		for(int i=1; i<=id_value;i++){
 	    	numberChapters.add(i);
 	    }
+		
+		//populate the Grid 
         adapter = new ArrayAdapter<Integer>(getActivity(),
         		R.layout.bible_chapter_verse_container,
 	            R.id.chapter_verse,
