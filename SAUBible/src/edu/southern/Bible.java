@@ -44,8 +44,6 @@ public class Bible extends ListFragment {
  		editor.putInt("book_value", position);
  		editor.commit();
  		
- 		//FragmentManager fragmentManager = getFragmentManager();
- 		//FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
  		// Create new fragment and transaction
  		Fragment chapterFragment = new ChapterSelection();
  		FragmentTransaction transaction = getFragmentManager().beginTransaction();
