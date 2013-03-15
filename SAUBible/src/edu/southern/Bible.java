@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.view.ViewGroup;
+//import android.app.Fragment;
+import edu.southern.R;
 
 public class Bible extends ListFragment {
 	static ArrayAdapter<String> adapter;

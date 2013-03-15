@@ -1,40 +1,62 @@
 package edu.southern;
 
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import edu.southern.R;
+import edu.southern.resources.*;
 
+// Inherit from Sliding Fragment
+public class HomeScreen extends SlidingFragmentActivity {
 
-
-public class HomeScreen extends Activity {
-
-  FragmentManager fragmentManager = getFragmentManager();
-  FragmentTransaction fragmentTransaction;
+  private FragmentManager fragmentManager = getFragmentManager();
+  private FragmentTransaction fragmentTransaction;
 	
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home_screen);
     // copy files to device
     transferAssetFiles();
-    // initiallize the engine and store it on the application
+    // Initialize the engine and store it on the application
     initiallizeBibleEngine();
     
+    // Bind navigation fragment to the SlidingMenu Drawer -- set it as the Behind View
+ 		setBehindContentView(R.layout.fragment_nav_drawer);
+ 		
+ 		// TODO -- Nathanael Beisiegel
+ 		//FragmentTransaction t = this.getFragmentManager().beginTransaction();
+ 		//mFrag = new ListFragment();
+ 		//t.replace(R.id.menu_frame, mFrag);
+ 		//t.commit();
+ 		
+ 		// Customize attributes of the menu 
+ 		SlidingMenu sm = getSlidingMenu();
+		sm.setShadowWidthRes(R.dimen.shadow_width);
+		//sm.setShadowDrawable(R.drawable.shadow);
+		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		sm.setFadeDegree(0.35f);
+		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+ 		getActionBar().setDisplayHomeAsUpEnabled(true);
     
+
     // Add Home fragment to view group as default view
     fragmentTransaction = fragmentManager.beginTransaction();
-    
     Home homeFragment = new Home();
     fragmentTransaction.add(R.id.homeFragmentContainer, homeFragment);
     fragmentTransaction.commit();
     
   }
   
+  // Inflate Actionbar with Menu items in primary_nav_menu.xml
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
@@ -44,6 +66,17 @@ public class HomeScreen extends Activity {
     return true;
   }
   
+  
+  // Toggle Drawer on Up button in action bar
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			toggle(); // Show / Hide Sliding Menu Fragment
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
   
   // Switch Fragments When menu buttons in action bar selected
   public void onViewMenuSelection(MenuItem item) {
@@ -69,14 +102,14 @@ public class HomeScreen extends Activity {
   
   protected void initiallizeBibleEngine(){
 	  // create a bible engine and start the various aspects of it
-	  CBibleEngine BibleEngine = new CBibleEngine();
+	  CBibleEngine engine = new CBibleEngine();
 	  String DATA_SOURCE = "data/data/edu.southern/lighthouse/";
-	  BibleEngine.StartEngine(DATA_SOURCE, "KJV");
-	  BibleEngine.StartLexiconEngine(DATA_SOURCE);
-	  BibleEngine.StartMarginEngine(DATA_SOURCE);
+	  engine.StartEngine(DATA_SOURCE, "KJV");
+	  engine.StartLexiconEngine(DATA_SOURCE);
+	  engine.StartMarginEngine(DATA_SOURCE);
 	  // store the app on the application class
 	  BibleApp app = (BibleApp)getApplication();
-	  app.SetEngine(BibleEngine);
+	  app.SetEngine(engine);
 	  /*
 	   * IMPORTANT
 	   * In order to get the Bible Engine, use these lines
