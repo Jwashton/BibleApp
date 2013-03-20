@@ -13,8 +13,10 @@
     <string name="Bible">Bible</string>
     <string name="Bookmarks">Bookmarks</string>
     
+    
     <!-- Drawer Fragment Text -->
 	<string name="DrawerTextFrag">Hello from the Drawer Fragment!</string>
+	<string name="referenceInputHint">Enter in Reference</string>
 
     <!-- Home Fragment Text -->
     <string name="HomeTextFrag">Hello from the Home Fragment!</string>
