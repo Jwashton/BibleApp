@@ -32,6 +32,10 @@
             android:name="edu.southern.VerseSelection"
             android:label="@string/title_activity_verse_selection" >
         </activity>
+        <activity
+            android:name="edu.southern.BibleReader"
+            android:label="@string/title_activity_bible_reader" >
+        </activity>
     </application>
 
 </manifest>
