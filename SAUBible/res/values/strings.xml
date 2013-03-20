@@ -15,9 +15,16 @@
     
     
     <!-- Drawer Fragment Text -->
-	<string name="DrawerTextFrag">Hello from the Drawer Fragment!</string>
+	<string name="DrawerTextFrag">Navigation Menu</string>
 	<string name="referenceInputHint">Enter in Reference</string>
-
+	<string name="referenceInputGo">Go</string>
+	<string name="DrawerHomeButton">Home</string>
+	<string name="DrawerBibleButton">Chapter Selection</string>
+	<string name="DrawerReadingButton">Currently Reading</string>
+	<string name="DrawerBookmarksButton">Bookmarks</string>
+	<string name="DrawerSearchButton">Search</string>
+	<string name="DrawerSettingsButton">Settings</string>
+	
     <!-- Home Fragment Text -->
     <string name="HomeTextFrag">Hello from the Home Fragment!</string>
 

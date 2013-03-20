@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DrawerTheme"
     android:layout_width="80dp"
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp"  >
+        
     <TextView
+        style="@style/DrawerHeading"
         android:id="@+id/DrawerTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:text="@string/DrawerTextFrag" />
+    
+    </LinearLayout>
 
    <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +29,7 @@
           
         <EditText 
         android:id="@+id/referenceInput"
+        style="@style/DrawerTextColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -29,10 +40,126 @@
 
         <Button
             android:id="@+id/button1"
+            style="@style/DrawerTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Go" />
+            android:minHeight="24dip"
+            android:minWidth="32dip"
+            android:text="@string/referenceInputGo"/>
+
+    </LinearLayout>
+    
+   
+   <LinearLayout
+        style="@style/DrawerItem"
+        android:id="@+id/HomeButton"
+        android:layout_width="match_parent"
+        android:minHeight="48dip"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal" 
+        android:clickable="true"
+        android:onClick="onDrawerItemSelection"
+         >
+        
+	<TextView
+        style="@style/DrawerItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/DrawerHomeButton" />
+
+    </LinearLayout>
+    
+   
+      <LinearLayout
+        style="@style/DrawerItem"
+        android:id="@+id/BibleButton"
+        android:layout_width="match_parent"
+        android:minHeight="48dip"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal" 
+        android:onClick="onDrawerItemSelection"
+        android:clickable="true"
+         >
+        
+	<TextView
+        style="@style/DrawerItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/DrawerBibleButton" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        style="@style/DrawerItem"
+        android:id="@+id/ReadingButton"
+        android:layout_width="match_parent"
+        android:minHeight="48dip"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal" 
+         >
+        
+	<TextView
+        style="@style/DrawerItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/DrawerReadingButton" />
 
     </LinearLayout>
 
+    <LinearLayout
+        style="@style/DrawerItem"
+        android:id="@+id/BookmarksButton"
+        android:layout_width="match_parent"
+        android:minHeight="48dip"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal" 
+         >
+        
+	<TextView
+        style="@style/DrawerItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/DrawerBookmarksButton" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        style="@style/DrawerItem"
+        android:id="@+id/SearchButton"
+        android:layout_width="match_parent"
+        android:minHeight="48dip"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal" 
+         >
+        
+	<TextView
+        style="@style/DrawerItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/DrawerSearchButton" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        style="@style/DrawerItem"
+        android:id="@+id/SettingsButton"
+        android:layout_width="match_parent"
+        android:minHeight="48dip"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal" 
+         >
+        
+	<TextView
+        style="@style/DrawerItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/DrawerSettingsButton" />
+
+    </LinearLayout>
 </LinearLayout>

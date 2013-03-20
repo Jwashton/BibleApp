@@ -11,6 +11,7 @@ import android.app.ListFragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import edu.southern.R;
 import edu.southern.resources.*;
 
@@ -93,12 +94,41 @@ public class HomeScreen extends SlidingFragmentActivity {
 			  Bible bibleFragment = new Bible();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, bibleFragment);
 			  break;
+	      
 		  default:
 			  break;
 	  }
 	  
 	  fragmentTransaction.commit();
   }
+  
+  public void onDrawerItemSelection(View v) {
+	  
+	  //v.setBackgroundResource(android.R.drawable.list_selector_background);
+	  
+	  fragmentTransaction = fragmentManager.beginTransaction();
+	  	
+	  	// Switch to appropriate fragment
+		  switch (v.getId()) {
+			  case R.id.HomeButton:
+				  Home homeFragment = new Home();
+				  fragmentTransaction.replace(R.id.homeFragmentContainer, homeFragment);
+				  break;
+			  case R.id.BibleButton:
+				  Bible bibleFragment = new Bible();
+				  fragmentTransaction.replace(R.id.homeFragmentContainer, bibleFragment);
+				  break;
+			  default:
+				  break;
+		  }
+		  
+		  fragmentTransaction.commit();
+		  SlidingMenu sm = getSlidingMenu();
+		  sm.toggle();
+		  //v.setBackgroundColor(R.drawable.drawer_item);
+		  //v.setBackgroundDrawable(getResources().getDrawable(R.drawable.drawer_item));
+  }
+  
   
   protected void initiallizeBibleEngine(){
 	  // create a bible engine and start the various aspects of it
