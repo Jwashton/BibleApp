@@ -11,10 +11,12 @@
     <string name="Back">Back</string>
     <string name="Home">Home</string>
     <string name="Bible">Bible</string>
-    <string name="Bookmarks">Bookmarks</string>    
+    <string name="Bookmarks">Bookmarks</string>
+    <string name="Search">Search</string>    
+    <string name="Settings">Settings</string>        
     
     <!-- Drawer Fragment Text -->
-	<string name="DrawerTextFrag">Navigation Menu</string>
+	<string name="DrawerTextFrag">App Navigation</string>
 	<string name="referenceInputHint">Enter in Reference</string>
 	<string name="referenceInputGo">Go</string>
 	<string name="DrawerHomeButton">Home</string>
@@ -26,7 +28,18 @@
 	
 	 <!-- Home Fragment Text -->
     <string name="HomeTextFrag">Hello from the Home Fragment!</string>
-
+	
+	 <!-- Bookmarks Fragment Text -->
+    <string name="BookmarksTextFrag">Hello from the Bookmarks Fragment!</string>
+    
+    
+	 <!-- Settings Fragment Text -->
+    <string name="SettingsTextFrag">Hello from the Settings Fragment!</string>
+    
+	 <!-- Search Fragment Text -->
+    <string name="SearchTextFrag">Hello from the Search Fragment!</string>
+    
+    
     <!-- Bible Fragment Text -->
     <string name="BibleTextFrag">Hello from the Bible Fragment!</string>
     <string name="hello_world">Hello world!</string>
@@ -34,11 +47,4 @@
     <string name="title_activity_verse_selection">VerseSelection</string>
     <string name="title_activity_bible_reader">BibleReader</string>
     <string name="action_settings">Settings</string>
-	
-
-    <!-- Drawer Fragment Text -->
-    <string name="DrawerTextFrag">Hello from the Drawer Fragment!</string>
-
-   
-
 </resources>

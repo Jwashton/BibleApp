@@ -5,22 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    
+    <!-- Heading layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="horizontal"
-        android:layout_marginBottom="12dp"  >
-        
-    <TextView
-        style="@style/DrawerHeading"
-        android:id="@+id/DrawerTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/DrawerTextFrag" />
-    
+        android:layout_marginBottom="12dp">
+	    
+	    <TextView
+	        style="@style/DrawerHeading"
+	        android:id="@+id/DrawerTextView"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/DrawerTextFrag" />
+	    
     </LinearLayout>
 
+    <!-- Reference Search layout -->
    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
@@ -34,9 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:inputType="text"
-        android:hint="@string/referenceInputHint"
-        
-        />
+        android:hint="@string/referenceInputHint"/>
 
         <Button
             android:id="@+id/button1"
@@ -49,7 +48,7 @@
 
     </LinearLayout>
     
-   
+   <!-- Home button -->
    <LinearLayout
         style="@style/DrawerItem"
         android:id="@+id/HomeButton"
@@ -58,20 +57,19 @@
         android:layout_height="wrap_content" 
         android:orientation="horizontal" 
         android:clickable="true"
-        android:onClick="onDrawerItemSelection"
-         >
+        android:onClick="onDrawerItemSelection" >
         
-	<TextView
-        style="@style/DrawerItemText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/DrawerHomeButton" />
+		<TextView
+	        style="@style/DrawerItemText"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="@string/DrawerHomeButton" />
 
     </LinearLayout>
     
-   
-      <LinearLayout
+	<!-- Bible button -->
+    <LinearLayout
         style="@style/DrawerItem"
         android:id="@+id/BibleButton"
         android:layout_width="match_parent"
@@ -79,36 +77,38 @@
         android:layout_height="wrap_content" 
         android:orientation="horizontal" 
         android:onClick="onDrawerItemSelection"
-        android:clickable="true"
-         >
+        android:clickable="true" >
         
-	<TextView
-        style="@style/DrawerItemText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/DrawerBibleButton" />
+		<TextView
+	        style="@style/DrawerItemText"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="@string/DrawerBibleButton" />
 
     </LinearLayout>
     
+	<!-- Currently reading button -->
     <LinearLayout
         style="@style/DrawerItem"
         android:id="@+id/ReadingButton"
         android:layout_width="match_parent"
         android:minHeight="48dip"
         android:layout_height="wrap_content" 
-        android:orientation="horizontal" 
-         >
+        android:orientation="horizontal"  
+        android:onClick="onDrawerItemSelection"
+        android:clickable="true" >
         
-	<TextView
-        style="@style/DrawerItemText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/DrawerReadingButton" />
+		<TextView
+	        style="@style/DrawerItemText"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="@string/DrawerReadingButton" />
 
     </LinearLayout>
-
+    
+	<!-- Bookmarks button -->
     <LinearLayout
         style="@style/DrawerItem"
         android:id="@+id/BookmarksButton"
@@ -116,17 +116,19 @@
         android:minHeight="48dip"
         android:layout_height="wrap_content" 
         android:orientation="horizontal" 
-         >
+        android:onClick="onDrawerItemSelection"
+        android:clickable="true" >
         
-	<TextView
-        style="@style/DrawerItemText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/DrawerBookmarksButton" />
-
+		<TextView
+	        style="@style/DrawerItemText"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="@string/DrawerBookmarksButton" />
+	
     </LinearLayout>
     
+ 	<!-- Search button -->   
     <LinearLayout
         style="@style/DrawerItem"
         android:id="@+id/SearchButton"
@@ -134,17 +136,19 @@
         android:minHeight="48dip"
         android:layout_height="wrap_content" 
         android:orientation="horizontal" 
-         >
+        android:onClick="onDrawerItemSelection"
+        android:clickable="true" >
         
-	<TextView
-        style="@style/DrawerItemText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/DrawerSearchButton" />
+		<TextView
+	        style="@style/DrawerItemText"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="@string/DrawerSearchButton" />
 
     </LinearLayout>
     
+	<!-- Settings button --> 
     <LinearLayout
         style="@style/DrawerItem"
         android:id="@+id/SettingsButton"
@@ -152,14 +156,15 @@
         android:minHeight="48dip"
         android:layout_height="wrap_content" 
         android:orientation="horizontal" 
-         >
+        android:onClick="onDrawerItemSelection"
+        android:clickable="true" >
         
-	<TextView
-        style="@style/DrawerItemText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/DrawerSettingsButton" />
+		<TextView
+		       style="@style/DrawerItemText"
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:gravity="center"
+		       android:text="@string/DrawerSettingsButton" />
 
     </LinearLayout>
 </LinearLayout>
