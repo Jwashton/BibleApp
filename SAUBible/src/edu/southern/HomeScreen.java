@@ -64,8 +64,8 @@ public class HomeScreen extends SlidingFragmentActivity {
 	  @Override
 	  public boolean onCreateOptionsMenu(Menu menu) {
 		// set display attributes of the action bar so that we can populate it with our own layouts
-	getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-	// load home action bar layout as the default
+	    //getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+		// load home action bar layout as the default
 		getActionBar().setCustomView(R.layout.actionbar_home);
 	    return true;
 	  }
@@ -101,7 +101,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 		  case R.id.BibleButton:
 			  Bible bibleFragment = new Bible();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, bibleFragment);
-			  bar.setCustomView(R.layout.actionbar_reading);
+			  bar.setCustomView(R.layout.actionbar_bible);
 			  break;
 		  case R.id.BookmarksButton:
 			  Bookmarks bookmarkFragment = new Bookmarks();
@@ -137,7 +137,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 	  case R.id.ActionBarBookmarks:
 		  break;
 		  
-	  case R.id.ActionBarReading:
+	  case R.id.ActionBarBible:
 		  break;
 		  
 	  case R.id.ActionBarSearch:

@@ -1,0 +1,15 @@
+<!-- Actionbar layout for the bible fragment-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <Button
+        android:id="@+id/ActionBarBible"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:minHeight="20dp"
+        android:minWidth="40dip"
+        android:text="@string/Bible"
+        android:onClick="onActionBarButtonClick" />
+
+</LinearLayout>
