@@ -2,23 +2,34 @@ package edu.southern;
 
 import java.util.ArrayList;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import edu.southern.resources.BibleHelper;
 import edu.southern.resources.Chapter;
 import edu.southern.resources.Verse;
 
-public class BibleReader extends ListFragment {
+public class BibleReader extends Fragment {
 	static ArrayAdapter<Verse> adapter;
 	BibleHelper Bible = new BibleHelper();
 	CBibleEngine engine = new CBibleEngine();
+
+	@Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_bible_reader, container, false);
+	}
 	
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        TextView bibleDisplay = (TextView)getView().findViewById(R.id.textView1);
         BibleApp app = (BibleApp)getActivity().getApplication();
  	    CBibleEngine BibleEngine = app.GetEngine();
         //Get the value of the book selected from SharedPreferences
@@ -34,11 +45,15 @@ public class BibleReader extends ListFragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    ArrayList<Verse> bibles = bibleread.verses;
-	    adapter = new ArrayAdapter<Verse>(getActivity(),
-	            R.layout.activity_bible_reader,
-	            R.id.editText1,
-	            bibles);
-	    setListAdapter(adapter);
+	    ArrayList<Verse> bible = bibleread.verses;
+	    String bibleInfo = "";
+	    for(int i = 0; i < bibleread.numVerses; i++) {
+	    	 Verse verseInfo = bible.get(i);
+	    	 String verse = verseInfo.getText();
+	    	 int verseNumber = verseInfo.getVerseNumber();
+	    	 bibleInfo += verseNumber + " " + verse + " ";
+	    }
+	    
+	    bibleDisplay.setText(bibleInfo);
 	}
 }
