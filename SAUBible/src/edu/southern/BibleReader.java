@@ -6,6 +6,9 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +54,10 @@ public class BibleReader extends Fragment {
 	    	 Verse verseInfo = bible.get(i);
 	    	 String verse = verseInfo.getText();
 	    	 int verseNumber = verseInfo.getVerseNumber();
-	    	 bibleInfo += verseNumber + " " + verse + " ";
+	    	 bibleInfo += "<b>" + verseNumber + " " + "</b>"+
+		 	            "<small>" + verse + "</small>";
 	    }
-	    
-	    bibleDisplay.setText(bibleInfo);
+	    bibleDisplay.setPadding(10, 10, 10, 10);
+	    bibleDisplay.setText(Html.fromHtml(bibleInfo));
 	}
 }
