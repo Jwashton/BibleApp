@@ -16,7 +16,7 @@
     <string name="Settings">Settings</string>        
     
     <!-- Drawer Fragment Text -->
-	<string name="DrawerTextFrag">App Navigation</string>
+	<string name="DrawerTextFrag">Navigation</string>
 	<string name="referenceInputHint">Enter in Reference</string>
 	<string name="referenceInputGo">Go</string>
 	<string name="DrawerHomeButton">Home</string>

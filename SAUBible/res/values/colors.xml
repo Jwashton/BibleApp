@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="Night">#2A1E22</color>
+	<color name="NightEmphasis">#402B32</color>
+	<color name="RedSubdued">#69232B</color>
+	<color name="Red">#942029</color>
+	<color name="HighlightOrange">#FB4013</color>
+	<color name="HighlightOrange2">#E86342</color>
+	<color name="HighlightOrange3">#F3704F</color>
+	
+	
+	 
+	<color name="TextColor">#EFEFEF</color>
+	<color name="TextColorHint">#AAAAAA</color>
+</resources>

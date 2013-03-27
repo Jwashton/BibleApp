@@ -19,23 +19,25 @@
 
     <!-- Drawer Theme -->
     <style name="DrawerTheme" parent="AppBaseTheme">
-		<item name="android:background">#333333</item>
+		<item name="android:background">@color/Night</item>
 		<item name="android:textColor">#EFEFEF</item>
 		<item name="android:textColorHint">#AAAAAA</item>
     </style>
     
     <style name="DrawerTextColor" parent="AppBaseTheme">
-		<item name="android:textColor">#EFEFEF</item>
-		<item name="android:textColorHint">#AAAAAA</item>
+		<item name="android:textColor">@color/TextColor</item>
+		<item name="android:textColorHint">@color/TextColorHint</item>
     </style>
     
     <style name="DrawerHeading" parent="DrawerTextColor">
-		<item name="android:textSize">36sp</item>
-		<item name="android:background">#33B5E5</item>
+		<item name="android:textSize">28sp</item>
+		<item name="android:background">@color/HighlightOrange2</item>
+		<item name="android:height">45dp</item>
 		<item name="android:paddingTop">4dp</item>
 		<item name="android:paddingLeft">6dp</item>
 		<item name="android:paddingBottom">2dp</item>
     </style>
+   		
     
     
     <style name="DrawerItem" parent="AppBaseTheme">
