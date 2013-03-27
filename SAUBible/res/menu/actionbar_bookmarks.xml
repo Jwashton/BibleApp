@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/ViewsMenu">
+        
+        <item android:id="@+id/BookmarksTitle"
+	          android:title="@string/Bookmarks"
+	          android:onClick=""
+	          android:showAsAction="always|withText" />
+	    
+
+	 </group> 
+
+</menu>

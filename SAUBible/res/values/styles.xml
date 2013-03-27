@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -17,4 +17,34 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!-- Drawer Theme -->
+    <style name="DrawerTheme" parent="AppBaseTheme">
+		<item name="android:background">#333333</item>
+		<item name="android:textColor">#EFEFEF</item>
+		<item name="android:textColorHint">#AAAAAA</item>
+    </style>
+    
+    <style name="DrawerTextColor" parent="AppBaseTheme">
+		<item name="android:textColor">#EFEFEF</item>
+		<item name="android:textColorHint">#AAAAAA</item>
+    </style>
+    
+    <style name="DrawerHeading" parent="DrawerTextColor">
+		<item name="android:textSize">36sp</item>
+		<item name="android:background">#33B5E5</item>
+		<item name="android:paddingTop">4dp</item>
+		<item name="android:paddingLeft">6dp</item>
+		<item name="android:paddingBottom">2dp</item>
+    </style>
+    
+    
+    <style name="DrawerItem" parent="AppBaseTheme">
+		<item name="android:background">@drawable/drawer_item</item>
+    </style>
+    
+    <style name="DrawerItemText" parent="DrawerTextColor">
+		<item name="android:textSize">22sp</item>
+		<item name="android:padding">6dp</item>
+    </style>
+    
 </resources>
