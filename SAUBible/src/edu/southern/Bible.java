@@ -21,7 +21,7 @@ public class Bible extends ListFragment {
 		 super.onActivityCreated(savedInstanceState);
 		 //populate the List  
 		 adapter = new ArrayAdapter<String>(getActivity(),
-		            R.layout.bible_selection,
+		            R.layout.fragment_bible_selection,
 		            R.id.row_textview1,
 		            bible.getBooks());
 		 setListAdapter(adapter);
