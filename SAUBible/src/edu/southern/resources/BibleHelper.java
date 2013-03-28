@@ -1,6 +1,9 @@
 package edu.southern.resources;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.southern.CBibleEngine;
 
@@ -99,6 +102,58 @@ public class BibleHelper {
 		} catch(NumberFormatException e){
 			throw new Exception("Invalid input string. Should be \"bookName chapterNumber\"");
 		}
+	}
+	
+	/**
+	 * 
+	 * @param refString A reference string to parse into a reference object using the BibleEngine
+	 * @param engine A running CBibleEngine
+	 * @return A reference object containing a book number, chapter number, and verse number
+	 */
+	public Reference parseReference(String refString, CBibleEngine engine) throws ReferenceStringException{
+		long refNumber = engine.ConvertStringToReference(refString);
+		// if no result, try again again attempting to prettify the string
+		if(refNumber == -1){
+			refString = completeReferenceString(refString);
+			refNumber = engine.ConvertStringToReference(refString);
+			// if still no result, bad input, throw exception
+			// TODO create more detailed error messages to show to the user
+            // for example, tell them what part of the reference was bad and why
+			if(refNumber == -1){
+				throw new ReferenceStringException("Reference not found, please enter a reference such as \"Exodus\", \"John 3\" or \"Matthew 3 17\"");
+			}
+		}
+		String parsedReference = engine.ConvertReferenceToString(refNumber);
+		Reference reference = new Reference(parsedReference);
+		return reference;
+	}
+	
+	public String completeReferenceString(String refString) throws ReferenceStringException{
+		String book = "", chapter = "", verse = "";
+		String patString = "(\\w{2,})(?:\\W+(\\d{1,3})(?:\\D+(\\d{1,3})){0,1}\\W*){0,1}";
+		Pattern p = Pattern.compile(patString);
+		Matcher m = p.matcher(refString);
+		if(m.find()){
+			int count = m.groupCount();
+			// must at least have a book or things will eventually fail
+			if(count > 0){
+				book = m.group(1) == null ? "" : m.group(1);
+			}
+			// default chapter to 1
+			if(count > 1){
+				chapter =  m.group(2) == null ? "1" : m.group(2);
+			}
+			// default verse to 1
+			if(count > 2){
+				verse =  m.group(3) == null ? "1" : m.group(3);
+			}
+		}
+		// The bible engine doesn't recognize 'psalms'
+		if(book.toLowerCase(Locale.ENGLISH).contains("psalm")){
+			book = "Psalm";
+		}
+		refString = book.concat(" ").concat(chapter).concat(":").concat(verse);
+		return refString;
 	}
 	
 	/** 

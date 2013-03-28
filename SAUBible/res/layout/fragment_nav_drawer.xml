@@ -38,13 +38,14 @@
         android:hint="@string/referenceInputHint"/>
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/referenceGo"
             style="@style/DrawerTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="24dip"
             android:minWidth="32dip"
-            android:text="@string/referenceInputGo"/>
+            android:text="@string/referenceInputGo"
+            android:onClick="onReferenceGoClick"/>
 
     </LinearLayout>
     
