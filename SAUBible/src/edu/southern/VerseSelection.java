@@ -68,12 +68,12 @@ public class VerseSelection extends Fragment {
          		editor.commit();
          		
          		// Create new fragment and transaction
-         		Fragment chapterFragment = new BibleReader();
+         		Fragment readerFragment = new BibleReader();
          		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
          		// Replace whatever is in the fragment_container view with this fragment,
          		// and add the transaction to the back stack
-         		transaction.replace(R.id.homeFragmentContainer, chapterFragment);
+         		transaction.replace(R.id.homeFragmentContainer, readerFragment);
          		transaction.addToBackStack(null);
 
          		// Commit the transaction

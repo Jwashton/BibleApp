@@ -38,7 +38,10 @@ public class BibleReader extends Fragment {
         //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
 	    		"edu.southern", Context.MODE_PRIVATE); 
-        int book_value = prefs.getInt("book_value",1);
+        int book_value = prefs.getInt("book_value",0);
+        // prevent a bad book value from crashing the program by defaulting to Genesis
+        if(book_value < 0 || book_value > 65)
+        	book_value = 0;
 	    int chapter_value = prefs.getInt("chapter_value",1) + 1;
 	    final String bookName = Bible.getBooks()[book_value];
 	    Chapter bibleread = null;
