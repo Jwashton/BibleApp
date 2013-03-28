@@ -130,7 +130,7 @@ public class BibleHelper {
 	
 	public String completeReferenceString(String refString) throws ReferenceStringException{
 		String book = "", chapter = "", verse = "";
-		String patString = "(\\w{2,})(?:\\W+(\\d{1,2})(?:\\D+(\\d{1,3})){0,1}\\W*){0,1}";
+		String patString = "(\\w{2,})(?:\\W+(\\d{1,3})(?:\\D+(\\d{1,3})){0,1}\\W*){0,1}";
 		Pattern p = Pattern.compile(patString);
 		Matcher m = p.matcher(refString);
 		if(m.find()){

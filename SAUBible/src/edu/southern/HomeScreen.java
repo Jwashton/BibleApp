@@ -150,8 +150,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 		  Context context = getApplicationContext();
 		  CharSequence toastText = e.getMessage();
 		  int duration = Toast.LENGTH_LONG;
-		  Toast toast = Toast.makeText(context, toastText, duration);
-		  toast.show();
+		  Toast.makeText(context, toastText, duration).show();
 	  }
   }
   

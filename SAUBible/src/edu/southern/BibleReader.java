@@ -21,7 +21,6 @@ import edu.southern.resources.Verse;
 public class BibleReader extends Fragment {
 	static ArrayAdapter<Verse> adapter;
 	BibleHelper Bible = new BibleHelper();
-	CBibleEngine engine = new CBibleEngine();
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +33,7 @@ public class BibleReader extends Fragment {
         super.onActivityCreated(savedInstanceState);
         TextView bibleDisplay = (TextView)getView().findViewById(R.id.textView1);
         BibleApp app = (BibleApp)getActivity().getApplication();
- 	    CBibleEngine BibleEngine = app.GetEngine();
+ 	    CBibleEngine engine = app.GetEngine();
         //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
 	    		"edu.southern", Context.MODE_PRIVATE); 
@@ -44,16 +43,16 @@ public class BibleReader extends Fragment {
         	book_value = 0;
 	    int chapter_value = prefs.getInt("chapter_value",1) + 1;
 	    final String bookName = Bible.getBooks()[book_value];
-	    Chapter bibleread = null;
+	    Chapter chapter = null;
 	    try {
-			bibleread = Bible.getChapterText(bookName, chapter_value, engine);
+			chapter = Bible.getChapterText(bookName, chapter_value, engine);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    ArrayList<Verse> bible = bibleread.verses;
+	    ArrayList<Verse> bible = chapter.verses;
 	    String bibleInfo = "";
-	    for(int i = 0; i < bibleread.numVerses; i++) {
+	    for(int i = 0; i < chapter.numVerses; i++) {
 	    	 Verse verseInfo = bible.get(i);
 	    	 String verse = verseInfo.getText();
 	    	 int verseNumber = verseInfo.getVerseNumber();
