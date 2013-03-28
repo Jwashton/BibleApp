@@ -10,11 +10,21 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 import edu.southern.R;
 import edu.southern.resources.*;
 
@@ -35,7 +45,16 @@ public class HomeScreen extends SlidingFragmentActivity {
 	
 	// Bind navigation fragment to the SlidingMenu Drawer -- set it as the Behind View
 	setBehindContentView(R.layout.fragment_nav_drawer);
-	
+	EditText referenceSearch = (EditText)(findViewById(R.id.referenceInput));
+	// set a listener on the reference search input so that pressing the enter key will trigger a press of the go button
+    referenceSearch.setOnEditorActionListener(new OnEditorActionListener() {
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+            	findViewById(R.id.referenceGo).performClick();
+            }    
+            return false;
+        }
+    });
 	// TODO -- Nathanael Beisiegel
 	//FragmentTransaction t = this.getFragmentManager().beginTransaction();
 	//mFrag = new ListFragment();
@@ -81,6 +100,59 @@ public class HomeScreen extends SlidingFragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+  // click hander for the nav drawer reference search button
+  public void onReferenceGoClick(View v) {
+	  // retrieve the desired reference from the textbox
+	  EditText input = (EditText)findViewById(R.id.referenceInput); 
+	  String text = input.getText().toString();
+	  if(text.equals(""))
+		  return;
+	  // retrieve the engine from the application
+	  // use a bible helper to parse the reference
+	  CBibleEngine engine = ((BibleApp)getApplication()).GetEngine();
+	  BibleHelper helper = new BibleHelper();
+	  // get the keyboard for later use
+	  
+	  try{
+		  Reference reference = helper.parseReference(text, engine);
+		  //Save the value of the chapter selected in SharePreferences
+		  SharedPreferences settings = getSharedPreferences("edu.southern", 0);
+		  SharedPreferences.Editor editor = settings.edit();
+		  // I'd like to refactor how the numbers are handled eventually
+		  // But I'm conforming to the in-place model for now
+		  // ~Isaac Hermens
+		  editor.putInt("book_value", reference.getBookNumber());
+		  editor.putInt("chapter_value", reference.getChapterNumber() - 1);
+		  editor.putInt("verse_value", reference.getVerseNumber());
+		  editor.commit();
+			
+		  // Create new fragment and transaction
+		  Fragment readerFragment = new BibleReader();
+		  FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			
+		  // Replace whatever is in the fragment_container view with this fragment,
+		  // and add the transaction to the back stack
+		  transaction.replace(R.id.homeFragmentContainer, readerFragment);
+		  transaction.addToBackStack(null);
+		  // Commit the transaction
+		  transaction.commit();
+		  getActionBar().setCustomView(R.layout.actionbar_reading);
+		  
+		  // Hide the drawer
+		  getSlidingMenu().toggle();
+		  input.setText("");
+		  // hide the keyboard
+		  InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	  } catch(ReferenceStringException e){
+		  // TODO prevent keyboard from closing on enter key press if possible
+		  Context context = getApplicationContext();
+		  CharSequence toastText = e.getMessage();
+		  int duration = Toast.LENGTH_LONG;
+		  Toast.makeText(context, toastText, duration).show();
+	  }
+  }
   
   // on click handler for navigation buttons in the drawer
   public void onDrawerItemSelection(View v) {
@@ -103,12 +175,16 @@ public class HomeScreen extends SlidingFragmentActivity {
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, bibleFragment);
 			  bar.setCustomView(R.layout.actionbar_bible);
 			  break;
+		  case R.id.ReadingButton:
+			  BibleReader readerFragment = new BibleReader();
+			  fragmentTransaction.replace(R.id.homeFragmentContainer, readerFragment);
+			  bar.setCustomView(R.layout.actionbar_reading);
+			  break;
 		  case R.id.BookmarksButton:
 			  Bookmarks bookmarkFragment = new Bookmarks();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, bookmarkFragment);
 			  bar.setCustomView(R.layout.actionbar_bookmarks);
 			  break;
-
 		  case R.id.SettingsButton:
 			  Settings settingsFragment = new Settings();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, settingsFragment);
