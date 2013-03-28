@@ -33,61 +33,75 @@ public class HomeScreen extends SlidingFragmentActivity {
 
 	private FragmentManager fragmentManager = getFragmentManager();
 	private FragmentTransaction fragmentTransaction;
+	private int ActionBarView;
 		
 	  @Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.activity_home_screen);
+   		setContentView(R.layout.activity_home_screen);
 	    // copy files to device
-	transferAssetFiles();
-	// Initialize the engine and store it on the application
-	initiallizeBibleEngine();
-	
-	// Bind navigation fragment to the SlidingMenu Drawer -- set it as the Behind View
-	setBehindContentView(R.layout.fragment_nav_drawer);
-	EditText referenceSearch = (EditText)(findViewById(R.id.referenceInput));
-	// set a listener on the reference search input so that pressing the enter key will trigger a press of the go button
-    referenceSearch.setOnEditorActionListener(new OnEditorActionListener() {
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-            	findViewById(R.id.referenceGo).performClick();
-            }    
-            return false;
-        }
-    });
-	// TODO -- Nathanael Beisiegel
-	//FragmentTransaction t = this.getFragmentManager().beginTransaction();
-	//mFrag = new ListFragment();
-	//t.replace(R.id.menu_frame, mFrag);
-	//t.commit();
-	
-	// Set attributes of the menu 
-	SlidingMenu sm = getSlidingMenu();
-	sm.setShadowWidthRes(R.dimen.shadow_width);
-	//sm.setShadowDrawable(R.drawable.shadow);
-	sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-	sm.setFadeDegree(0.35f);
-	sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-	getActionBar().setDisplayHomeAsUpEnabled(true);
-	
-	
-	// Add Home fragment to view group as default view
-	    fragmentTransaction = fragmentManager.beginTransaction();
-	    Home homeFragment = new Home();
-	    fragmentTransaction.add(R.id.homeFragmentContainer, homeFragment);
-	    fragmentTransaction.commit();
-	    
+		// Bind navigation fragment to the SlidingMenu Drawer -- set it as the Behind View
+		setBehindContentView(R.layout.fragment_nav_drawer);
+		EditText referenceSearch = (EditText)(findViewById(R.id.referenceInput));
+		// set a listener on the reference search input so that pressing the enter key will trigger a press of the go button
+	    referenceSearch.setOnEditorActionListener(new OnEditorActionListener() {
+	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+	            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+	            	findViewById(R.id.referenceGo).performClick();
+	            }    
+	            return false;
+	        }
+	    });
+		// TODO -- Nathanael Beisiegel
+		//FragmentTransaction t = this.getFragmentManager().beginTransaction();
+		//mFrag = new ListFragment();
+		//t.replace(R.id.menu_frame, mFrag);
+		//t.commit();
+		
+		// Set attributes of the menu 
+		SlidingMenu sm = getSlidingMenu();
+		sm.setShadowWidthRes(R.dimen.shadow_width);
+		//sm.setShadowDrawable(R.drawable.shadow);
+		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		sm.setFadeDegree(0.35f);
+		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		// Initialize the engine and store it on the application
+		initiallizeBibleEngine();
+		
+		// Add Home fragment to view group as default view
+		// We only want to run this if the app is being run for the first time
+    	if(savedInstanceState == null){
+    		transferAssetFiles();
+		    fragmentTransaction = fragmentManager.beginTransaction();
+		    Home homeFragment = new Home();
+		    fragmentTransaction.add(R.id.homeFragmentContainer, homeFragment);
+		    fragmentTransaction.commit();
+		    ActionBarView = R.layout.actionbar_home;
+    	}
+    	else{
+    		ActionBarView = savedInstanceState.getInt("ActionBarView");
+    	}
+    	setActionBarView(ActionBarView);
 	}
-	  
-	  // Inflate Actionbar with Menu items in primary_nav_menu.xml
-	  @Override
-	  public boolean onCreateOptionsMenu(Menu menu) {
-		// set display attributes of the action bar so that we can populate it with our own layouts
-	    //getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		// load home action bar layout as the default
-		getActionBar().setCustomView(R.layout.actionbar_home);
-	    return true;
-	  }
+	
+	@Override
+	protected void onSaveInstanceState(Bundle save){
+		super.onSaveInstanceState(save);
+		save.putInt("ActionBarView", ActionBarView);
+	}
+	
+	public void setActionBarView(int viewId){
+		ActionBar bar = getActionBar();
+		ActionBarView = viewId;
+		bar.setCustomView(ActionBarView);
+	}
+		  // Inflate Actionbar with Menu items in primary_nav_menu.xml
+		  @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		    return true;
+	}
 	  
   
   // Toggle Drawer on Up button in action bar
@@ -137,7 +151,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 		  transaction.addToBackStack(null);
 		  // Commit the transaction
 		  transaction.commit();
-		  getActionBar().setCustomView(R.layout.actionbar_reading);
+		  setActionBarView(R.layout.actionbar_reading);
 		  
 		  // Hide the drawer
 		  getSlidingMenu().toggle();
@@ -160,43 +174,40 @@ public class HomeScreen extends SlidingFragmentActivity {
 	  //v.setBackgroundResource(android.R.drawable.list_selector_background);
 	  
 	  fragmentTransaction = fragmentManager.beginTransaction();
-	  ActionBar bar = getActionBar();
-	  
 	  // Switch to appropriate fragment
 	  // and swap out views in the action bar
 	  switch (v.getId()) {
 		  case R.id.HomeButton:
 			  Home homeFragment = new Home();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, homeFragment);
-			  bar.setCustomView(R.layout.actionbar_home);
+			  setActionBarView(R.layout.actionbar_home);
 			  break;
 		  case R.id.BibleButton:
 			  Bible bibleFragment = new Bible();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, bibleFragment);
-			  bar.setCustomView(R.layout.actionbar_bible);
+			  setActionBarView(R.layout.actionbar_bible);
 			  break;
 		  case R.id.ReadingButton:
 			  BibleReader readerFragment = new BibleReader();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, readerFragment);
-			  bar.setCustomView(R.layout.actionbar_reading);
+			  setActionBarView(R.layout.actionbar_reading);
 			  break;
 		  case R.id.BookmarksButton:
 			  Bookmarks bookmarkFragment = new Bookmarks();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, bookmarkFragment);
-			  bar.setCustomView(R.layout.actionbar_bookmarks);
+			  setActionBarView(R.layout.actionbar_bookmarks);
 			  break;
 		  case R.id.SettingsButton:
 			  Settings settingsFragment = new Settings();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, settingsFragment);
-			  bar.setCustomView(R.layout.actionbar_settings);
+			  setActionBarView(R.layout.actionbar_settings);
 			  break;
 			  
 		  case R.id.SearchButton:
 			  Search searchFragment = new Search();
 			  fragmentTransaction.replace(R.id.homeFragmentContainer, searchFragment);
-			  bar.setCustomView(R.layout.actionbar_search);
+			  setActionBarView(R.layout.actionbar_search);
 			  break;			  
-			  
 		  default:
 			  break;
 	  }
@@ -228,6 +239,9 @@ public class HomeScreen extends SlidingFragmentActivity {
   }
   
   protected void initiallizeBibleEngine(){
+	  BibleApp app = (BibleApp)getApplication();
+	  if(app.getHasEngine())
+		  return;
 	  // create a bible engine and start the various aspects of it
 	  CBibleEngine engine = new CBibleEngine();
 	  String DATA_SOURCE = "data/data/edu.southern/lighthouse/";
@@ -235,7 +249,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 	  engine.StartLexiconEngine(DATA_SOURCE);
 	  engine.StartMarginEngine(DATA_SOURCE);
 	  // store the app on the application class
-	  BibleApp app = (BibleApp)getApplication();
+	
 	  app.SetEngine(engine);
 	  /*
 	   * IMPORTANT
