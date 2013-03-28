@@ -15,9 +15,33 @@ import edu.southern.CBibleEngine;
 public class BibleHelper {
 	
 	private StaticBibleInfo staticInfo; 
+	private CBibleEngine engine;
 	
 	public BibleHelper(){
+		this(true);
+	}
+	
+	/**
+	 * Only call this method if you do not want the constructor to create the CBibleEngine
+	 * @param createEngine Specify whether or not the constructor should create and initiallize a bible engine
+	 */
+	public BibleHelper(boolean createEngine){
 		staticInfo = new StaticBibleInfo();
+		if(createEngine){
+			engine = new CBibleEngine();
+			String DATA_SOURCE = "data/data/edu.southern/lighthouse/";
+			engine.StartEngine(DATA_SOURCE, "KJV");
+			engine.StartLexiconEngine(DATA_SOURCE);
+			engine.StartMarginEngine(DATA_SOURCE);
+		}
+	}
+	
+	/**
+	 * Set the helper's bible engine
+	 * @param engine A RUNNING bible engine
+	 */
+	public void setEngine(CBibleEngine engine){
+		this.engine = engine;
 	}
 	
 	/**
@@ -107,10 +131,9 @@ public class BibleHelper {
 	/**
 	 * 
 	 * @param refString A reference string to parse into a reference object using the BibleEngine
-	 * @param engine A running CBibleEngine
 	 * @return A reference object containing a book number, chapter number, and verse number
 	 */
-	public Reference parseReference(String refString, CBibleEngine engine) throws ReferenceStringException{
+	public Reference parseReference(String refString) throws ReferenceStringException{
 		long refNumber = engine.ConvertStringToReference(refString);
 		// if no result, try again again attempting to prettify the string
 		if(refNumber == -1){
@@ -161,13 +184,12 @@ public class BibleHelper {
 	 * the requested Bible chapter
 	 * @param bookName Name of desired book, ex. "Hosea"
 	 * @param chapterNumber Desired chapter number
-	 * @param engine A running CBibleEngine
 	 * @return A Chapter object containing with the book name and 
 	 * @return chapter number, the number of verses in the chapter, and
 	 * @return the text of the chapter in the form of an ArrayList of Verse objects
 	 * @throws Exception
 	 */
-	public Chapter getChapterText(String bookName, int chapterNumber, CBibleEngine engine) throws Exception{
+	public Chapter getChapterText(String bookName, int chapterNumber) throws Exception{
 		// create the chapter and set information fields
 		Chapter chapter = new Chapter();
 		// getVersesInChapter() will throw an exception if bad input was provided
@@ -194,19 +216,18 @@ public class BibleHelper {
 	 * Get a Chapter object containing information about
 	 * the requested Bible chapter
 	 * @param bookAndChapter combined book name and chapter number, ex. "Matthew 1" 
-	 * @param engine A running CBibleEngine
 	 * @return A Chapter object containing with the book name and 
 	 * @return chapter number, the number of verses in the chapter, and
 	 * @return the text of the chapter in the form of an ArrayList of Verse objects
 	 * @throws Exception
 	 */
-	public Chapter getChapterText(String bookAndChapter, CBibleEngine engine) throws Exception{
+	public Chapter getChapterText(String bookAndChapter) throws Exception{
 		String parts[] = bookAndChapter.split(" ");
 		int chapterNumber = tryParseInt(parts[parts.length-1]);
 		String bookName = "";
 		for(int i=0; i < parts.length-1; i++)
 			bookName += parts[i];
-		return getChapterText(bookName, chapterNumber, engine);
+		return getChapterText(bookName, chapterNumber);
 	}
 }
 
