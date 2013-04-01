@@ -32,8 +32,6 @@ public class BibleReader extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         TextView bibleDisplay = (TextView)getView().findViewById(R.id.textView1);
-        BibleApp app = (BibleApp)getActivity().getApplication();
- 	    CBibleEngine engine = app.GetEngine();
         //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
 	    		"edu.southern", Context.MODE_PRIVATE); 
@@ -45,7 +43,7 @@ public class BibleReader extends Fragment {
 	    final String bookName = Bible.getBooks()[book_value];
 	    Chapter chapter = null;
 	    try {
-			chapter = Bible.getChapterText(bookName, chapter_value, engine);
+			chapter = Bible.getChapterText(bookName, chapter_value);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

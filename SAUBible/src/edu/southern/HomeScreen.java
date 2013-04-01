@@ -67,9 +67,6 @@ public class HomeScreen extends SlidingFragmentActivity {
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// Initialize the engine and store it on the application
-		initiallizeBibleEngine();
-		
 		// Add Home fragment to view group as default view
 		// We only want to run this if the app is being run for the first time
     	if(savedInstanceState == null){
@@ -124,12 +121,11 @@ public class HomeScreen extends SlidingFragmentActivity {
 		  return;
 	  // retrieve the engine from the application
 	  // use a bible helper to parse the reference
-	  CBibleEngine engine = ((BibleApp)getApplication()).GetEngine();
 	  BibleHelper helper = new BibleHelper();
 	  // get the keyboard for later use
 	  
 	  try{
-		  Reference reference = helper.parseReference(text, engine);
+		  Reference reference = helper.parseReference(text);
 		  //Save the value of the chapter selected in SharePreferences
 		  SharedPreferences settings = getSharedPreferences("edu.southern", 0);
 		  SharedPreferences.Editor editor = settings.edit();
@@ -236,27 +232,6 @@ public class HomeScreen extends SlidingFragmentActivity {
 		  break;
   }
 	  return;
-  }
-  
-  protected void initiallizeBibleEngine(){
-	  BibleApp app = (BibleApp)getApplication();
-	  if(app.getHasEngine())
-		  return;
-	  // create a bible engine and start the various aspects of it
-	  CBibleEngine engine = new CBibleEngine();
-	  String DATA_SOURCE = "data/data/edu.southern/lighthouse/";
-	  engine.StartEngine(DATA_SOURCE, "KJV");
-	  engine.StartLexiconEngine(DATA_SOURCE);
-	  engine.StartMarginEngine(DATA_SOURCE);
-	  // store the app on the application class
-	
-	  app.SetEngine(engine);
-	  /*
-	   * IMPORTANT
-	   * In order to get the Bible Engine, use these lines
-	   * BibleApp app = (BibleApp)getApplication();
-	   * CBibleEngine BibleEngine = app.GetEngine();
-	   */
   }
   
   protected void transferAssetFiles(){
