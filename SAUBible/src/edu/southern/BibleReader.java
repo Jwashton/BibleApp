@@ -34,11 +34,12 @@ public class BibleReader extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         
+        //Adding the layout programmatically
         final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.scrollView1);
         final LinearLayout linearLayout = new LinearLayout(getActivity());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollview.addView(linearLayout);
-        //TextView bibleDisplay = (TextView)getView().findViewById(R.id.textView1);
+        
         BibleApp app = (BibleApp)getActivity().getApplication();
  	    CBibleEngine engine = app.GetEngine();
         //Get the value of the book selected from SharedPreferences
@@ -59,21 +60,21 @@ public class BibleReader extends Fragment {
 		}
 	    ArrayList<Verse> bible = chapter.verses;
 	    
-	    
 	    for(int i = 0; i < chapter.numVerses; i++) {
+	    	//Populating the layout with verses with different id
 	    	TextView bibleDisplay = new TextView(getActivity());
 	    	bibleDisplay.setId(i+1);
 	    	Verse verseInfo = bible.get(i);
 	    	String verse = verseInfo.getText();
 	    	int verseNumber = verseInfo.getVerseNumber();
 	    	
-	    	String bibleInfo = "<b>" + verseNumber + " " + "</b>"+
-		 	            "<small>" + verse + "</small>";
+	    	String bibleInfo = "<strong>" + verseNumber + "</strong>" + " " + "<font size=\"10\">" + verse + "</font>";
 	    	
 	    	bibleDisplay.setPadding(10, 0, 10, 0);
 		    bibleDisplay.setText(Html.fromHtml(bibleInfo));
 		    
 		    linearLayout.addView(bibleDisplay);
+		    //Verses onClick handler
 		    bibleDisplay.setOnClickListener(new OnClickListener() {
 	            @Override
 	            public void onClick(View v) {
@@ -85,10 +86,5 @@ public class BibleReader extends Fragment {
 	            }
 	        });
 	    }
-	    
-	   
-	    
 	}
-	
-	
 }
