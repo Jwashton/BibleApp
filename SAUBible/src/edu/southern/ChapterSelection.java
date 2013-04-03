@@ -30,6 +30,8 @@ public class ChapterSelection extends Fragment {
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+		// set the action bar layout
+		((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_bible);
         //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
 	    		"edu.southern", Context.MODE_PRIVATE); 
@@ -67,17 +69,11 @@ public class ChapterSelection extends Fragment {
          		editor.putInt("chapter_value", position);
          		editor.commit();
          		
-         		// Create new fragment and transaction
+         		// Create new fragment
          		Fragment chapterFragment = new VerseSelection();
-         		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
          		// Replace whatever is in the fragment_container view with this fragment,
          		// and add the transaction to the back stack
-         		transaction.replace(R.id.homeFragmentContainer, chapterFragment);
-         		transaction.addToBackStack(null);
-
-         		// Commit the transaction
-         		transaction.commit();
+         		((HomeScreen)getActivity()).replaceFragment(chapterFragment);
             }
         });
     }

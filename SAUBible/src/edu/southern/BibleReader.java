@@ -31,6 +31,8 @@ public class BibleReader extends Fragment {
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+		// set the action bar layout
+		((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_reading);
         TextView bibleDisplay = (TextView)getView().findViewById(R.id.textView1);
         //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
