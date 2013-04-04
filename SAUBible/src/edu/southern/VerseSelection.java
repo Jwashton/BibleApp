@@ -24,7 +24,7 @@ public class VerseSelection extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.bible_chapter_verse_selection, container, false);
+        return inflater.inflate(R.layout.fragment_bible_chapter_verse_selection, container, false);
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ public class VerseSelection extends Fragment {
 		
 		//populate the Grid 
         adapter = new ArrayAdapter<Integer>(getActivity(),
-        		R.layout.bible_chapter_verse_container,
+        		R.layout.fragment_bible_chapter_verse_container,
 	            R.id.chapter_verse,
 	            numberChapters);
         View fragmentView=getView();
@@ -68,16 +68,17 @@ public class VerseSelection extends Fragment {
          		editor.commit();
          		
          		// Create new fragment and transaction
-         		Fragment chapterFragment = new BibleReader();
+         		Fragment readerFragment = new BibleReader();
          		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
          		// Replace whatever is in the fragment_container view with this fragment,
          		// and add the transaction to the back stack
-         		transaction.replace(R.id.homeFragmentContainer, chapterFragment);
+         		transaction.replace(R.id.homeFragmentContainer, readerFragment);
          		transaction.addToBackStack(null);
 
          		// Commit the transaction
          		transaction.commit();
+         		((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_reading);
             }
         });
         

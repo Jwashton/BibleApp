@@ -24,7 +24,7 @@ public class ChapterSelection extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.bible_chapter_verse_selection, container, false);
+        return inflater.inflate(R.layout.fragment_bible_chapter_verse_selection, container, false);
 	}
 	
 	@Override
@@ -51,10 +51,10 @@ public class ChapterSelection extends Fragment {
 		
 		//populate the Grid  
         adapter = new ArrayAdapter<Integer>(getActivity(),
-        		R.layout.bible_chapter_verse_container,
+        		R.layout.fragment_bible_chapter_verse_container,
 	            R.id.chapter_verse,
 	            numberChapters);
-        View fragmentView=getView();
+        View fragmentView = getView();
         GridView grid=(GridView)fragmentView.findViewById(R.id.gridview);
         grid.setAdapter(adapter);
         
