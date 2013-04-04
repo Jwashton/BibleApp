@@ -30,6 +30,8 @@ public class VerseSelection extends Fragment {
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // set the action bar layout
+     	((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_bible);
         //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
 	    		"edu.southern", Context.MODE_PRIVATE); 
@@ -67,18 +69,14 @@ public class VerseSelection extends Fragment {
          		editor.putInt("verse_value", position);
          		editor.commit();
          		
-         		// Create new fragment and transaction
+         		// Create new fragment
          		Fragment readerFragment = new BibleReader();
-         		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
          		// Replace whatever is in the fragment_container view with this fragment,
          		// and add the transaction to the back stack
-         		transaction.replace(R.id.homeFragmentContainer, readerFragment);
-         		transaction.addToBackStack(null);
-
-         		// Commit the transaction
-         		transaction.commit();
-         		((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_reading);
+         		HomeScreen activity = (HomeScreen)getActivity();
+         		activity.replaceFragment(readerFragment);
+         		activity.setActionBarView(R.layout.actionbar_reading);
             }
         });
         
