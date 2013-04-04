@@ -23,7 +23,7 @@ import edu.southern.resources.Verse;
 public class BibleReader extends Fragment {
 	static ArrayAdapter<Verse> adapter;
 	BibleHelper Bible = new BibleHelper();
-
+	int scrollto = 0;
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class BibleReader extends Fragment {
         if(book_value < 0 || book_value > 65)
         	book_value = 0;
 	    int chapter_value = prefs.getInt("chapter_value",1) + 1;
+	    int verse_value = prefs.getInt("verse_value",1);
 	    final String bookName = Bible.getBooks()[book_value];
 	    Chapter chapter = null;
 	    try {
@@ -58,6 +59,7 @@ public class BibleReader extends Fragment {
 			e.printStackTrace();
 		}
 	    ArrayList<Verse> bible = chapter.verses;
+	    
 	    
 	    for(int i = 0; i < chapter.numVerses; i++) {
 	    	//Populating the layout with verses with different id
@@ -71,7 +73,8 @@ public class BibleReader extends Fragment {
 	    	
 	    	bibleDisplay.setPadding(10, 0, 10, 0);
 		    bibleDisplay.setText(Html.fromHtml(bibleInfo));
-		    
+		    if(i==verse_value)
+		    	scrollto = i;
 		    linearLayout.addView(bibleDisplay);
 		    //Verses onClick handler
 		    bibleDisplay.setOnClickListener(new OnClickListener() {
@@ -85,5 +88,15 @@ public class BibleReader extends Fragment {
 	            }
 	        });
 	    }
+	    scrollview.post(new Runnable() {
+
+
+	        @Override
+	        public void run() {
+	        	View contextV  = (TextView) getView().findViewById(scrollto);
+	        	scrollto = contextV.getTop();
+            	scrollview.scrollTo(0, scrollto);
+	        }
+	    });
 	}
 }
