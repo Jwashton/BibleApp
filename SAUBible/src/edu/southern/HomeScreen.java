@@ -32,10 +32,9 @@ import edu.southern.resources.*;
 public class HomeScreen extends SlidingFragmentActivity {
 
 	private FragmentManager fragmentManager = getFragmentManager();
-	private FragmentTransaction fragmentTransaction;
 	private int ActionBarView;
 		
-	  @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
    		setContentView(R.layout.activity_home_screen);
@@ -52,11 +51,6 @@ public class HomeScreen extends SlidingFragmentActivity {
 	            return false;
 	        }
 	    });
-		// TODO -- Nathanael Beisiegel
-		//FragmentTransaction t = this.getFragmentManager().beginTransaction();
-		//mFrag = new ListFragment();
-		//t.replace(R.id.menu_frame, mFrag);
-		//t.commit();
 		
 		// Set attributes of the menu 
 		SlidingMenu sm = getSlidingMenu();
@@ -67,14 +61,11 @@ public class HomeScreen extends SlidingFragmentActivity {
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// Initialize the engine and store it on the application
-		initiallizeBibleEngine();
-		
 		// Add Home fragment to view group as default view
 		// We only want to run this if the app is being run for the first time
     	if(savedInstanceState == null){
     		transferAssetFiles();
-		    fragmentTransaction = fragmentManager.beginTransaction();
+    		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		    Home homeFragment = new Home();
 		    fragmentTransaction.add(R.id.homeFragmentContainer, homeFragment);
 		    fragmentTransaction.commit();
@@ -92,19 +83,40 @@ public class HomeScreen extends SlidingFragmentActivity {
 		save.putInt("ActionBarView", ActionBarView);
 	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK){
+	        if (getFragmentManager().getBackStackEntryCount() == 0) {
+	            this.finish();
+	            return false;
+	        }
+	        else {
+	            getFragmentManager().popBackStack();
+	            return false;
+	        }
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
+	
 	public void setActionBarView(int viewId){
 		ActionBar bar = getActionBar();
 		ActionBarView = viewId;
 		bar.setCustomView(ActionBarView);
 	}
-		  // Inflate Actionbar with Menu items in primary_nav_menu.xml
-		  @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		    return true;
+	
+	/**
+	 * Replace the current fragment being displayed with a new fragment
+	 * and add the current fragment to the backstack
+	 * @param fragmentId ID of the fragment layout to display
+	 */
+	public void replaceFragment(Fragment newFrag) {
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		transaction.replace(R.id.homeFragmentContainer, newFrag);
+		transaction.addToBackStack(null);
+		transaction.commit();
 	}
-	  
   
-  // Toggle Drawer on Up button in action bar
+	// Toggle Drawer on Up button in action bar
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -124,12 +136,11 @@ public class HomeScreen extends SlidingFragmentActivity {
 		  return;
 	  // retrieve the engine from the application
 	  // use a bible helper to parse the reference
-	  CBibleEngine engine = ((BibleApp)getApplication()).GetEngine();
 	  BibleHelper helper = new BibleHelper();
 	  // get the keyboard for later use
 	  
 	  try{
-		  Reference reference = helper.parseReference(text, engine);
+		  Reference reference = helper.parseReference(text);
 		  //Save the value of the chapter selected in SharePreferences
 		  SharedPreferences settings = getSharedPreferences("edu.southern", 0);
 		  SharedPreferences.Editor editor = settings.edit();
@@ -143,14 +154,8 @@ public class HomeScreen extends SlidingFragmentActivity {
 			
 		  // Create new fragment and transaction
 		  Fragment readerFragment = new BibleReader();
-		  FragmentTransaction transaction = getFragmentManager().beginTransaction();
-			
-		  // Replace whatever is in the fragment_container view with this fragment,
-		  // and add the transaction to the back stack
-		  transaction.replace(R.id.homeFragmentContainer, readerFragment);
-		  transaction.addToBackStack(null);
+		  replaceFragment(readerFragment);
 		  // Commit the transaction
-		  transaction.commit();
 		  setActionBarView(R.layout.actionbar_reading);
 		  
 		  // Hide the drawer
@@ -170,48 +175,36 @@ public class HomeScreen extends SlidingFragmentActivity {
   
   // on click handler for navigation buttons in the drawer
   public void onDrawerItemSelection(View v) {
-	  
-	  //v.setBackgroundResource(android.R.drawable.list_selector_background);
-	  
-	  fragmentTransaction = fragmentManager.beginTransaction();
 	  // Switch to appropriate fragment
 	  // and swap out views in the action bar
 	  switch (v.getId()) {
 		  case R.id.HomeButton:
 			  Home homeFragment = new Home();
-			  fragmentTransaction.replace(R.id.homeFragmentContainer, homeFragment);
-			  setActionBarView(R.layout.actionbar_home);
+			  replaceFragment(homeFragment);
 			  break;
 		  case R.id.BibleButton:
 			  Bible bibleFragment = new Bible();
-			  fragmentTransaction.replace(R.id.homeFragmentContainer, bibleFragment);
-			  setActionBarView(R.layout.actionbar_bible);
+			  replaceFragment(bibleFragment);
 			  break;
 		  case R.id.ReadingButton:
 			  BibleReader readerFragment = new BibleReader();
-			  fragmentTransaction.replace(R.id.homeFragmentContainer, readerFragment);
-			  setActionBarView(R.layout.actionbar_reading);
+			  replaceFragment(readerFragment);
 			  break;
 		  case R.id.BookmarksButton:
 			  Bookmarks bookmarkFragment = new Bookmarks();
-			  fragmentTransaction.replace(R.id.homeFragmentContainer, bookmarkFragment);
-			  setActionBarView(R.layout.actionbar_bookmarks);
+			  replaceFragment(bookmarkFragment);
 			  break;
 		  case R.id.SettingsButton:
 			  Settings settingsFragment = new Settings();
-			  fragmentTransaction.replace(R.id.homeFragmentContainer, settingsFragment);
-			  setActionBarView(R.layout.actionbar_settings);
+			  replaceFragment(settingsFragment);
 			  break;
-			  
 		  case R.id.SearchButton:
 			  Search searchFragment = new Search();
-			  fragmentTransaction.replace(R.id.homeFragmentContainer, searchFragment);
-			  setActionBarView(R.layout.actionbar_search);
+			  replaceFragment(searchFragment);
 			  break;			  
 		  default:
 			  break;
 	  }
-	  fragmentTransaction.commit(); // switch fragments
 	  getSlidingMenu().toggle(); // hide the drawer
   }
   
@@ -236,27 +229,6 @@ public class HomeScreen extends SlidingFragmentActivity {
 		  break;
   }
 	  return;
-  }
-  
-  protected void initiallizeBibleEngine(){
-	  BibleApp app = (BibleApp)getApplication();
-	  if(app.getHasEngine())
-		  return;
-	  // create a bible engine and start the various aspects of it
-	  CBibleEngine engine = new CBibleEngine();
-	  String DATA_SOURCE = "data/data/edu.southern/lighthouse/";
-	  engine.StartEngine(DATA_SOURCE, "KJV");
-	  engine.StartLexiconEngine(DATA_SOURCE);
-	  engine.StartMarginEngine(DATA_SOURCE);
-	  // store the app on the application class
-	
-	  app.SetEngine(engine);
-	  /*
-	   * IMPORTANT
-	   * In order to get the Bible Engine, use these lines
-	   * BibleApp app = (BibleApp)getApplication();
-	   * CBibleEngine BibleEngine = app.GetEngine();
-	   */
   }
   
   protected void transferAssetFiles(){

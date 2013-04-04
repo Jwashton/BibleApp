@@ -7,13 +7,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import edu.southern.resources.BibleHelper;
 import edu.southern.resources.Chapter;
 import edu.southern.resources.Verse;
@@ -31,9 +33,16 @@ public class BibleReader extends Fragment {
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TextView bibleDisplay = (TextView)getView().findViewById(R.id.textView1);
+		// set the action bar layout
+		((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_reading);
+        
+        //Adding the layout programmatically
+        final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.scrollView1);
+        final LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        scrollview.addView(linearLayout);
+        
         BibleApp app = (BibleApp)getActivity().getApplication();
- 	    CBibleEngine engine = app.GetEngine();
         //Get the value of the book selected from SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences(
 	    		"edu.southern", Context.MODE_PRIVATE); 
@@ -45,21 +54,38 @@ public class BibleReader extends Fragment {
 	    final String bookName = Bible.getBooks()[book_value];
 	    Chapter chapter = null;
 	    try {
-			chapter = Bible.getChapterText(bookName, chapter_value, engine);
+			chapter = Bible.getChapterText(bookName, chapter_value);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    ArrayList<Verse> bible = chapter.verses;
-	    String bibleInfo = "";
+	    
 	    for(int i = 0; i < chapter.numVerses; i++) {
-	    	 Verse verseInfo = bible.get(i);
-	    	 String verse = verseInfo.getText();
-	    	 int verseNumber = verseInfo.getVerseNumber();
-	    	 bibleInfo += "<b>" + verseNumber + " " + "</b>"+
-		 	            "<small>" + verse + "</small>";
+	    	//Populating the layout with verses with different id
+	    	TextView bibleDisplay = new TextView(getActivity());
+	    	bibleDisplay.setId(i+1);
+	    	Verse verseInfo = bible.get(i);
+	    	String verse = verseInfo.getText();
+	    	int verseNumber = verseInfo.getVerseNumber();
+	    	
+	    	String bibleInfo = "<strong>" + verseNumber + "</strong>" + " " + "<font size=\"10\">" + verse + "</font>";
+	    	
+	    	bibleDisplay.setPadding(10, 0, 10, 0);
+		    bibleDisplay.setText(Html.fromHtml(bibleInfo));
+		    
+		    linearLayout.addView(bibleDisplay);
+		    //Verses onClick handler
+		    bibleDisplay.setOnClickListener(new OnClickListener() {
+	            @Override
+	            public void onClick(View v) {
+	                // create Account
+	            	int id = v.getId();
+	            	String text = String.valueOf(id);
+	        		Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_LONG).show();
+
+	            }
+	        });
 	    }
-	    bibleDisplay.setPadding(10, 10, 10, 10);
-	    bibleDisplay.setText(Html.fromHtml(bibleInfo));
 	}
 }
