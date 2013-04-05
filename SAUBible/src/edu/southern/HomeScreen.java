@@ -220,11 +220,17 @@ public class HomeScreen extends SlidingFragmentActivity {
 	  case R.id.ActionBarBible:
 		  break;
 		  
+	  case R.id.ActionBarReading:
+	  	Bible bibleFragment = new Bible();
+		  replaceFragment(bibleFragment);
+	  	break;
+	  	
 	  case R.id.ActionBarSearch:
 		  break;
 		  
 	  case R.id.ActionBarSettings:
 		  break;
+		  
 	  default:
 		  break;
   }

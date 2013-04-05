@@ -55,6 +55,16 @@ public class BibleHelper {
 	}
 	
 	/**
+	 * Get book name for book number
+	 * @return
+	 * A string containing the Bible book name
+	 */
+	public String getBookName(int bookNumber) {
+			return getBooks()[bookNumber];
+	}
+
+	
+	/**
 	 * Find the book number for the provided book name
 	 * @param bookName Book name to find position of. ex. "Matthew" or "Genesis"
 	 * @return The index for the specified book
