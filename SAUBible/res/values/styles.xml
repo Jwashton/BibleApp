@@ -16,12 +16,21 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+ 
+    <!-- Action Bar Item Styles  -->
+	<style name="ActionBarTitleButton" parent="AppBaseTheme">
+		<item name="android:background">@drawable/actionbar_title_button</item>
+		<item name="android:paddingLeft">8dp</item>
+		<item name="android:paddingRight">8dp</item>
+		<item name="android:textColor">@color/TextColor</item>
+    </style>
+    
 
     <!-- Drawer Theme -->
     <style name="DrawerTheme" parent="AppBaseTheme">
-		<item name="android:background">@color/Night</item>
-		<item name="android:textColor">#EFEFEF</item>
-		<item name="android:textColorHint">#AAAAAA</item>
+		<item name="android:background">@color/Base</item>
+		<item name="android:textColor">@color/TextColor</item>
+		<item name="android:textColorHint">@color/TextColorHint</item>
     </style>
     
     <style name="DrawerTextColor" parent="AppBaseTheme">
@@ -31,14 +40,13 @@
     
     <style name="DrawerHeading" parent="DrawerTextColor">
 		<item name="android:textSize">28sp</item>
-		<item name="android:background">@color/HighlightOrange2</item>
+		<item name="android:background">@color/Highlight</item>
 		<item name="android:height">45dp</item>
 		<item name="android:paddingTop">4dp</item>
 		<item name="android:paddingLeft">6dp</item>
 		<item name="android:paddingBottom">2dp</item>
     </style>
    		
-    
     
     <style name="DrawerItem" parent="AppBaseTheme">
 		<item name="android:background">@drawable/drawer_item</item>
