@@ -6,6 +6,9 @@
     <string name="title_activity_bible_navigation">Bible Navigation</string>
     <string name="bible_button">Bible Branch 4</string>
     <string name="bible_button_2">Bible Branch Demonstration</string>
+    
+    <!-- Drawable Description -->
+	<string name="description">drawable</string>
 
     <!-- Menu Strings -->
     <string name="Back">Back</string>
@@ -25,6 +28,8 @@
 	<string name="DrawerBookmarksButton">Bookmarks</string>
 	<string name="DrawerSearchButton">Search</string>
 	<string name="DrawerSettingsButton">Settings</string>
+	
+	
 	
 	 <!-- Home Fragment Text -->
     <string name="HomeTextFrag">Hello from the Home Fragment!</string>
@@ -47,4 +52,6 @@
     <string name="title_activity_verse_selection">VerseSelection</string>
     <string name="title_activity_bible_reader">BibleReader</string>
     <string name="action_settings">Settings</string>
+    
+ 
 </resources>
