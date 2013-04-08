@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="OrangeBible" parent="android:Theme.Light">
+
+    <item name="android:editTextStyle">@style/EditTextOrangeBible</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewOrangeBible</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxOrangeBible</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonOrangeBible</item>
+
+    <item name="android:buttonStyle">@style/ButtonOrangeBible</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonOrangeBible</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerOrangeBible</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerOrangeBible.DropDown</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemOrangeBible</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarOrangeBible</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarOrangeBible</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarOrangeBible</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigOrangeBible</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallOrangeBible</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleOrangeBible</item>
+
+    <item name="android:listViewStyle">@style/ListViewOrangeBible</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewOrangeBible.White</item>
+
+    <item name="android:spinnerItemStyle">@style/SpinnerItemOrangeBible</item>
+
+  </style>
+
+</resources>

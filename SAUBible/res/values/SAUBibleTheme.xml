@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="BibleTheme" parent="android:style/Theme.Holo.Light">
+    <style name="BibleTheme" parent="@style/OrangeBible">
         <item name="android:actionBarStyle">@style/BibleActionBarStyle</item>
     </style>
 
     <style name="BibleActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:displayOptions">showHome|showCustom</item>
+        <item name="android:background">@drawable/drawer_item</item>
     </style>
 </resources>
