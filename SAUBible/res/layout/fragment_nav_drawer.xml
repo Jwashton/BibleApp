@@ -64,8 +64,10 @@
 	        style="@style/DrawerItemText"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:text="@string/DrawerHomeButton" />
+	        android:gravity="left|center_vertical"
+	        android:text="@string/DrawerHomeButton"
+	        android:drawablePadding="2sp"
+	        android:drawableLeft="@drawable/menu_home" />
 
     </LinearLayout>
     
@@ -84,8 +86,11 @@
 	        style="@style/DrawerItemText"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:text="@string/DrawerBibleButton" />
+	        android:gravity="left|center_vertical"
+	        android:text="@string/DrawerBibleButton"
+	        android:textSize="20sp"
+	        android:drawablePadding="2sp"
+	        android:drawableLeft="@drawable/menu_chapter_select2" />
 
     </LinearLayout>
     
@@ -104,8 +109,11 @@
 	        style="@style/DrawerItemText"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:text="@string/DrawerReadingButton" />
+	        android:gravity="left|center_vertical"
+	        android:text="@string/DrawerReadingButton"
+	        android:textSize="20sp"
+	        android:drawablePadding="2sp"
+	        android:drawableLeft="@drawable/menu_current_reading" />
 
     </LinearLayout>
     
@@ -124,8 +132,10 @@
 	        style="@style/DrawerItemText"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:text="@string/DrawerBookmarksButton" />
+	        android:gravity="left|center_vertical"
+	        android:text="@string/DrawerBookmarksButton"
+	        android:drawablePadding="2sp"
+	        android:drawableLeft="@drawable/menu_bookmarks" />
 	
     </LinearLayout>
     
@@ -144,8 +154,10 @@
 	        style="@style/DrawerItemText"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:text="@string/DrawerSearchButton" />
+	        android:gravity="left|center_vertical"
+	        android:text="@string/DrawerSearchButton"
+	        android:drawablePadding="2sp"
+	        android:drawableLeft="@drawable/menu_search" />
 
     </LinearLayout>
     
@@ -164,8 +176,10 @@
 		       style="@style/DrawerItemText"
 		       android:layout_width="wrap_content"
 		       android:layout_height="wrap_content"
-		       android:gravity="center"
-		       android:text="@string/DrawerSettingsButton" />
-
+		       android:gravity="left|center_vertical"
+		       android:text="@string/DrawerSettingsButton"
+		       android:drawablePadding="2sp"
+		       android:drawableLeft="@drawable/menu_settings2" />
+	
     </LinearLayout>
 </LinearLayout>
