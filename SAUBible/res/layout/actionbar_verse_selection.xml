@@ -4,13 +4,21 @@
     android:layout_height="fill_parent" >
 
     <Button
-        android:id="@+id/ActionBarBible"
-        style="@style/ActionBarTitleButton"
+        android:id="@+id/ActionBarBook"
+        style="@style/ActionBarTitleButtonSpinner"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:minHeight="20dp"
         android:minWidth="40dip"
         android:text="@string/Bible"
         android:onClick="onActionBarButtonClick" />
-
+	<Button
+        android:id="@+id/ActionBarChapter"
+        style="@style/ActionBarTitleButtonSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:minHeight="20dp"
+        android:minWidth="40dip"
+        android:text="@string/Bible"
+        android:onClick="onActionBarButtonClick" />
 </LinearLayout>

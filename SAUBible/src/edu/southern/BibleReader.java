@@ -31,39 +31,64 @@ public class BibleReader extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		this.inflater = inflater;
-		return inflater.inflate(R.layout.fragment_bible_reader, container, false);
+		return inflater.inflate(R.layout.fragment_bible_reader, container,
+				false);
 	}
-	
+
+	/**
+	 * Go through the activity to display the correct action bar layout for this
+	 * fragment Initiallize the button to display the current book and chapter
+	 * 
+	 * @param book
+	 *            Current book name
+	 * @param chapter
+	 *            Current chapter number
+	 */
 	public void initializeActionBar(String book, int chapter) {
-		HomeScreen home = (HomeScreen)getActivity();
+		HomeScreen home = (HomeScreen) getActivity();
 		home.setActionBarView(R.layout.actionbar_reading);
 		updateActionBar(book, chapter);
 	}
-	
+
+	/**
+	 * Set the text of the action bar button to display the current book and
+	 * chapter
+	 * 
+	 * @param book
+	 *            Current book name
+	 * @param chapter
+	 *            Current chapter number
+	 */
 	public void updateActionBar(String book, int chapter) {
 		// String building
-		String currentLocation = book.concat(" ").concat(Integer.toString(chapter));
-		((Button)getActivity().findViewById(R.id.ActionBarReading)).setText(currentLocation);
+		String currentLocation = book.concat(" ").concat(
+				Integer.toString(chapter));
+		((Button) getActivity().findViewById(R.id.ActionBarReading))
+				.setText(currentLocation);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		//Adding the layout programmatically
-		final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.scrollView1);
+		// Adding the layout programmatically
+		final ScrollView scrollview = (ScrollView) getActivity().findViewById(
+				R.id.scrollView1);
 		final LinearLayout linearLayout = new LinearLayout(getActivity());
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
 		scrollview.addView(linearLayout);
 
-		//Get the value of the book selected from SharedPreferences
-		SharedPreferences prefs = this.getActivity().getSharedPreferences("edu.southern", Context.MODE_PRIVATE); 
-		int book_value = prefs.getInt("book_value",0);
+		// Get the value of the book selected from SharedPreferences
+		SharedPreferences prefs = this.getActivity().getSharedPreferences(
+				"edu.southern", Context.MODE_PRIVATE);
+		int book_value = prefs.getInt("book_value", 0);
 
-		// prevent a bad book value from crashing the program by defaulting to Genesis
-		if(book_value < 0 || book_value > 65)
+		// prevent a bad book value from crashing the program by defaulting to
+		// Genesis
+		if (book_value < 0 || book_value > 65)
 			book_value = 0;
-		int chapter_value = prefs.getInt("chapter_value",1) + 1;
+		int chapter_value = prefs.getInt("chapter_value", 0) + 1;
+		int verse_value = prefs.getInt("verse_value", 0) + 1;
 		final String bookName = Bible.getBookName(book_value);
 		Chapter chapter = null;
 		try {
@@ -75,37 +100,39 @@ public class BibleReader extends Fragment {
 
 		// set the action bar layout
 		initializeActionBar(bookName, chapter_value);
-		
 
 		ArrayList<Verse> bible = chapter.verses;
-
-		for(int i = 0; i < chapter.numVerses; i++) {
-			//Populating the layout with verses with different id
+		for (int i = 0; i < chapter.numVerses; i++) {
+			// Populating the layout with verses with different id
 			TextView bibleDisplay = new TextView(getActivity());
-			bibleDisplay.setId(i+1);
+			bibleDisplay.setId(i + 1);
 			Verse verseInfo = bible.get(i);
 			String verse = verseInfo.getText();
 			int verseNumber = verseInfo.getVerseNumber();
 
-			String bibleInfo = "<strong>" + verseNumber + "</strong>" + " " + "<font size=\"10\">" + verse + "</font>";
+			String bibleInfo = "<strong>" + verseNumber + "</strong>" + " "
+					+ "<font size=\"10\">" + verse + "</font>";
 
 			bibleDisplay.setPadding(10, 0, 10, 0);
 			bibleDisplay.setText(Html.fromHtml(bibleInfo));
 
 			linearLayout.addView(bibleDisplay);
-			//Verses onClick handler
+			// Verses onClick handler
 			bibleDisplay.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					// create Account
 					int id = v.getId();
 					String text = String.valueOf(id);
-					Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_LONG).show();
-
+					Toast.makeText(getActivity().getApplicationContext(), text,
+							Toast.LENGTH_LONG).show();
 				}
 			});
 		}
+
+		// set the text on the currently reading button in the nav drawer
+		((HomeScreen) getActivity()).updateCurrentlyReading(book_value,
+				chapter_value, verse_value);
 	}
-	
-	
+
 }
