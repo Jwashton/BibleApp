@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Generated with http://android-holo-colors.com -->
+<!-- 
+	All the styles here were generated. If you want to easily edit them, 
+	go to http://android-holo-colors.com and edit the colors through the
+	online service. If you want to tweak colors without breaking anything,
+	name the resource package "OrangeBible" and replace all the images in
+	all the drawable and values folders from the downloaded zip. Styles
+	in the action bar are currently using styles derived from here.
+	
+	Nathanael
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
   <style name="EditTextOrangeBible" parent="android:Widget.EditText">

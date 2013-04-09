@@ -11,6 +11,7 @@
         android:minHeight="20dp"
         android:minWidth="40dip"
         android:text="@string/Home"
+        android:gravity="left|center_vertical"
         android:onClick="onActionBarButtonClick" />
 
 </LinearLayout>

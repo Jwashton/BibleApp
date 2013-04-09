@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- This app uses a generated theme. See res/values/orangebible_styles.xml for details -->
     <style name="BibleTheme" parent="@style/OrangeBible">
         <item name="android:actionBarStyle">@style/BibleActionBarStyle</item>
     </style>
 
     <style name="BibleActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:displayOptions">showHome|showCustom</item>
-        <item name="android:background">@drawable/drawer_item</item>
+        <item name="android:background">@drawable/actionbar_background</item>
     </style>
 </resources>
