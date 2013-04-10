@@ -33,6 +33,8 @@ public class BibleReader extends Fragment {
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+		// set the action bar layout
+		((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_reading);
         
         //Adding the layout programmatically
         final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.scrollView1);
