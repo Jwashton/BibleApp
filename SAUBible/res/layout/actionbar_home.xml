@@ -5,11 +5,13 @@
 
     <Button
         android:id="@+id/ActionBarHome"
+        style="@style/ActionBarTitleButton"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:minHeight="20dp"
         android:minWidth="40dip"
         android:text="@string/Home"
+        android:gravity="left|center_vertical"
         android:onClick="onActionBarButtonClick" />
 
 </LinearLayout>

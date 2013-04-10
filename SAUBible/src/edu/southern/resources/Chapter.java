@@ -7,6 +7,7 @@ public class Chapter {
 	public int chapterNumber;
 	public int numVerses;
 	public ArrayList<Verse> verses;
-	
-	public Chapter(){}
+
+	public Chapter() {
+	}
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Original Color Palette -->
+	<!--<color name="Night">#2A1E22</color>
+	<color name="NightEmphasis">#402B32</color>
+	<color name="RedSubdued">#69232B</color>
+	<color name="Red">#942029</color>
+	<color name="HighlightOrange">#FB4013</color>
+	<color name="HighlightOrange2">#E86342</color>
+	<color name="HighlightOrange3">#F3704F</color> -->
+	
+	<!-- Base UI Colors -->
+	<color name="Base">#3B4044</color>
+	<color name="BaseEmphasis">#4E555D</color>
+	<color name="BaseDark">#292C30</color>
+	<color name="Light">#F5F5F7</color>
+	<color name="Highlight">#ED5537</color> <!-- Yoshi's Icon Orange -->
+	
+	<!-- <color name="Highlight">#ffbb33</color> UI Orange -->
+	<!-- <color name="Highlight">#E54940</color> Magenta-ish Orange -->
+
+	<!-- Text Colors -->
+	<color name="TextColor">#EFEFEF</color>
+	<color name="TextColorHint">#AAAAAA</color>
+</resources>

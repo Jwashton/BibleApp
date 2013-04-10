@@ -10,12 +10,12 @@ import edu.southern.R;
 
 public class Home extends Fragment {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-		 // set the action bar layout
-		 ((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_home);
-        // Inflate the layout for this fragment
-    	return inflater.inflate(R.layout.fragment_home, container, false);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// set the action bar layout
+		((HomeScreen) getActivity()).setActionBarView(R.layout.actionbar_home);
+		// Inflate the layout for this fragment
+		return inflater.inflate(R.layout.fragment_home, container, false);
+	}
 }
