@@ -25,10 +25,11 @@ public class Bible extends ListFragment {
 		            R.id.row_textview1,
 		            bible.getBooks());
 		 setListAdapter(adapter);
-		 
-	 }
+		 // set the action bar layout
+		 ((HomeScreen)getActivity()).setActionBarView(R.layout.actionbar_bible);
+	}
 	 
-	 public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		//Save the value of the book selected in SharedPreferences
         SharedPreferences settings = this.getActivity().getSharedPreferences("edu.southern", 0);
  		SharedPreferences.Editor editor = settings.edit();
@@ -37,14 +38,8 @@ public class Bible extends ListFragment {
  		
  		// Create new fragment and transaction
  		Fragment chapterFragment = new ChapterSelection();
- 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
  		// Replace whatever is in the fragment_container view with this fragment,
  		// and add the transaction to the back stack
- 		transaction.replace(R.id.homeFragmentContainer, chapterFragment);
- 		transaction.addToBackStack(null);
-
- 		// Commit the transaction
- 		transaction.commit();
-     }
-  }
+ 		((HomeScreen)getActivity()).replaceFragment(chapterFragment);
+	}
+}
