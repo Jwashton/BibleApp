@@ -3,7 +3,7 @@
     
     <!-- Highlight or outline actionbar button here -->
     
-    <!-- <solid android:color="@color/Base" />
-    <stroke android:width="1dip" android:color="@color/BaseDark"/> -->
+    <solid android:color="@color/BaseEmphasis" />
+    <!-- <stroke android:width="1dip" android:color="@color/BaseDark"/> -->
 
 </shape>
