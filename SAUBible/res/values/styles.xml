@@ -45,6 +45,10 @@
 		<item name="android:textColorHint">@color/TextColorHint</item>
     </style>
     
+    <style name="SearchTextColor" parent="AppBaseTheme">
+		<item name="android:textColorHint">@color/TextColorHint</item>
+    </style>
+    
     <style name="DrawerHeading" parent="DrawerTextColor">
 		<item name="android:textSize">28sp</item>
 		<item name="android:background">@color/Highlight</item>
