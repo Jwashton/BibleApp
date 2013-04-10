@@ -5,6 +5,7 @@
 
     <Button
         android:id="@+id/ActionBarBookmarks"
+        style="@style/ActionBarTitleButton"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:minHeight="20dp"

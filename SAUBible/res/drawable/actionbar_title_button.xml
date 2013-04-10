@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <!-- Highlight or outline actionbar button here -->
+    
+    <solid android:color="@color/BaseEmphasis" />
+    <!-- <stroke android:width="1dip" android:color="@color/BaseDark"/> -->
+
+</shape>

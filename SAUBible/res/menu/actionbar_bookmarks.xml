@@ -5,7 +5,7 @@
         
         <item android:id="@+id/BookmarksTitle"
 	          android:title="@string/Bookmarks"
-	          android:onClick=""
+	          android:onClick=""	          
 	          android:showAsAction="always|withText" />
 	    
 
