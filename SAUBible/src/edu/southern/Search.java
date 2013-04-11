@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +24,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import edu.southern.R;
 import edu.southern.resources.Reference;
 import edu.southern.resources.SearchHelper;
@@ -61,7 +66,7 @@ public class Search extends Fragment implements OnClickListener{
 		// restore state if possible
 		SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
 		_searchTerm = settings.getString("lastSearchTerm", "");
-		if(_searchTerm.equals("")){
+		if(!_searchTerm.equals("")){
 			searchInput.setText(_searchTerm);
 			((Button)_fragView.findViewById(R.id.searchGo)).performClick();
 		}
@@ -73,8 +78,6 @@ public class Search extends Fragment implements OnClickListener{
 		switch(v.getId()){
 		case R.id.searchGo:
 			String input = ((EditText)_fragView.findViewById(R.id.searchInput)).getText().toString();
-			if(input.equals(_searchTerm))
-				break;
 			_searchTerm = input;
 			_activity.getSharedPreferences("edu.southern", 0).edit().putString("lastSearchTerm", _searchTerm).commit();
 			SearchHelper helper = new SearchHelper();
@@ -118,12 +121,18 @@ public class Search extends Fragment implements OnClickListener{
 		for (int i = _start; i < _end; i++) {
 			// Populating the layout with verses with different id
 			TextView verseDisplay = new TextView(_activity);
+			verseDisplay.setPadding(10, 0, 10, 0);
 			verseDisplay.setId(i);
 			SearchVerse verse = _searchResults.get(i);
-			
-			String bibleInfo = "<strong>" + verse.getReferece() + "</strong>" + " "	+ "<font size=\"10\">" + verse.getText() + "</font>";
-			verseDisplay.setPadding(10, 0, 10, 0);
-			verseDisplay.setText(Html.fromHtml(bibleInfo));
+			String displayString = verse.getReference().concat(" ").concat(verse.getText());
+			Spannable spanString = new SpannableString(displayString);
+			spanString.setSpan(new ForegroundColorSpan(Color.BLUE), 0, verse.getReference().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			int index = displayString.indexOf(_searchTerm);
+			while(index >= 0){
+				spanString.setSpan(new BackgroundColorSpan(Color.GREEN), index, index + _searchTerm.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				index = displayString.indexOf(_searchTerm, index + 1);
+			}
+			verseDisplay.setText(spanString);
 
 			resultsDisplay.addView(verseDisplay, resultsDisplay.getChildCount() - 1);
 			// Verses onClick handler
@@ -132,7 +141,7 @@ public class Search extends Fragment implements OnClickListener{
 				public boolean onLongClick(View v) {
 					int id = v.getId();
 					SearchVerse verse = _searchResults.get(id);
-					Reference ref = new Reference (verse.getReferece());
+					Reference ref = new Reference (verse.getReference());
 					SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putInt("book_value", ref.getBookNumber());

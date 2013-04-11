@@ -4,7 +4,7 @@ public class SearchVerse {
 	String reference;
 	String text;
 
-	public String getReferece() {
+	public String getReference() {
 		return reference;
 	}
 
