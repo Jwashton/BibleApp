@@ -159,7 +159,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 			// ~Isaac Hermens
 			editor.putInt("book_value", reference.getBookNumber());
 			editor.putInt("chapter_value", reference.getChapterNumber() - 1);
-			editor.putInt("verse_value", reference.getVerseNumber());
+			editor.putInt("verse_value", reference.getVerseNumber() - 1);
 			editor.commit();
 
 			// Create new fragment and transaction
