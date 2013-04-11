@@ -50,9 +50,12 @@ public class SearchHelper {
 	 * 		A single word to search for verses containing
 	 */
 	public ArrayList<SearchVerse> getSearchResults(String input){
-		input = input.toLowerCase(Locale.ENGLISH).trim(); // the search is case sensitive and seems to expect lower case
 		ArrayList<SearchVerse> result = new ArrayList<SearchVerse>();
+		input = input.toLowerCase(Locale.ENGLISH).trim(); // the search is case sensitive and seems to expect lower case
 		long wordNum = engine.FindWord(input);
+		// return empty list if no word matches found
+		if(wordNum == 0)
+			return result;
 		byte occurrences[] = engine.GetWordBitMap(wordNum);
 		ArrayList<Integer> referenceNumbers = new ArrayList<Integer>();
 		//byte currentByte;

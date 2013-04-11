@@ -30,6 +30,7 @@ public class Search extends Fragment implements OnClickListener{
 
 	private ArrayList<SearchVerse> _searchResults; 
 	private String _searchTerm;
+	private View _fragView;
 	private Activity _activity;
 	private int _start;
 	private int _end;
@@ -40,12 +41,12 @@ public class Search extends Fragment implements OnClickListener{
 			Bundle savedInstanceState) {
 		_activity = getActivity();
 		// set the action bar layout
-		((HomeScreen) _activity).setActionBarView(R.layout.actionbar_search);
+		((HomeScreen) getActivity()).setActionBarView(R.layout.actionbar_search);
 		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.fragment_search, container, false);
-		v.findViewById(R.id.searchGo).setOnClickListener(this);
+		_fragView = inflater.inflate(R.layout.fragment_search, container, false);
+		_fragView.findViewById(R.id.searchGo).setOnClickListener(this);
 		
-		EditText searchInput = (EditText)v.findViewById(R.id.searchInput);
+		EditText searchInput = (EditText)_fragView.findViewById(R.id.searchInput);
 		searchInput.setOnEditorActionListener(new OnEditorActionListener() {
 			public boolean onEditorAction(TextView v, int actionId,
 					KeyEvent event) {
@@ -58,48 +59,36 @@ public class Search extends Fragment implements OnClickListener{
 		});
 		
 		// restore state if possible
-		if(savedInstanceState != null){
-			_searchTerm = savedInstanceState.getString("searchTerm");
+		SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
+		_searchTerm = settings.getString("lastSearchTerm", "");
+		if(_searchTerm.equals("")){
 			searchInput.setText(_searchTerm);
-			//TODO find a way to fix this 
-			//((Button)v.findViewById(R.id.searchGo)).performClick();
+			((Button)_fragView.findViewById(R.id.searchGo)).performClick();
 		}
-		return v;
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle save) {
-		super.onSaveInstanceState(save);
-		if(_searchResults!= null && _searchResults.size() != 0)
-			save.putString("searchTerm", _searchTerm);
+		return _fragView;
 	}
 
-	@Override
-	public void onPause(){
-		super.onPause();
-		onSaveInstanceState(new Bundle());
-	}
-	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.searchGo:
-			String input = ((EditText)_activity.findViewById(R.id.searchInput)).getText().toString();
-			if(input == _searchTerm)
+			String input = ((EditText)_fragView.findViewById(R.id.searchInput)).getText().toString();
+			if(input.equals(_searchTerm))
 				break;
 			_searchTerm = input;
+			_activity.getSharedPreferences("edu.southern", 0).edit().putString("lastSearchTerm", _searchTerm).commit();
 			SearchHelper helper = new SearchHelper();
 			_searchResults = helper.getSearchResults(_searchTerm);
 			clearResultsDisplay();
 			displaySearchResults(0, 100);
-			break;
+				break;
 		}
 	}
 
 	private void displaySearchResults(int start, int end){
 		
 		// add the layout programmatically
-		LinearLayout resultsDisplay = (LinearLayout)_activity.findViewById(R.id.searchResultsLayout);
+		LinearLayout resultsDisplay = (LinearLayout)_fragView.findViewById(R.id.searchResultsLayout);
 		
 		if(start == 0){
 			final Button showMore = new Button(_activity); 
@@ -120,9 +109,11 @@ public class Search extends Fragment implements OnClickListener{
 			_end = end;
 		}else{
 			_end = _searchResults.size();
-			_activity.findViewById(SHOWMOREID).setVisibility(View.GONE);
+			_fragView.findViewById(SHOWMOREID).setVisibility(View.GONE);
 		}
 		_end = end < _searchResults.size() ? end : _searchResults.size();
+		
+		setResultCounter();
 		
 		for (int i = _start; i < _end; i++) {
 			// Populating the layout with verses with different id
@@ -156,9 +147,16 @@ public class Search extends Fragment implements OnClickListener{
 		}
 	}
 	
+	private void setResultCounter(){
+		TextView counter = (TextView)_fragView.findViewById(R.id.resultCounterDisplay);
+		String display = _end == 0 ? "No results found." : "Displaying results <strong>1</strong> through <strong>"
+			.concat(Integer.toString(_end).concat("</strong> of <strong>").concat(Integer.toString(_searchResults.size())).concat("</strong>."));
+		counter.setText(Html.fromHtml(display));
+	}
+	
 	private void clearResultsDisplay(){
 		// clear out the layout
-		LinearLayout displayLayout = (LinearLayout)_activity.findViewById(R.id.searchResultsLayout);
+		LinearLayout displayLayout = (LinearLayout)_fragView.findViewById(R.id.searchResultsLayout);
 		displayLayout.removeAllViews();
 	}
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    
+    <!-- Horizontal layout to hold the search input and go button -->
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content" 
@@ -32,6 +32,14 @@
             android:onClick="onSearchGoClick"/>
 
     </LinearLayout>
+	<!-- Text view to display number of search results found and how many we're displaying -->
+	
+	<TextView
+	        android:id="@+id/resultCounterDisplay"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+	
+	
     <ScrollView
     android:id="@+id/searchResultsScroll"
     android:layout_width="fill_parent"
