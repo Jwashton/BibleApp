@@ -23,8 +23,8 @@ public class Reference {
 	 * @param refString
 	 *            a reference string in the following form: "Matthew 1:1"
 	 */
-	Reference(String refString) {
-		BibleHelper helper = new BibleHelper();
+	public Reference(String refString) {
+		BibleHelper helper = new BibleHelper(false);
 		String[] refParts = refString.split(" ");
 		// Ref parts consist of {bookname, chapter & verse}
 		// or {prefix number, book name, chapter & verse}

@@ -11,4 +11,9 @@ public class SearchVerse {
 	public String getText() {
 		return text;
 	}
+	
+	SearchVerse(String reference, String text){
+		this.reference = reference;
+		this.text = text;
+	}
 }

@@ -44,15 +44,15 @@ public class SearchHelper {
 	}
 	
 	/**
-	 * Return a list of verses containing the provided word
+	 * Return a list of verses containing the provided input string
 	 * 
-	 * @param word
+	 * @param input
 	 * 		A single word to search for verses containing
 	 */
-	public ArrayList<SearchVerse> searchForWord(String word){
-		word = word.toLowerCase(Locale.ENGLISH); // the search is case sensitive and seems to expect lower case
+	public ArrayList<SearchVerse> getSearchResults(String input){
+		input = input.toLowerCase(Locale.ENGLISH).trim(); // the search is case sensitive and seems to expect lower case
 		ArrayList<SearchVerse> result = new ArrayList<SearchVerse>();
-		long wordNum = engine.FindWord(word);
+		long wordNum = engine.FindWord(input);
 		byte occurrences[] = engine.GetWordBitMap(wordNum);
 		ArrayList<Integer> referenceNumbers = new ArrayList<Integer>();
 		//byte currentByte;
@@ -63,25 +63,10 @@ public class SearchHelper {
 			next = engine.GetNextConcordanceReference(next, occurrences);
 		}
 		
-		String text;
-		SearchVerse v;
 		for(int ref : referenceNumbers){
-			v = new SearchVerse();
-			v.reference = engine.ConvertReferenceToString(ref);
-			v.text = engine.GetReference(ref);				
-			result.add(v);
+			result.add(new SearchVerse(engine.ConvertReferenceToString(ref), engine.GetReference(ref)));
 		}
-		/*for(int i = 0; i < occurrences.length; i++){
-			currentByte = occurrences[i];
-			for(int j = 1; j < 9; j++){
-				int bit = currentByte & mask;
-				if(bit == 1){
-					referenceNumbers.add(i * 8 + j);
-				}
-				currentByte = (byte)(currentByte >>> 1) ;
-			}
-		}
-		*/
+		
 		return result;
 	}
 }
