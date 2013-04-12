@@ -1,6 +1,10 @@
 package edu.southern;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -8,12 +12,18 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -39,6 +49,8 @@ public class Search extends Fragment implements OnClickListener{
 	private Activity _activity;
 	private int _start;
 	private int _end;
+	private String _selectedReferenceString;
+	private Reference _selectedReference;
 	final private int SHOWMOREID = 9991993;
 	
 	@Override
@@ -62,7 +74,7 @@ public class Search extends Fragment implements OnClickListener{
 				return false;
 			}
 		});
-		
+		registerForContextMenu(_fragView.findViewById(R.id.searchResultsLayout));
 		// restore state if possible
 		SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
 		_searchTerm = settings.getString("lastSearchTerm", "");
@@ -72,7 +84,29 @@ public class Search extends Fragment implements OnClickListener{
 		}
 		return _fragView;
 	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = _activity.getMenuInflater();
+		inflater.inflate(R.menu.search_context_menu, menu);
+		MenuItem item = menu.findItem(R.id.searchContextGo);
+	    item.setTitle("Go to ".concat(_selectedReferenceString));
+	}
 
+	@Override
+	public boolean onContextItemSelected(MenuItem item){
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+		switch(item.getItemId()){
+		case R.id.searchContextGo:
+			openBibleReader(_selectedReference);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
@@ -90,7 +124,7 @@ public class Search extends Fragment implements OnClickListener{
 
 	private void displaySearchResults(int start, int end){
 		
-		// add the layout programmatically
+		// retrieve the layout inside the scrollview
 		LinearLayout resultsDisplay = (LinearLayout)_fragView.findViewById(R.id.searchResultsLayout);
 		
 		if(start == 0){
@@ -123,14 +157,17 @@ public class Search extends Fragment implements OnClickListener{
 			TextView verseDisplay = new TextView(_activity);
 			verseDisplay.setPadding(10, 0, 10, 0);
 			verseDisplay.setId(i);
-			SearchVerse verse = _searchResults.get(i);
+			final SearchVerse verse = _searchResults.get(i);
 			String displayString = verse.getReference().concat(" ").concat(verse.getText());
+			
 			Spannable spanString = new SpannableString(displayString);
 			spanString.setSpan(new ForegroundColorSpan(Color.BLUE), 0, verse.getReference().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			int index = displayString.indexOf(_searchTerm);
-			while(index >= 0){
-				spanString.setSpan(new BackgroundColorSpan(Color.GREEN), index, index + _searchTerm.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				index = displayString.indexOf(_searchTerm, index + 1);
+			
+			Pattern p = Pattern.compile("\\b".concat(_searchTerm).concat("\\b"));
+			Matcher match = p.matcher(displayString.toLowerCase(Locale.ENGLISH));
+			
+			while(match.find() == true){
+				spanString.setSpan(new BackgroundColorSpan(Color.GREEN), match.start(), match.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 			verseDisplay.setText(spanString);
 
@@ -141,16 +178,17 @@ public class Search extends Fragment implements OnClickListener{
 				public boolean onLongClick(View v) {
 					int id = v.getId();
 					SearchVerse verse = _searchResults.get(id);
-					Reference ref = new Reference (verse.getReference());
-					SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt("book_value", ref.getBookNumber());
-					editor.putInt("chapter_value", ref.getChapterNumber() - 1);
-					editor.putInt("verse_value", ref.getVerseNumber() - 1);
-					editor.commit();
-					
-					((HomeScreen)_activity).replaceFragment(new BibleReader());
+					openBibleReader(new Reference (verse.getReference()));		
 					return true;
+				}
+			});
+			verseDisplay.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					_selectedReferenceString = _searchResults.get(v.getId()).getReference();
+					_selectedReference = new Reference(_selectedReferenceString);
+					_activity.invalidateOptionsMenu();
+					_activity.openContextMenu(v);
 				}
 			});
 		}
@@ -167,5 +205,16 @@ public class Search extends Fragment implements OnClickListener{
 		// clear out the layout
 		LinearLayout displayLayout = (LinearLayout)_fragView.findViewById(R.id.searchResultsLayout);
 		displayLayout.removeAllViews();
+	}
+	
+	private void openBibleReader(Reference ref){
+		SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt("book_value", ref.getBookNumber());
+		editor.putInt("chapter_value", ref.getChapterNumber() - 1);
+		editor.putInt("verse_value", ref.getVerseNumber() - 1);
+		editor.commit();
+		
+		((HomeScreen)_activity).replaceFragment(new BibleReader());
 	}
 }
