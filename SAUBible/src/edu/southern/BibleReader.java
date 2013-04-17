@@ -74,7 +74,7 @@ public class BibleReader extends Fragment {
 
 		// Adding the layout programmatically
 		final ScrollView scrollview = (ScrollView) getActivity().findViewById(
-				R.id.scrollView1);
+				R.id.BibleReaderScrollView);
 		final LinearLayout linearLayout = new LinearLayout(getActivity());
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
 		scrollview.addView(linearLayout);

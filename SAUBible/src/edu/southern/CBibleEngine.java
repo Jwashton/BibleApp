@@ -80,15 +80,7 @@ public class CBibleEngine {
 													// that contain the given
 													// WordNum
 
-	public native int GetBitMapOccurences(long StartVerse, byte[] BitMap); // Determine
-																			// the
-																			// number
-																			// of
-																			// verses
-																			// from
-																			// the
-																			// StartVerse
-																			// to
+	public native int GetBitMapOccurences(long StartVerse, byte[] BitMap); // Determine the number of verses from the StartVerse to
 																			// the
 																			// end
 																			// of

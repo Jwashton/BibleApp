@@ -43,7 +43,7 @@
     
 	 <!-- Search Fragment Text -->
     <string name="SearchTextFrag">Hello from the Search Fragment!</string>
-    
+    <string name="searchInputHint">Enter a word to search the Bible for</string>
     
     <!-- Bible Fragment Text -->
     <string name="BibleTextFrag">Hello from the Bible Fragment!</string>
