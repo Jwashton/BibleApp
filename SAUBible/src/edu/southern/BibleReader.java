@@ -25,6 +25,7 @@ import edu.southern.resources.Verse;
 public class BibleReader extends Fragment {
 	static ArrayAdapter<Verse> adapter;
 	BibleHelper Bible = new BibleHelper();
+	int scrollto = 0; //Keeps track of the selected verse's textview
 	LayoutInflater inflater;
 
 	@Override
@@ -115,7 +116,8 @@ public class BibleReader extends Fragment {
 
 			bibleDisplay.setPadding(10, 0, 10, 0);
 			bibleDisplay.setText(Html.fromHtml(bibleInfo));
-
+			if(i+1==verse_value)
+		    	scrollto = i+1;
 			linearLayout.addView(bibleDisplay);
 			// Verses onClick handler
 			bibleDisplay.setOnClickListener(new OnClickListener() {
@@ -133,6 +135,23 @@ public class BibleReader extends Fragment {
 		// set the text on the currently reading button in the nav drawer
 		((HomeScreen) getActivity()).updateCurrentlyReading(book_value,
 				chapter_value, verse_value);
+		scroll(scrollview);
+	    
 	}
-
+	
+	/**
+	 * Scroll to the selected verse's textview
+	 * @param ScrollView
+	 *       			scrollview
+	 */
+	public void scroll(final ScrollView scrollview) {
+		scrollview.post(new Runnable() {
+	        @Override
+	        public void run() {
+	        	View contextV  = (TextView) getView().findViewById(scrollto);
+	        	scrollto = contextV.getTop();
+            	scrollview.scrollTo(0, scrollto);
+	        }
+	    });
+	}
 }
