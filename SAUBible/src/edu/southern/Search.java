@@ -59,10 +59,13 @@ public class Search extends Fragment implements OnClickListener{
 		_activity = getActivity();
 		// set the action bar layout
 		((HomeScreen) getActivity()).setActionBarView(R.layout.actionbar_search);
-		// Inflate the layout for this fragment
+		// Inflate the layout for this fragment 
+		// Save the view so that it can be referenced later
 		_fragView = inflater.inflate(R.layout.fragment_search, container, false);
 		_fragView.findViewById(R.id.searchGo).setOnClickListener(this);
 		
+		// Set a key listener on the input field to trigger a click of the go button
+		// when the enter key is pressed
 		EditText searchInput = (EditText)_fragView.findViewById(R.id.searchInput);
 		searchInput.setOnEditorActionListener(new OnEditorActionListener() {
 			public boolean onEditorAction(TextView v, int actionId,
@@ -74,8 +77,9 @@ public class Search extends Fragment implements OnClickListener{
 				return false;
 			}
 		});
-		registerForContextMenu(_fragView.findViewById(R.id.searchResultsLayout));
-		// restore state if possible
+		// add a context menu to the results layout
+		registerForContextMenu(_fragView.findViewById(R.id.searchResultsLayout)); 
+		//  if possible, restore search term and search results
 		SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
 		_searchTerm = settings.getString("lastSearchTerm", "");
 		if(!_searchTerm.equals("")){
@@ -128,9 +132,10 @@ public class Search extends Fragment implements OnClickListener{
 		LinearLayout resultsDisplay = (LinearLayout)_fragView.findViewById(R.id.searchResultsLayout);
 		
 		if(start == 0){
-			final Button showMore = new Button(_activity); 
+			final Button showMore = (Button)_activity.getLayoutInflater().inflate(R.layout.app_button, null);
+//			showMore.setBackgroundResource(R.style.AppButton);
+			
 			showMore.setText("Show More");
-			showMore.setPadding(10, 0, 10, 0);
 			showMore.setId(SHOWMOREID);
 			showMore.setOnClickListener(new OnClickListener(){
 				@Override
@@ -161,13 +166,14 @@ public class Search extends Fragment implements OnClickListener{
 			String displayString = verse.getReference().concat(" ").concat(verse.getText());
 			
 			Spannable spanString = new SpannableString(displayString);
-			spanString.setSpan(new ForegroundColorSpan(Color.BLUE), 0, verse.getReference().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			int stuff = getResources().getColor(R.color.Highlight);
+			spanString.setSpan(new ForegroundColorSpan(_activity.getResources().getColor(R.color.Highlight)), 0, verse.getReference().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			
 			Pattern p = Pattern.compile("\\b".concat(_searchTerm).concat("\\b"));
 			Matcher match = p.matcher(displayString.toLowerCase(Locale.ENGLISH));
 			
 			while(match.find() == true){
-				spanString.setSpan(new BackgroundColorSpan(Color.GREEN), match.start(), match.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				spanString.setSpan(new BackgroundColorSpan(_activity.getResources().getColor(R.color.HighlightAccent)), match.start(), match.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 			verseDisplay.setText(spanString);
 
