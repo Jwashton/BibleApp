@@ -23,12 +23,15 @@ public class Reference {
 	 * @param refString
 	 *            a reference string in the following form: "Matthew 1:1"
 	 */
-	Reference(String refString) {
-		BibleHelper helper = new BibleHelper();
+	public Reference(String refString) {
+		BibleHelper helper = new BibleHelper(false);
 		String[] refParts = refString.split(" ");
-		bookNumber = helper.getBookNumber(refParts[0]);
+		// Ref parts consist of {bookname, chapter & verse}
+		// or {prefix number, book name, chapter & verse}
+		String bookName = refParts.length == 3 ? refParts[0].concat(" ").concat(refParts[1]) : refParts[0];
+		bookNumber = helper.getBookNumber(bookName);
 		if (refParts.length > 1) {
-			String[] chapterAndVerse = refParts[1].split(":");
+			String[] chapterAndVerse = refParts[refParts.length - 1].split(":");
 			chapterNumber = Integer.parseInt(chapterAndVerse[0]);
 			if (chapterAndVerse.length > 1) {
 				verseNumber = Integer.parseInt(chapterAndVerse[1]);
