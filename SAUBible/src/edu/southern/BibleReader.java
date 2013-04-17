@@ -5,19 +5,22 @@ import java.util.ArrayList;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
-import android.widget.Button;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import edu.southern.resources.BibleHelper;
 import edu.southern.resources.Chapter;
 import edu.southern.resources.Verse;
@@ -27,7 +30,48 @@ public class BibleReader extends Fragment {
 	BibleHelper Bible = new BibleHelper();
 	int scrollto = 0; //Keeps track of the selected verse's textview
 	LayoutInflater inflater;
+	boolean clicked = false;
+	ActionMode mActionMode;
+	
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
+	    // Called when the action mode is created; startActionMode() was called
+	    @Override
+	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+	        // Inflate a menu resource providing context menu items
+	        MenuInflater inflater = mode.getMenuInflater();
+	        inflater.inflate(R.menu.context_menu, menu);
+	        return true;
+	    }
+
+	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+	    // may be called multiple times if the mode is invalidated.
+	    @Override
+	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+	        return false; // Return false if nothing is done
+	    }
+
+	    // Called when the user selects a contextual menu item
+	    @Override
+	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+	    	int lo = item.getItemId();
+	        switch (item.getItemId()) {
+	            case R.id.Highlight:
+	            	//hightligthVerse(id);
+	                mode.finish(); // Action picked, so close the CAB
+	                return true;
+	            default:
+	                return false;
+	        }
+	    }
+
+	    // Called when the user exits the action mode
+	    @Override
+	    public void onDestroyActionMode(ActionMode mode) {
+	    	mActionMode = null;
+	    }
+	};
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -120,15 +164,42 @@ public class BibleReader extends Fragment {
 		    	scrollto = i+1;
 			linearLayout.addView(bibleDisplay);
 			// Verses onClick handler
-			bibleDisplay.setOnClickListener(new OnClickListener() {
+			final Drawable background = bibleDisplay.getBackground();
+			bibleDisplay.setClickable(true);
+			bibleDisplay.setFocusableInTouchMode(true);
+			/*bibleDisplay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			    @SuppressLint("NewApi")
+				public void onFocusChange(View v, boolean hasFocus) {
+			    	if (hasFocus) {
+			            v.setBackgroundColor(Color.BLUE);
+			            //registerForContextMenu(v);
+			            getActivity().startActionMode((Callback) v);
+			        } 
+			        else 
+			        	v.setBackground(background);
+			    }
+			});
+			/*bibleDisplay.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// create Account
-					int id = v.getId();
-					String text = String.valueOf(id);
-					Toast.makeText(getActivity().getApplicationContext(), text,
-							Toast.LENGTH_LONG).show();
+					if (v.isPressed()) {
+			            v.setBackgroundColor(-65536);
+			        } 
+					registerForContextMenu(v); //Open context menu with options
 				}
+			});*/
+			bibleDisplay.setOnLongClickListener(new View.OnLongClickListener() {
+			    // Called when the user long-clicks on someView
+			    public boolean onLongClick(View view) {
+			        if (mActionMode != null) {
+			            return false;
+			        }
+
+			        // Start the CAB using the ActionMode.Callback defined above
+			        mActionMode = getActivity().startActionMode(mActionModeCallback);
+			        view.setSelected(true);
+			        return true;
+			    }
 			});
 		}
 
@@ -154,4 +225,39 @@ public class BibleReader extends Fragment {
 	        }
 	    });
 	}
-}
+	
+	/*@Override  
+	   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {  
+	super.onCreateContextMenu(menu, v, menuInfo);  
+	    menu.setHeaderTitle("Verse Menu"); 
+	    menu.add(0, v.getId(), 0, "Highligth Verse");  
+	    menu.add(0, v.getId(), 0, "Action 2");  
+	} 
+	
+	 @Override  
+	 public boolean onContextItemSelected(MenuItem item) {  
+	     if(item.getTitle()=="Highligth Verse"){hightligthVerse(item.getItemId());}  
+	     else if(item.getTitle()=="Action 2"){function2(item.getItemId());}  
+	     else {return false;}  
+	     return true;  
+	 } 
+	  
+	
+	 
+    public void function2(int id) {  
+        Toast.makeText((getActivity().getApplicationContext()), "function 2 called", Toast.LENGTH_SHORT).show();  
+    }*/
+	
+	public void hightligthVerse(int id) {  
+	 	TextView textview = (TextView) getView().findViewById(id);
+	 	int textcolor = ((TextView) textview).getCurrentTextColor();
+		if(textcolor == -65536) //red
+			((TextView) textview).setTextColor(Color.BLACK); //This would be the default color
+		else
+				((TextView) textview).setTextColor(Color.RED);  
+	} 
+	
+    
+    
+    
+}	

@@ -53,5 +53,10 @@
     <string name="title_activity_bible_reader">BibleReader</string>
     <string name="action_settings">Settings</string>
     
+    <!-- Verse Context Menu -->
+    <string name="Bookmark">Bookmark</string>
+    <string name="Highlight">Highlight</string>
+    <string name="lol">Lol</string>
+    
  
 </resources>
