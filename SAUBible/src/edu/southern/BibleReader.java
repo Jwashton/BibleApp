@@ -163,15 +163,6 @@ public class BibleReader extends Fragment {
 	        @Override
 	        public void run() {
 	        	View contextV  = (TextView) getView().findViewById(scrollto);
-	        	SharedPreferences prefs = getActivity()
-	    				.getSharedPreferences("edu.southern", 0);
-	    		SharedPreferences.Editor editor = prefs.edit();
-	    		int book_value = prefs.getInt("book_value", 0);
-	    		int chapter_value = prefs.getInt("chapter_value", 0) + 1;
-	    		int verse_value = prefs.getInt("verse_value", 0) + 1;
-	    		int book_value_scroll = prefs.getInt("book_value_scroll", 0);
-	    		int chapter_value_scroll = prefs.getInt("chapter_value_scroll", 0) + 1;
-	    		int verse_value_scrol = prefs.getInt("verse_value_scroll", 0) + 1;
 	        	scrollto = contextV.getTop();
             	scrollview.scrollTo(0, scrollto);
 	        }
@@ -247,23 +238,4 @@ public class BibleReader extends Fragment {
 	 	else
 	 		textview.setBackground(background);
 	} 
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		SharedPreferences prefs = getActivity()
-				.getSharedPreferences("edu.southern", 0);
-		SharedPreferences.Editor editor = prefs.edit();
-		int book_value = prefs.getInt("book_value", 0);
-		int chapter_value = prefs.getInt("chapter_value", 0) + 1;
-		int verse_value = prefs.getInt("verse_value", 0) + 1;
-		editor.putInt("book_value_scroll", book_value);
-		editor.putInt("chapter_value_scroll", chapter_value);
-		editor.putInt("verse_value_scroll", verse_value);
-		final ScrollView scrollview = (ScrollView) getActivity().findViewById(
-				R.id.scrollView1);
-		float scrollY = scrollview.getY();
-		editor.putFloat("scrollY_value", scrollY);
-		editor.commit();
-	}
 }	
