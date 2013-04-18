@@ -2,7 +2,6 @@ package edu.southern;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +15,6 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,22 +25,17 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import edu.southern.R;
 import edu.southern.resources.Reference;
 import edu.southern.resources.SearchHelper;
 import edu.southern.resources.SearchVerse;
-import edu.southern.resources.Verse;
 
 public class Search extends Fragment implements OnClickListener{
-
 	private ArrayList<SearchVerse> _searchResults; 
 	private String _searchTerm;
 	private View _fragView;
@@ -91,6 +84,8 @@ public class Search extends Fragment implements OnClickListener{
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+		// Open the options menu
+		// and set the text of the options to reflect the verse that was selected
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = _activity.getMenuInflater();
 		inflater.inflate(R.menu.search_context_menu, menu);
@@ -100,7 +95,6 @@ public class Search extends Fragment implements OnClickListener{
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item){
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
 		switch(item.getItemId()){
 		case R.id.searchContextGo:
 			openBibleReader(_selectedReference);
@@ -115,11 +109,15 @@ public class Search extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.searchGo:
-			String input = ((EditText)_fragView.findViewById(R.id.searchInput)).getText().toString();
-			_searchTerm = input;
+			// Retrieve input from the text box
+			// save it into shared preferences
+			_searchTerm = ((EditText)_fragView.findViewById(R.id.searchInput)).getText().toString();
 			_activity.getSharedPreferences("edu.southern", 0).edit().putString("lastSearchTerm", _searchTerm).commit();
 			SearchHelper helper = new SearchHelper();
 			_searchResults = helper.getSearchResults(_searchTerm);
+			
+			// empty the results display
+			// begin displaying a new set of results
 			clearResultsDisplay();
 			displaySearchResults(0, 100);
 				break;
@@ -131,10 +129,10 @@ public class Search extends Fragment implements OnClickListener{
 		// retrieve the layout inside the scrollview
 		LinearLayout resultsDisplay = (LinearLayout)_fragView.findViewById(R.id.searchResultsLayout);
 		
+		// add a button to the scroll layout to allow users to load the next set of results
+		// only add this button when showing hte initial set of results
 		if(start == 0){
 			final Button showMore = (Button)_activity.getLayoutInflater().inflate(R.layout.app_button, null);
-//			showMore.setBackgroundResource(R.style.AppButton);
-			
 			showMore.setText("Show More");
 			showMore.setId(SHOWMOREID);
 			showMore.setOnClickListener(new OnClickListener(){
@@ -156,27 +154,25 @@ public class Search extends Fragment implements OnClickListener{
 		_end = end < _searchResults.size() ? end : _searchResults.size();
 		
 		setResultCounter();
-		
+		boolean insertedDivider = false;
 		for (int i = _start; i < _end; i++) {
 			// Populating the layout with verses with different id
 			TextView verseDisplay = new TextView(_activity);
 			verseDisplay.setPadding(10, 0, 10, 0);
 			verseDisplay.setId(i);
 			final SearchVerse verse = _searchResults.get(i);
-			String displayString = verse.getReference().concat(" ").concat(verse.getText());
 			
-			Spannable spanString = new SpannableString(displayString);
-			int stuff = getResources().getColor(R.color.Highlight);
-			spanString.setSpan(new ForegroundColorSpan(_activity.getResources().getColor(R.color.Highlight)), 0, verse.getReference().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			
-			Pattern p = Pattern.compile("\\b".concat(_searchTerm).concat("\\b"));
-			Matcher match = p.matcher(displayString.toLowerCase(Locale.ENGLISH));
-			
-			while(match.find() == true){
-				spanString.setSpan(new BackgroundColorSpan(_activity.getResources().getColor(R.color.HighlightAccent)), match.start(), match.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			}
+			if(!insertedDivider && i > 0){
+				Pattern p = Pattern.compile("\\b".concat(_searchTerm).concat("\\b"), Pattern.CASE_INSENSITIVE);
+				Matcher match = p.matcher(verse.getText());
+				if(!match.find()){
+					View divider = _activity.getLayoutInflater().inflate(R.layout.misc_dividing_line, null);
+					resultsDisplay.addView(divider, resultsDisplay.getChildCount() - 1);
+					insertedDivider = true;
+				}
+			}			
+			Spannable spanString = highlightVerse(verse);
 			verseDisplay.setText(spanString);
-
 			resultsDisplay.addView(verseDisplay, resultsDisplay.getChildCount() - 1);
 			// Verses onClick handler
 			verseDisplay.setOnLongClickListener(new View.OnLongClickListener(){
@@ -198,6 +194,42 @@ public class Search extends Fragment implements OnClickListener{
 				}
 			});
 		}
+	}
+	
+	private Spannable highlightVerse(SearchVerse verse){
+		String displayString = verse.getReference().concat(" ").concat(verse.getText());
+		
+		Spannable spanString = new SpannableString(displayString);
+		// change font color on reference
+		spanString.setSpan(new ForegroundColorSpan(_activity.getResources()
+				.getColor(R.color.Highlight)), 0, verse.getReference().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		// highlight words that appear in the search term
+		// if a complete match is found, highlight it
+		// if no complete matches are found, highlight partial matches
+		boolean foundMatch = false;
+		Pattern p = Pattern.compile("\\b".concat(_searchTerm).concat("\\b"), Pattern.CASE_INSENSITIVE);
+		Matcher match = p.matcher(displayString);
+		while(match.find() == true){
+			foundMatch = true;
+			spanString.setSpan(new BackgroundColorSpan(_activity.getResources()
+					.getColor(R.color.HighlightAccent)), match.start(), match.end() 
+					, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+		
+		if(foundMatch)
+			return spanString;
+		
+		String[] searchParts = _searchTerm.split(" ");
+		for(String word : searchParts){
+			p = Pattern.compile("\\b".concat(word).concat("\\b"), Pattern.CASE_INSENSITIVE);
+			match = p.matcher(displayString);
+			while(match.find() == true){
+				spanString.setSpan(new BackgroundColorSpan(_activity.getResources()
+						.getColor(R.color.HighlightAccent)), match.start(), match.end() 
+						, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
+		}
+		return spanString;
 	}
 	
 	private void setResultCounter(){
