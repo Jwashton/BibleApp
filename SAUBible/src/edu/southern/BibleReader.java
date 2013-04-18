@@ -10,6 +10,9 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -232,10 +235,17 @@ public class BibleReader extends Fragment {
 	 */
 	@SuppressLint("NewApi")
 	public void selectingVerse(boolean selecting, int id) {  
-	 	TextView textview = (TextView) getView().findViewById(id);
-	 	if(selecting == true)
-	 		textview.setBackgroundColor(Color.parseColor("#FF8800"));
+	 	TextView verseDisplay = (TextView) getView().findViewById(id);
+	 	String verse = ((TextView)verseDisplay).getText().toString();
+	 	Spannable spanString = new SpannableString(verse);
+	 	if(selecting == true) {
+	 		spanString.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.HighlightAccent)), 
+	 				0, verse.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	 		verseDisplay.setText(spanString);
+	 	}
 	 	else
-	 		textview.setBackground(background);
+	 		spanString.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.Base)), 
+	 				0, verse.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	 		verseDisplay.setText(spanString);
 	} 
 }	
