@@ -277,4 +277,19 @@ public class BibleHelper {
 			bookName += parts[i];
 		return getChapterText(bookName, chapterNumber);
 	}
+	/**
+	 * Gets a SearchVerse object containing reference and text
+	 * string content given a reference number.
+	 * 
+	 * @param refNumber
+	 * @return SearchVerse object which contains reference string and 
+	 * 				 text string
+	 */
+	public SearchVerse getVerseByReferenceNumber(int refNumber){
+		if(refNumber < 1 || refNumber > engine.GetTotalVerses())
+			return new SearchVerse("", "");
+		String text = engine.GetReference(refNumber);
+		String reference = engine.ConvertReferenceToString(refNumber);
+		return new SearchVerse(reference, text);
+	}
 }
