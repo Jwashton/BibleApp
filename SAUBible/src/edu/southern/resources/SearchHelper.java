@@ -52,9 +52,9 @@ public class SearchHelper {
 	 * @param input
 	 * 		A single word to search for verses containing
 	 */
-	public ArrayList<SearchVerse> getSearchResults(String input){
+	public SearchResult getSearchResults(String input){
 		input = input.toLowerCase(Locale.ENGLISH).trim(); // the search is case sensitive and expects lower case
-		ArrayList<SearchVerse> results = new ArrayList<SearchVerse>();
+		SearchResult results = new SearchResult();
 		ArrayList<byte[]> byteArrays = new ArrayList<byte[]>();
 		// Split the input string into individual words
 		// for each word, get a byte array of the verses where it occurs
@@ -63,7 +63,7 @@ public class SearchHelper {
 		if(inputWords.length==0)
 			return results;
 		for(String word : inputWords){
-			getWordBytes(byteArrays, word);
+			getWordBytes(results, byteArrays, word);
 		}
 		if(byteArrays.size()==0)
 			return results;
@@ -76,7 +76,7 @@ public class SearchHelper {
 			next = engine.GetNextConcordanceReference(next, resultBytes);
 		}
 		for(int ref : referenceNumbers){
-			results.add(new SearchVerse(engine.ConvertReferenceToString(ref), engine.GetReference(ref)));
+			results.verses.add(new SearchVerse(engine.ConvertReferenceToString(ref), engine.GetReference(ref)));
 		}
 		
 		sortByRelevance(results, input);
@@ -85,8 +85,9 @@ public class SearchHelper {
 		return results;
 	}
 	
-	private void sortByRelevance(ArrayList<SearchVerse> verses, String seek){
+	private void sortByRelevance(SearchResult results, String seek){
 		int insertPosition = 0;
+		ArrayList<SearchVerse> verses = results.verses;
 		Pattern p = Pattern.compile(seek, Pattern.CASE_INSENSITIVE);
 		Matcher m;
 		for(int i=0; i < verses.size(); i++){
@@ -101,7 +102,7 @@ public class SearchHelper {
 		}
 	}
 	
-	private void getWordBytes(ArrayList<byte[]> results, String word){
+	private void getWordBytes(SearchResult searchResults, ArrayList<byte[]> results, String word){
 		long wordNum = engine.FindWord(word);
 		
 		// return empty array if no word matches found
@@ -109,12 +110,12 @@ public class SearchHelper {
 			byte[] occurences = engine.GetWordBitMap(wordNum);
 			for(int i=0; i < occurences.length; i++){
 				if(occurences[i] != 0){
+					searchResults.terms.add(word);
 					results.add(occurences);
 					return;
 				}
 			}
 		}
-		
 	}
 	
 	/**
