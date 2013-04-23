@@ -33,6 +33,9 @@ public class Home extends Fragment {
 		TextView dailyVerseView = (TextView)v.findViewById(R.id.DailyVerse);
 		dailyVerseView.setText(dailyVerse.getReference());
 		
+		TextView dailyVerseText = (TextView)v.findViewById(R.id.DailyVerseText);
+		dailyVerseText.setText(dailyVerse.getText());
+		
 		// TODO
 		// On goto verse, update shared prefs and open biblereader 
 		

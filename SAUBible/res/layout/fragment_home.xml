@@ -1,23 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent" >
     
+
+    <ImageView
+        android:id="@+id/dailyVerseBackground"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dailyverse"
+        android:layout_alignParentTop="true"
+         />
+    
+    
+<!--     
     <TextView
         android:id="@+id/HomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/HomeTextFrag" />
+        android:text="@string/HomeTextFrag" /> -->
     
     <TextView
         android:id="@+id/DailyVerse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_alignLeft="@+id/dailyVerseBackground"
+        android:layout_alignTop="@+id/dailyVerseBackground"
+        android:layout_alignRight="@+id/dailyVerseBackground"
+        android:layout_alignBottom="@+id/dailyVerseBackground"
+        android:layout_margin="1dp"
+        android:gravity="top|left"
+        android:paddingTop="30dp"
+        android:paddingLeft="50dp"
+        android:text=""
+        android:textSize="32sp"
+         />
+    
+    
+    <TextView
+        android:id="@+id/DailyVerseText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dailyVerseBackground"
+        android:layout_alignTop="@+id/dailyVerseBackground"
+        android:layout_alignRight="@+id/dailyVerseBackground"
+        android:layout_alignBottom="@+id/dailyVerseBackground"
+        android:layout_margin="50dp"
+        android:paddingTop="20dp"
+        android:gravity="center_vertical|left"
+        android:textSize="22sp"
         android:text="" />
     
-    
 
-</LinearLayout>
+</RelativeLayout>

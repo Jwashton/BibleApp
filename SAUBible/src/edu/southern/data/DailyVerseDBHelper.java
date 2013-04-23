@@ -59,8 +59,7 @@ public class DailyVerseDBHelper {
 		Cursor c = dailyVerseDB.rawQuery("SELECT _id, referenceNumber, dateLastSeen FROM DailyVerse ORDER BY dateLastSeen", new String[] {});
 		c.moveToFirst();
 		int dailyVerseReference = c.getInt(1);
-		String dateLastSeen = c.getString(2);
-		
+
 		Log.d("Database", Integer.toString(dailyVerseReference));
 		updateVerseLastSeen(dailyVerseReference);
 		
