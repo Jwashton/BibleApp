@@ -36,8 +36,9 @@
     <item name="android:buttonStyleToggle">@style/ToggleOrangeBible</item>
 
     <item name="android:listViewStyle">@style/ListViewOrangeBible</item>
-
+    
     <item name="android:listViewWhiteStyle">@style/ListViewOrangeBible.White</item>
+        
 
     <item name="android:spinnerItemStyle">@style/SpinnerItemOrangeBible</item>
 
