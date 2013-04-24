@@ -23,7 +23,7 @@ public class Settings extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_settings, container, false);
 		NumberPicker picker = (NumberPicker)v.findViewById(R.id.font_size_picker);
 		picker.setMinValue(10);
-		picker.setMaxValue(22);
+		picker.setMaxValue(35);
 		
 		//get the current font size using shared preferences
 		int currentFontSize;
