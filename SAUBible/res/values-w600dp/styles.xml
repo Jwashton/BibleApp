@@ -14,7 +14,7 @@
 
     <!-- Home & Daily Verse -->
     <style name="DailyVerseBackground" parent="AppBaseTheme">
-        <item name="android:layout_height">220dp</item>
+        <item name="android:layout_height">180dp</item>
     </style>
     
     <style name="DailyVerseHeader" parent="AppBaseTheme">

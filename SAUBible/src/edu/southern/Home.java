@@ -1,5 +1,7 @@
 package edu.southern;
 
+import java.util.Calendar;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import edu.southern.R;
 import edu.southern.data.DailyVerseDBHelper;
 import edu.southern.resources.BibleHelper;
@@ -24,21 +27,40 @@ public class Home extends Fragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_home, container, false);
 		
-		DailyVerseDBHelper dailyVerseDB = new DailyVerseDBHelper(getActivity());
-		int verseReference = dailyVerseDB.getNextDailyVerse();
+		// Get today's date and stored date
+		Calendar c = Calendar.getInstance();
+		String day = Integer.toString(c.get(Calendar.DATE));
+    String month = Integer.toString(c.get(Calendar.MONTH));
+    String year = Integer.toString(c.get(Calendar.YEAR));
+    
+    String todayDate = day.concat(month.concat(year));
+		String lastDate = getActivity().getSharedPreferences("edu.southern", 0).getString("dailyVerseDate", "No Date");
+		int verseReference;
 		
+		// If new day, grab next daily verse
+		if (!todayDate.equals(lastDate)) {
+			DailyVerseDBHelper dailyVerseDB = new DailyVerseDBHelper(getActivity());
+			verseReference = dailyVerseDB.getNextDailyVerse();
+			// Store today's date and today's reference.
+			getActivity().getSharedPreferences("edu.southern", 0).edit().putString("dailyVerseDate", todayDate);
+			getActivity().getSharedPreferences("edu.southern", 0).edit()
+					.putString("dailyVerseReference", Integer.toString(verseReference)).commit();
+		} 
+		else { // get reference number from shared prefs
+			String vr = getActivity().getSharedPreferences("edu.southern", 0).getString("dailyVerseReference", "0");
+			verseReference = Integer.parseInt(vr);
+		}
+		
+		// Get verse contents from verseReference number
 		bibleHelper = new BibleHelper();
 		SearchVerse dailyVerse = bibleHelper.getVerseByReferenceNumber(verseReference);
 		
+		// Update view with reference and text strings
 		TextView dailyVerseView = (TextView)v.findViewById(R.id.DailyVerse);
 		dailyVerseView.setText(dailyVerse.getReference());
-		
 		TextView dailyVerseText = (TextView)v.findViewById(R.id.DailyVerseText);
 		dailyVerseText.setText(dailyVerse.getText());
-		
-		// TODO
-		// On goto verse, update shared prefs and open biblereader 
-		
+
 		return v;
 	}
 }

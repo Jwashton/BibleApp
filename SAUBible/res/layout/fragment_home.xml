@@ -4,7 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent" >
     
-
+    <!-- Imageview still has issues with small screens with bitmaps being scaled over 2048x2048
+    	 See github issue for more details  -->
     <ImageView
         android:id="@+id/dailyVerseBackground"
         style="@style/DailyVerseBackground"
@@ -13,15 +14,7 @@
         android:src="@drawable/dailyverse"
         android:layout_alignParentTop="true"
          />
-    
-    
-<!--     
-    <TextView
-        android:id="@+id/HomeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/HomeTextFrag" /> -->
+
     
     <TextView
         android:id="@+id/DailyVerse"
