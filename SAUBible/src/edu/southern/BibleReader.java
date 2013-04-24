@@ -113,10 +113,14 @@ public class BibleReader extends Fragment {
 			String verse = verseInfo.getText();
 			int verseNumber = verseInfo.getVerseNumber();
 
-			String bibleInfo = "<strong>" + verseNumber + "</strong>" + " "
-					+ "<font size=\"10\">" + verse + "</font>";
 
-			bibleDisplay.setPadding(10, 0, 10, 0);
+			String bibleInfo = "&nbsp;&nbsp;&nbsp;&nbsp;" + "<strong>" + verseNumber + "</strong>" + " "
+					+ "<font size=\"10\">" + verse + "</font>";
+			if(i==0)bibleDisplay.setPadding(2, 20, 0, 10);
+			else bibleDisplay.setPadding(2, 0, 0, 6);
+			
+			bibleDisplay.setLineSpacing(0.0f, 1.3f);
+			
 			bibleDisplay.setText(Html.fromHtml(bibleInfo));
 			if(i+1==verse_value)
 		    	scrollto = i+1;
