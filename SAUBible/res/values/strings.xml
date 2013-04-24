@@ -39,7 +39,7 @@
     
     
 	 <!-- Settings Fragment Text -->
-    <string name="SettingsTextFrag">Hello from the Settings Fragment!</string>
+    <string name="SettingsTextFrag">Pick your text size</string>
     
 	 <!-- Search Fragment Text -->
     <string name="SearchTextFrag">Hello from the Search Fragment!</string>
