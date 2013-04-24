@@ -72,7 +72,7 @@ public class BibleReader extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		// Adding the layout programmatically
+		// Adding the layout programatically
 		final ScrollView scrollview = (ScrollView) getActivity().findViewById(
 				R.id.scrollView1);
 		final LinearLayout linearLayout = new LinearLayout(getActivity());
@@ -138,19 +138,18 @@ public class BibleReader extends Fragment {
 		scroll(scrollview);
 		
 		//Button stuff		
-		View bleh = new View(getActivity());
 			// Get the value of the book selected from SharedPreferences
-				final int bvalue = prefs.getInt("book_value", 0);
-				final int cvalue = prefs.getInt("book_value", 0) + 1;
+		final int bvalue = book_value;
+		final int cvalue = chapter_value;
 			//Get button IDs
-		Button BackBtn = (Button) bleh.findViewById(R.id.back);
-		Button NextBtn = (Button) bleh.findViewById(R.id.next);
+		Button BackBtn = (Button) getActivity().findViewById(R.id.back);
+		Button NextBtn = (Button) getActivity().findViewById(R.id.next);
 			//Back button logic
-		if (bvalue == 0){
+		if (bvalue == 0 && cvalue == 1){
 			BackBtn.setEnabled(false);
 			BackBtn.setClickable(false);
 		}
-		if (bvalue == 65){
+		if (bvalue == 65 && cvalue == 20){
 			NextBtn.setEnabled(false);
 			NextBtn.setClickable(false);
 		}
