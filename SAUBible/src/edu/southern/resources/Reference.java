@@ -1,5 +1,14 @@
 package edu.southern.resources;
 
+/**
+ * Data class to hold reference information for a Bible verse
+ * Stores:
+ * 	the book number
+ * 	the chapter number
+ * 	and the verse number
+ * @author Isaac
+ *
+ */
 public class Reference {
 	private int bookNumber;
 	private int chapterNumber;
@@ -18,8 +27,8 @@ public class Reference {
 	}
 
 	/**
-	 * Convert a reference string to a reference object
-	 * 
+	 * Parse a reference string into a reference object
+	 * By determining the book, chapter, and verse numbers
 	 * @param refString
 	 *            a reference string in the following form: "Matthew 1:1"
 	 */

@@ -23,8 +23,8 @@ public class BibleHelper {
 	}
 
 	/**
-	 * Only call this method if you do not want the constructor to create the
-	 * CBibleEngine
+	 * Only call this method if you do not want the constructor to instantiate
+	 * and initiate the CBibleEngine
 	 * 
 	 * @param createEngine
 	 *            Specify whether or not the constructor should create and
@@ -186,7 +186,19 @@ public class BibleHelper {
 		return reference;
 	}
 
-	public String completeReferenceString(String refString)
+	/**
+	 * Given a reference string that may or may not be in correct form
+	 * Attempt to extract the useful data and build a valid reference string
+	 * Uses pattern matching and capture groups to extract the book name,
+	 * chapter number, and verse number
+	 * Example: will turn Genesis @#*$@1 !@#13 into Genesis 1:13
+	 * If the reference string is missing chapter and/or verse values,
+	 * They will default to 1
+	 * @param refString
+	 * @return
+	 * @throws ReferenceStringException
+	 */
+	private String completeReferenceString(String refString)
 			throws ReferenceStringException {
 		String prefix = "", book = "", chapter = "", verse = "";
 		String patString = "(\\d{0,1})\\W*(\\w{2,})(?:\\W+(\\d{1,3})(?:\\D+(\\d{1,3})){0,1}\\W*){0,1}";
@@ -210,10 +222,11 @@ public class BibleHelper {
 				verse = m.group(4) == null ? "1" : m.group(4);
 			}
 		}
-		// The bible engine doesn't recognize 'psalms'
+		// The bible engine doesn't recognize 'psalms', so replace it with Psalm
 		if (book.toLowerCase(Locale.ENGLISH).contains("psalm")) {
 			book = "Psalm";
 		}
+		// build the reference string to return
 		refString = prefix.concat(book).concat(" ").concat(chapter).concat(":").concat(verse);
 		return refString;
 	}

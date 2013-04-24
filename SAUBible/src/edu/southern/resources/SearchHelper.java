@@ -7,7 +7,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.southern.CBibleEngine;
-
+/**
+ * Libary class designed to assist in interfacing with 
+ * the textual search capacities of the BibleEngine
+ * 
+ * @author Isaac
+ */
 public class SearchHelper {
 	
 	private StaticBibleInfo staticInfo;
@@ -48,7 +53,7 @@ public class SearchHelper {
 	
 	/**
 	 * Return a list of verses containing the provided input string
-	 * 
+	 * Will return verses that contain all significant 
 	 * @param input
 	 * 		A single word to search for verses containing
 	 */
@@ -71,6 +76,7 @@ public class SearchHelper {
 		byte resultBytes[] = combineByteArrays(byteArrays);
 		ArrayList<Integer> referenceNumbers = new ArrayList<Integer>();
 		int next = engine.GetNextConcordanceReference(0, resultBytes);
+		// add reference numbers until we the bible engine can't find any more
 		while(next!=0){
 			referenceNumbers.add(next);
 			next = engine.GetNextConcordanceReference(next, resultBytes);
@@ -81,10 +87,17 @@ public class SearchHelper {
 		
 		sortByRelevance(results, input);
 		
-		//TODO ? if no results found, broaden search
 		return results;
 	}
 	
+	/**
+	 * Sort the results of a textual search according to relevance
+	 * Results that contain the seek string will appear first
+	 * Followed by results that do not contain the seek string
+	 * Each subset will remain in ascending reference order
+	 * @param results the result of a textual search
+	 * @param seek a string for which to locate verses that match it completely
+	 */
 	private void sortByRelevance(SearchResult results, String seek){
 		int insertPosition = 0;
 		ArrayList<SearchVerse> verses = results.verses;
