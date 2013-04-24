@@ -144,16 +144,19 @@ public class BibleReader extends Fragment {
 			//Get button IDs
 		Button BackBtn = (Button) getActivity().findViewById(R.id.back);
 		Button NextBtn = (Button) getActivity().findViewById(R.id.next);
-			//Back button logic
-		if (bvalue == 0 && cvalue == 1){
+			//Disable button logic
+		if (bvalue == 0 && cvalue == 1){ //If at Gen 1, Disable the Back button
 			BackBtn.setEnabled(false);
 			BackBtn.setClickable(false);
 		}
-		if (bvalue == 65 && cvalue == 20){
+		if (bvalue == 65 && cvalue == 20){ // If at Rev 20, Disable the Next button
 			NextBtn.setEnabled(false);
 			NextBtn.setClickable(false);
 		}
-		
+			//Button click logic
+				//On NextBtn click, check if end of book
+					//If true, go to next book chapter 1
+					//If false, go to same book next chapter
 		NextBtn.setOnClickListener(new View.OnClickListener() {
 			   public void onClick(View v) {
 				   try {
@@ -171,10 +174,14 @@ public class BibleReader extends Fragment {
 				}
 			                }
 			            });
-		
+				//On BackBtn click, check if beginning of book
+					//If true, go to previous book end chapter
+					//If false, go to same book previous chapter
 		BackBtn.setOnClickListener(new View.OnClickListener() {
 			   public void onClick(View v) {
 				   try {
+					   // Logic needs to be fixed, does not go to end of previous book
+					   // Currently goes to previous book chapter 1
 					   if (cvalue == Bible.getChapterCount(bookName)){
 						   ((HomeScreen) getActivity()).updateCurrentlyReading
 						   (bvalue-1, 1, 1);
