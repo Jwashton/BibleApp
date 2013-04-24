@@ -103,6 +103,12 @@ public class BibleHelper {
 			throw new Exception("Invalid book name");
 		return staticInfo.numChapters[bookIndex];
 	}
+	
+	public int getChapterCount(int bookNumber) throws Exception {
+		if (bookNumber == -1 || bookNumber >= getBooks().length)
+			throw new Exception("Invalid book number");
+		return staticInfo.numChapters[bookNumber];
+	}
 
 	/**
 	 * Return the number of verses in the specified book and chapter

@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.SyncStateContract.Helpers;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ import edu.southern.resources.Verse;
 
 public class BibleReader extends Fragment {
 	static ArrayAdapter<Verse> adapter;
-	BibleHelper Bible = new BibleHelper();
+	BibleHelper bibleHelper = new BibleHelper();
 	int scrollto = 0; //Keeps track of the selected verse's textview
 	LayoutInflater inflater;
 
@@ -73,27 +74,48 @@ public class BibleReader extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 
 		// Adding the layout programatically
-		final ScrollView scrollview = (ScrollView) getActivity().findViewById(
-				R.id.scrollView1);
+		displayChapterText();
+		Button backBtn = (Button) getActivity().findViewById(R.id.back);
+		Button nextBtn = (Button) getActivity().findViewById(R.id.next);
+		//Button click logic
+		//On NextBtn click, check if end of book
+		//If true, go to next book chapter 1
+		//If false, go to same book next chapter
+		nextBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+            	openNextChapter((Button)v);
+            }
+        });
+				//On BackBtn click, check if beginning of book
+					//If true, go to previous book end chapter
+					//If false, go to same book previous chapter
+		backBtn.setOnClickListener(new OnClickListener() {
+		   public void onClick(View v) {
+			   openPreviousChapter((Button)v);
+		   }
+         });	    
+	}
+
+	private void displayChapterText() {
+		final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.bibleReaderScroll);
+		scrollview.
 		final LinearLayout linearLayout = new LinearLayout(getActivity());
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
 		scrollview.addView(linearLayout);
-
 		// Get the value of the book selected from SharedPreferences
 		SharedPreferences prefs = this.getActivity().getSharedPreferences(
 				"edu.southern", Context.MODE_PRIVATE);
 		int book_value = prefs.getInt("book_value", 0);
-
 		// prevent a bad book value from crashing the program by defaulting to
 		// Genesis
 		if (book_value < 0 || book_value > 65)
 			book_value = 0;
 		int chapter_value = prefs.getInt("chapter_value", 0) + 1;
 		int verse_value = prefs.getInt("verse_value", 0) + 1;
-		final String bookName = Bible.getBookName(book_value);
+		final String bookName = bibleHelper.getBookName(book_value);
 		Chapter chapter = null;
 		try {
-			chapter = Bible.getChapterText(bookName, chapter_value);
+			chapter = bibleHelper.getChapterText(bookName, chapter_value);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,32 +126,7 @@ public class BibleReader extends Fragment {
 
 		ArrayList<Verse> bible = chapter.verses;
 		for (int i = 0; i < chapter.numVerses; i++) {
-			// Populating the layout with verses with different id
-			TextView bibleDisplay = new TextView(getActivity());
-			bibleDisplay.setId(i + 1);
-			Verse verseInfo = bible.get(i);
-			String verse = verseInfo.getText();
-			int verseNumber = verseInfo.getVerseNumber();
-
-			String bibleInfo = "<strong>" + verseNumber + "</strong>" + " "
-					+ "<font size=\"10\">" + verse + "</font>";
-
-			bibleDisplay.setPadding(10, 0, 10, 0);
-			bibleDisplay.setText(Html.fromHtml(bibleInfo));
-			if(i+1==verse_value)
-		    	scrollto = i+1;
-			linearLayout.addView(bibleDisplay);
-			// Verses onClick handler
-			bibleDisplay.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// create Account
-					int id = v.getId();
-					String text = String.valueOf(id);
-					Toast.makeText(getActivity().getApplicationContext(), text,
-							Toast.LENGTH_LONG).show();
-				}
-			});
+			displayVerseText(linearLayout, verse_value, bible, i);
 		}
 
 		// set the text on the currently reading button in the nav drawer
@@ -138,65 +135,49 @@ public class BibleReader extends Fragment {
 		scroll(scrollview);
 		
 		//Button stuff		
-			// Get the value of the book selected from SharedPreferences
-		final int bvalue = book_value;
-		final int cvalue = chapter_value;
+		// Get the value of the book selected from SharedPreferences
 			//Get button IDs
-		Button BackBtn = (Button) getActivity().findViewById(R.id.back);
-		Button NextBtn = (Button) getActivity().findViewById(R.id.next);
+		Button backBtn = (Button) getActivity().findViewById(R.id.back);
+		Button nextBtn = (Button) getActivity().findViewById(R.id.next);
 			//Disable button logic
-		if (bvalue == 0 && cvalue == 1){ //If at Gen 1, Disable the Back button
-			BackBtn.setEnabled(false);
-			BackBtn.setClickable(false);
+		if (book_value == 0 && chapter_value == 1){ //If at Gen 1, Disable the Back button
+			backBtn.setEnabled(false);
+			backBtn.setClickable(false);
 		}
-		if (bvalue == 65 && cvalue == 20){ // If at Rev 20, Disable the Next button
-			NextBtn.setEnabled(false);
-			NextBtn.setClickable(false);
+		if (book_value == 65 && chapter_value == 20){ // If at Rev 20, Disable the Next button
+			nextBtn.setEnabled(false);
+			nextBtn.setClickable(false);
 		}
-			//Button click logic
-				//On NextBtn click, check if end of book
-					//If true, go to next book chapter 1
-					//If false, go to same book next chapter
-		NextBtn.setOnClickListener(new View.OnClickListener() {
-			   public void onClick(View v) {
-				   try {
-					   if (cvalue == Bible.getChapterCount(bookName)){
-						   ((HomeScreen) getActivity()).updateCurrentlyReading
-						   (bvalue+1, 1, 1);
-					   }
-					   else{
-						   ((HomeScreen) getActivity()).updateCurrentlyReading
-						   (bvalue, cvalue+1, 1);
-					   }
-				   } catch (Exception e) {
-					   // TODO Auto-generated catch block
-					   e.printStackTrace();
-				}
-			                }
-			            });
-				//On BackBtn click, check if beginning of book
-					//If true, go to previous book end chapter
-					//If false, go to same book previous chapter
-		BackBtn.setOnClickListener(new View.OnClickListener() {
-			   public void onClick(View v) {
-				   try {
-					   // Logic needs to be fixed, does not go to end of previous book
-					   // Currently goes to previous book chapter 1
-					   if (cvalue == Bible.getChapterCount(bookName)){
-						   ((HomeScreen) getActivity()).updateCurrentlyReading
-						   (bvalue-1, 1, 1);
-					   }
-					   else{
-						   ((HomeScreen) getActivity()).updateCurrentlyReading
-						   (bvalue, cvalue-1, 1);
-					   }
-				   } catch (Exception e) {
-					   // TODO Auto-generated catch block
-					   e.printStackTrace();
-				}
-			                }
-			            });
-	    
+	}
+
+	private void displayVerseText(final LinearLayout linearLayout,
+			int verse_value, ArrayList<Verse> bible, int i) {
+		// Populating the layout with verses with different id
+		TextView bibleDisplay = new TextView(getActivity());
+		bibleDisplay.setId(i + 1);
+		Verse verseInfo = bible.get(i);
+		String verse = verseInfo.getText();
+		int verseNumber = verseInfo.getVerseNumber();
+
+		String bibleInfo = "<strong>" + verseNumber + "</strong>" + " "
+				+ "<font size=\"10\">" + verse + "</font>";
+
+		bibleDisplay.setPadding(10, 0, 10, 0);
+		bibleDisplay.setText(Html.fromHtml(bibleInfo));
+		if(i+1==verse_value)
+			scrollto = i+1;
+		linearLayout.addView(bibleDisplay);
+		// Verses onClick handler
+		bibleDisplay.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// create Account
+				int id = v.getId();
+				String text = String.valueOf(id);
+				Toast.makeText(getActivity().getApplicationContext(), text,
+						Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 	
 	/**
@@ -213,5 +194,50 @@ public class BibleReader extends Fragment {
             	scrollview.scrollTo(0, scrollto);
 	        }
 	    });
+	}
+	
+	private void openNextChapter(Button b){
+		SharedPreferences prefs = this.getActivity().getSharedPreferences(
+				"edu.southern", Context.MODE_PRIVATE);
+		int book_value = prefs.getInt("book_value", 0);
+		try {
+			int chapterCount = bibleHelper.getChapterCount(book_value);
+			int chapter_value = prefs.getInt("chapter_value", 0);
+			if(chapter_value + 2 > chapterCount){
+				book_value++;
+				chapter_value = 0;
+			}else{
+				chapter_value++;
+			}
+
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("book_value", book_value);
+			editor.putInt("chapter_value", chapter_value);
+			editor.putInt("verse_value", 0);
+			editor.commit();
+		} catch (Exception e) {}
+		displayChapterText();
+	}
+	
+	private void openPreviousChapter(Button b){
+		SharedPreferences prefs = this.getActivity().getSharedPreferences(
+				"edu.southern", Context.MODE_PRIVATE);
+		int book_value = prefs.getInt("book_value", 0);
+		int chapter_value = prefs.getInt("chapter_value", 0);
+		if(chapter_value < 1){
+			book_value--;
+			try {
+				chapter_value = bibleHelper.getChapterCount(book_value) - 1;
+			} catch (Exception e) {}
+		}else{
+			chapter_value--;
+		}
+
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt("book_value", book_value);
+		editor.putInt("chapter_value", chapter_value);
+		editor.putInt("verse_value", 0);
+		editor.commit();
+		displayChapterText();
 	}
 }
