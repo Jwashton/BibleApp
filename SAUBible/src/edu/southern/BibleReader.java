@@ -25,6 +25,7 @@ import edu.southern.resources.Verse;
 public class BibleReader extends Fragment {
 	static ArrayAdapter<Verse> adapter;
 	BibleHelper Bible = new BibleHelper();
+	int scrollto = 0; //Keeps track of the selected verse's textview
 	LayoutInflater inflater;
 
 	@Override
@@ -73,7 +74,7 @@ public class BibleReader extends Fragment {
 
 		// Adding the layout programmatically
 		final ScrollView scrollview = (ScrollView) getActivity().findViewById(
-				R.id.scrollView1);
+				R.id.BibleReaderScrollView);
 		final LinearLayout linearLayout = new LinearLayout(getActivity());
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
 		scrollview.addView(linearLayout);
@@ -110,12 +111,17 @@ public class BibleReader extends Fragment {
 			String verse = verseInfo.getText();
 			int verseNumber = verseInfo.getVerseNumber();
 
-			String bibleInfo = "<strong>" + verseNumber + "</strong>" + " "
+
+			String bibleInfo = "&nbsp;&nbsp;&nbsp;&nbsp;" + "<strong>" + verseNumber + "</strong>" + " "
 					+ "<font size=\"10\">" + verse + "</font>";
-
-			bibleDisplay.setPadding(10, 0, 10, 0);
+			if(i==0)bibleDisplay.setPadding(2, 20, 0, 10);
+			else bibleDisplay.setPadding(2, 0, 0, 6);
+			
+			bibleDisplay.setLineSpacing(0.0f, 1.3f);
+			
 			bibleDisplay.setText(Html.fromHtml(bibleInfo));
-
+			if(i+1==verse_value)
+		    	scrollto = i+1;
 			linearLayout.addView(bibleDisplay);
 			// Verses onClick handler
 			bibleDisplay.setOnClickListener(new OnClickListener() {
@@ -133,6 +139,23 @@ public class BibleReader extends Fragment {
 		// set the text on the currently reading button in the nav drawer
 		((HomeScreen) getActivity()).updateCurrentlyReading(book_value,
 				chapter_value, verse_value);
+		scroll(scrollview);
+	    
 	}
-
+	
+	/**
+	 * Scroll to the selected verse's textview
+	 * @param ScrollView
+	 *       			scrollview
+	 */
+	public void scroll(final ScrollView scrollview) {
+		scrollview.post(new Runnable() {
+	        @Override
+	        public void run() {
+	        	View contextV  = (TextView) getView().findViewById(scrollto);
+	        	scrollto = contextV.getTop();
+            	scrollview.scrollTo(0, scrollto);
+	        }
+	    });
+	}
 }

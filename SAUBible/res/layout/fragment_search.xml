@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/searchFragmentLayout"
+    style="@style/LayoutPadding"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-    <TextView
-        android:id="@+id/SearchTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/SearchTextFrag" />
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!-- Horizontal layout to hold the search input and go button -->
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    android:orientation="horizontal"  >       
+          
+        <EditText 
+	        android:id="@+id/searchInput"
+	        style="@style/SearchTextColor"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:minHeight="36dip"
+	        android:inputType="text"
+	        android:hint="@string/searchInputHint"/>
 
+        <Button
+            android:id="@+id/searchGo"
+            style="@style/DrawerTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dip"
+            android:minWidth="40dip"
+            android:text="@string/referenceInputGo"
+            android:onClick="onSearchGoClick"/>
+
+    </LinearLayout>
+	<!-- Text view to display number of search results found and how many we're displaying -->
+	
+	<TextView
+	        android:id="@+id/resultCounterDisplay"
+	        style="@style/SearchResultsCounter"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+	
+	
+    <ScrollView
+    android:id="@+id/searchResultsScroll"
+    style="@style/SearchResultsDisplay"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+        <LinearLayout
+	        android:id="@+id/searchResultsLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" 
+		    android:orientation="vertical"  />  
+    </ScrollView>
+    
 </LinearLayout>
