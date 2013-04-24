@@ -19,8 +19,9 @@ import android.webkit.JavascriptInterface;
  * @author Nathanael
  */
 public class DailyVerseDBHelper {
-	
+
 	private SQLiteDatabase dailyVerseDB;
+	private DailyVerseDB dvDB;
 	private static String tableName = "DailyVerse";
 
 	/**
@@ -28,9 +29,9 @@ public class DailyVerseDBHelper {
 	 * it for use.
 	 */
 	public DailyVerseDBHelper(Context context) {
-		
-		DailyVerseDB dvDB = new DailyVerseDB(context);
-		
+
+		dvDB = new DailyVerseDB(context);
+
 		// Create database (does nothing if database exists)
 		try {
 			dvDB.createDataBase();
@@ -39,22 +40,26 @@ public class DailyVerseDBHelper {
 			throw new Error("Unable to create database");
 		}
 
+
+
+
+	}
+
+	/**
+	 * Gets the next verse that has not been seen from
+	 * daily verse table. Checks the DateLastSeen attribute.
+	 */
+	public int getNextDailyVerse() {
+
 		// Attempt to open database
 		try {
 			dvDB.openDataBase();
 		} 
 		catch(SQLException sqle){
 			throw sqle;
-		}
-		
-		dailyVerseDB = dvDB.getWritableDatabase();
-	}
-	
-	/**
-	 * Gets the next verse that has not been seen from
-	 * daily verse table. Checks the DateLastSeen attribute.
-	 */
-	public int getNextDailyVerse() {
+		}	
+		SQLiteDatabase dailyVerseDB = dvDB.getWritableDatabase();
+
 		// Get cursor from query
 		Cursor c = dailyVerseDB.rawQuery("SELECT _id, referenceNumber, dateLastSeen FROM DailyVerse ORDER BY dateLastSeen", new String[] {});
 		c.moveToFirst();
@@ -62,8 +67,9 @@ public class DailyVerseDBHelper {
 
 		Log.d("Database", Integer.toString(dailyVerseReference));
 		updateVerseLastSeen(dailyVerseReference);
-		
+
 		c.close();
+		dailyVerseDB.close();
 		return dailyVerseReference;
 	}
 
@@ -71,7 +77,19 @@ public class DailyVerseDBHelper {
 	 * Sets dateLastSeen on row given reference number
 	 */
 	public void updateVerseLastSeen(int refNumber) {
+		
+	// Attempt to open database
+			try {
+				dvDB.openDataBase();
+			} 
+			catch(SQLException sqle){
+				throw sqle;
+			}	
+			SQLiteDatabase dailyVerseDB = dvDB.getWritableDatabase();
+			
 		dailyVerseDB.execSQL("UPDATE DailyVerse SET dateLastSeen=date('now') WHERE referenceNumber="
 				.concat(Integer.toString(refNumber)));
+		
+		dailyVerseDB.close();
 	}
 }
