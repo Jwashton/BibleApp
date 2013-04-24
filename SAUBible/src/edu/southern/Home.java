@@ -3,6 +3,7 @@ package edu.southern;
 import java.util.Calendar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,14 +38,19 @@ public class Home extends Fragment {
 		String lastDate = getActivity().getSharedPreferences("edu.southern", 0).getString("dailyVerseDate", "No Date");
 		int verseReference;
 		
+		Log.d("todayDate is", todayDate);
+		Log.d("lastDate is", lastDate);
+		
 		// If new day, grab next daily verse
 		if (!todayDate.equals(lastDate)) {
 			DailyVerseDBHelper dailyVerseDB = new DailyVerseDBHelper(getActivity());
 			verseReference = dailyVerseDB.getNextDailyVerse();
+			
 			// Store today's date and today's reference.
-			getActivity().getSharedPreferences("edu.southern", 0).edit().putString("dailyVerseDate", todayDate);
-			getActivity().getSharedPreferences("edu.southern", 0).edit()
-					.putString("dailyVerseReference", Integer.toString(verseReference)).commit();
+			SharedPreferences.Editor prefs = getActivity().getSharedPreferences("edu.southern", 0).edit();
+			prefs.putString("dailyVerseDate", todayDate);
+			prefs.putString("dailyVerseReference", Integer.toString(verseReference));
+			prefs.commit(); // Store changes to prefs
 		} 
 		else { // get reference number from shared prefs
 			String vr = getActivity().getSharedPreferences("edu.southern", 0).getString("dailyVerseReference", "0");

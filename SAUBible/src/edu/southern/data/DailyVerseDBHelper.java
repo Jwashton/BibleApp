@@ -20,9 +20,7 @@ import android.webkit.JavascriptInterface;
  */
 public class DailyVerseDBHelper {
 
-	private SQLiteDatabase dailyVerseDB;
 	private DailyVerseDB dvDB;
-	private static String tableName = "DailyVerse";
 
 	/**
 	 * Constructor for database. Creates and opens
@@ -39,10 +37,6 @@ public class DailyVerseDBHelper {
 		catch (IOException ioe) {
 			throw new Error("Unable to create database");
 		}
-
-
-
-
 	}
 
 	/**
@@ -70,6 +64,8 @@ public class DailyVerseDBHelper {
 
 		c.close();
 		dailyVerseDB.close();
+		dvDB.close();
+		
 		return dailyVerseReference;
 	}
 
@@ -91,5 +87,6 @@ public class DailyVerseDBHelper {
 				.concat(Integer.toString(refNumber)));
 		
 		dailyVerseDB.close();
+		dvDB.close();
 	}
 }
