@@ -136,6 +136,60 @@ public class BibleReader extends Fragment {
 		((HomeScreen) getActivity()).updateCurrentlyReading(book_value,
 				chapter_value, verse_value);
 		scroll(scrollview);
+		
+		//Button stuff		
+		View bleh = new View(getActivity());
+			// Get the value of the book selected from SharedPreferences
+				final int bvalue = prefs.getInt("book_value", 0);
+				final int cvalue = prefs.getInt("book_value", 0) + 1;
+			//Get button IDs
+		Button BackBtn = (Button) bleh.findViewById(R.id.back);
+		Button NextBtn = (Button) bleh.findViewById(R.id.next);
+			//Back button logic
+		if (bvalue == 0){
+			BackBtn.setEnabled(false);
+			BackBtn.setClickable(false);
+		}
+		if (bvalue == 65){
+			NextBtn.setEnabled(false);
+			NextBtn.setClickable(false);
+		}
+		
+		NextBtn.setOnClickListener(new View.OnClickListener() {
+			   public void onClick(View v) {
+				   try {
+					   if (cvalue == Bible.getChapterCount(bookName)){
+						   ((HomeScreen) getActivity()).updateCurrentlyReading
+						   (bvalue+1, 1, 1);
+					   }
+					   else{
+						   ((HomeScreen) getActivity()).updateCurrentlyReading
+						   (bvalue, cvalue+1, 1);
+					   }
+				   } catch (Exception e) {
+					   // TODO Auto-generated catch block
+					   e.printStackTrace();
+				}
+			                }
+			            });
+		
+		BackBtn.setOnClickListener(new View.OnClickListener() {
+			   public void onClick(View v) {
+				   try {
+					   if (cvalue == Bible.getChapterCount(bookName)){
+						   ((HomeScreen) getActivity()).updateCurrentlyReading
+						   (bvalue-1, 1, 1);
+					   }
+					   else{
+						   ((HomeScreen) getActivity()).updateCurrentlyReading
+						   (bvalue, cvalue-1, 1);
+					   }
+				   } catch (Exception e) {
+					   // TODO Auto-generated catch block
+					   e.printStackTrace();
+				}
+			                }
+			            });
 	    
 	}
 	
