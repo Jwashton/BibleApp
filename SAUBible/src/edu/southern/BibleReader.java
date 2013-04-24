@@ -103,9 +103,11 @@ public class BibleReader extends Fragment {
 		initializeActionBar(bookName, chapter_value);
 
 		ArrayList<Verse> bible = chapter.verses;
+		int toSetTextSize = prefs.getInt("fontSize",10);
 		for (int i = 0; i < chapter.numVerses; i++) {
 			// Populating the layout with verses with different id
 			TextView bibleDisplay = new TextView(getActivity());
+			bibleDisplay.setTextSize(toSetTextSize);
 			bibleDisplay.setId(i + 1);
 			Verse verseInfo = bible.get(i);
 			String verse = verseInfo.getText();
