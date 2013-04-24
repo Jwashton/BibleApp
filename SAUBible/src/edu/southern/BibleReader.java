@@ -218,12 +218,17 @@ public class BibleReader extends Fragment {
 	 *       textview ID
 	 */
 	public void highlightVerse(int id) {  
-	 	TextView textview = (TextView) getView().findViewById(id);
-	 	int textcolor = ((TextView) textview).getCurrentTextColor();
-		if(textcolor == -65536) //red
-			((TextView) textview).setTextColor(Color.BLACK); //This would be the default color
-		else
-				((TextView) textview).setTextColor(Color.RED);  
+	 	TextView verseDisplay = (TextView) getView().findViewById(id);
+	 	int textcolor = ((TextView) verseDisplay).getCurrentTextColor();
+	 	String verse = ((TextView)verseDisplay).getText().toString();
+	 	Spannable spanString = new SpannableString(verse);
+		if(textcolor == getResources().getColor(R.color.HighlightAccent)) //red
+			((TextView) verseDisplay).setTextColor(getResources().getColor(R.color.Base)); //This would be the default color
+		else {
+			spanString.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.Highlight)), 
+	 				0, verse.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	 		verseDisplay.setText(spanString);
+		}
 	} 
 	
 	/**
@@ -244,8 +249,8 @@ public class BibleReader extends Fragment {
 	 		verseDisplay.setText(spanString);
 	 	}
 	 	else
-	 		spanString.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.Base)), 
-	 				0, verse.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	 		spanString.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.white_opaque)), 
+	 				0, verse.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); //Need to get deflt bckgrnd
 	 		verseDisplay.setText(spanString);
 	} 
 }	

@@ -17,6 +17,7 @@
 	<color name="Light">#F5F5F7</color>
 	<color name="Highlight">#ED5537</color> <!-- Yoshi's Icon Orange -->
 	<color name="HighlightAccent">#FFD1A8</color>
+	<color name="white_opaque">#FFFFFFFF</color>
 	<!--FFD1A8
 	FFB7A8-->
 	
