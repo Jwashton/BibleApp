@@ -64,11 +64,7 @@ public class BibleReader extends Fragment {
          });	    
 	}
 	
-	private void displayChapterText(){
-		displayChapterText(true);
-	}
-
-	private void displayChapterText(boolean shouldScroll) {
+	private void displayChapterText() {
 		final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.BibleReaderScroll);
 		scrollview.removeAllViews();
 		// Adding the layout programmatically
@@ -105,9 +101,7 @@ public class BibleReader extends Fragment {
 		// set the text on the currently reading button in the nav drawer
 		((HomeScreen) getActivity()).updateCurrentlyReading(book_value,
 				chapter_value, verse_value);
-		if(shouldScroll){
-			scroll(scrollview);
-		}
+		scroll(scrollview);
 		
 		//Button stuff		
 		// Get the value of the book selected from SharedPreferences
@@ -203,7 +197,7 @@ public class BibleReader extends Fragment {
 			editor.putInt("verse_value", 0);
 			editor.commit();
 		} catch (Exception e) {}
-		displayChapterText(false);
+		displayChapterText();
 	}
 	
 	private void openPreviousChapter(Button b){
@@ -225,7 +219,7 @@ public class BibleReader extends Fragment {
 		editor.putInt("chapter_value", chapter_value);
 		editor.putInt("verse_value", 0);
 		editor.commit();
-		displayChapterText(false);
+		displayChapterText();
 	}
 	
 	/**
