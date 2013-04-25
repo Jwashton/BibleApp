@@ -4,7 +4,8 @@
   android:orientation="horizontal"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
-  android:background="#ffffffff" 
+  android:tag="ScreenFragment" 
+  android:background="#ffffff"
   
 >
 <TextView 
@@ -13,11 +14,12 @@
   android:layout_height="wrap_content"
   android:layout_weight="1"
   android:textSize="20sp"
-  android:padding="2dip"
-  android:layout_margin="5dp"
-  android:background="#ffffffff" 
-  android:gravity="center"
+  android:height="40dp"
+  android:gravity="center"  
+  android:background="@android:drawable/list_selector_background"
   
 />
+  <!-- android:background="#ffffffff"  -->
+
 
 </LinearLayout>
