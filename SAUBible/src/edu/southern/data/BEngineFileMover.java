@@ -1,4 +1,4 @@
-package edu.southern;
+package edu.southern.data;
 
 import java.io.File;
 import java.io.FileOutputStream;
