@@ -82,6 +82,27 @@
         
     </style>
     
+    
+    <!-- Home & Daily Verse -->
+    <style name="DailyVerseBackground" parent="AppBaseTheme">
+        <item name="android:layout_height">180dp</item>
+    </style>
+    
+    <style name="DailyVerseHeader" parent="AppBaseTheme">
+        <item name="android:gravity">top|left</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="DailyVerseText" parent="AppBaseTheme">
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    
+    
     <!-- Search -->
 	<style name="SearchResultsCounter" parent="AppBaseTheme">
 	    <item name="android:background">@drawable/search_counter</item>
