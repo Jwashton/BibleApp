@@ -103,6 +103,12 @@ public class BibleHelper {
 			throw new Exception("Invalid book name");
 		return staticInfo.numChapters[bookIndex];
 	}
+	
+	public int getChapterCount(int bookNumber) throws Exception {
+		if (bookNumber == -1 || bookNumber >= getBooks().length)
+			throw new Exception("Invalid book number");
+		return staticInfo.numChapters[bookNumber];
+	}
 
 	/**
 	 * Return the number of verses in the specified book and chapter
@@ -289,5 +295,20 @@ public class BibleHelper {
 		for (int i = 0; i < parts.length - 1; i++)
 			bookName += parts[i];
 		return getChapterText(bookName, chapterNumber);
+	}
+	/**
+	 * Gets a SearchVerse object containing reference and text
+	 * string content given a reference number.
+	 * 
+	 * @param refNumber
+	 * @return SearchVerse object which contains reference string and 
+	 * 				 text string
+	 */
+	public SearchVerse getVerseByReferenceNumber(int refNumber){
+		if(refNumber < 1 || refNumber > engine.GetTotalVerses())
+			return new SearchVerse("", "");
+		String text = engine.GetReference(refNumber);
+		String reference = engine.ConvertReferenceToString(refNumber);
+		return new SearchVerse(reference, text);
 	}
 }

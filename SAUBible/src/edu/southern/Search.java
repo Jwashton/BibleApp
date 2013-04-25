@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import edu.southern.R;
 import edu.southern.resources.Reference;
@@ -122,6 +124,8 @@ public class Search extends Fragment implements OnClickListener{
 			_activity.getSharedPreferences("edu.southern", 0).edit().putString("lastSearchTerm", _searchTerm).commit();
 			SearchHelper helper = new SearchHelper();
 			_searchResult = helper.getSearchResults(_searchTerm);
+			InputMethodManager imm = (InputMethodManager) _activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 			
 			// empty the results display
 			// begin displaying a new set of results
@@ -156,21 +160,25 @@ public class Search extends Fragment implements OnClickListener{
 		}
 		
 		setResultCounter();
+		SharedPreferences settings = getActivity().getSharedPreferences(
+				"edu.southern", 0);
+		int toSetFontSize = settings.getInt("fontSize",17);
 		// If no results found, display useful search terms to assist the user
 		if(_end == 0 && _searchResult.getTerms().size()>0){
-			showPossibleSearchTerms(resultsDisplay);
+			showPossibleSearchTerms(resultsDisplay, toSetFontSize);
 		}
 		
 		for (int i = _start; i < _end; i++) {
 			// Populating the layout with verses with different id
-			insertVerseResult(resultsDisplay, i);
+			insertVerseResult(resultsDisplay, i, toSetFontSize);
 		}
 	}
 
-	private void insertVerseResult(LinearLayout resultsDisplay, int i) {
+	private void insertVerseResult(LinearLayout resultsDisplay, int i, int fontSize) {
 		TextView verseDisplay = new TextView(_activity);
 		verseDisplay.setPadding(10, 0, 10, 0);
 		verseDisplay.setId(i);
+		verseDisplay.setTextSize(fontSize);
 		final SearchVerse verse = _searchResult.getVerses().get(i);
 
 		Spannable spanString = highlightVerse(verse);
@@ -226,21 +234,20 @@ public class Search extends Fragment implements OnClickListener{
 		}
 	}
 
-	private void showPossibleSearchTerms(LinearLayout resultsDisplay) {
-		final int SIZE = 18;
+	private void showPossibleSearchTerms(LinearLayout resultsDisplay, int fontSize) {
 		TextView text = new TextView(_activity);
 		text.setPadding(10, 5, 10, 5);
-		text.setTextSize(SIZE);
+		text.setTextSize(fontSize+4);
 		text.setText("Select a related term to search");
 		resultsDisplay.addView(text);
 		for(String term : _searchResult.getTerms()){
-			Spannable termSpan = new SpannableString(" • ".concat(term));
+			Spannable termSpan = new SpannableString(" ï¿½ ".concat(term));
 			termSpan.setSpan(new UnderlineSpan(), 3, termSpan.length(), 0);
 			int textColor = _activity.getResources().getColor(R.color.Highlight);
 			termSpan.setSpan(new ForegroundColorSpan(textColor), 3, termSpan.length(), 0);
 			TextView clickableText = new TextView(_activity);
 			clickableText.setPadding(10, 5, 10, 5);
-			clickableText.setTextSize(SIZE);
+			clickableText.setTextSize(fontSize+4);
 			clickableText.setText(termSpan);
 			resultsDisplay.addView(clickableText, resultsDisplay.getChildCount());
 			
@@ -256,7 +263,7 @@ public class Search extends Fragment implements OnClickListener{
 		
 		TextView endText = new TextView(_activity);
 		endText.setPadding(10, 5, 10, 5);
-		endText.setTextSize(SIZE);
+		endText.setTextSize(fontSize+4);
 		endText.setText("to find more results.");
 		resultsDisplay.addView(endText, resultsDisplay.getChildCount());
 	}

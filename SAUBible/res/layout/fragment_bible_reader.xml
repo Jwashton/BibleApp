@@ -1,9 +1,35 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/BibleReaderScrollView"
-    style="@style/LayoutPadding"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
->
-</ScrollView>
+<RelativeLayout
+    		xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+    <ScrollView	
+	    android:id="@+id/BibleReaderScroll"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:paddingTop="2dp"
+	    android:paddingBottom="2dp"
+	>
+	</ScrollView>
+    
+    <ImageButton
+         android:id="@+id/back"
+         android:src="@drawable/left"
+         android:background="@null"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         />
+
+    <ImageButton
+        android:id="@+id/next"
+        android:src="@drawable/right"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+</RelativeLayout>
+
