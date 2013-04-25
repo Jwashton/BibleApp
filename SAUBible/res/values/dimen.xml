@@ -4,6 +4,8 @@
     <!-- Sliding Menu Dimension Definitions -->
     <dimen name="shadow_width">25dp</dimen>
     <dimen name="slidingmenu_offset">100dp</dimen>
+    
+    <!-- BibleReader Style ScrollView -->
     <dimen name="layout_padding_topbottom">8dp</dimen>
     <dimen name="layout_padding_leftright">16dp</dimen>
 </resources>

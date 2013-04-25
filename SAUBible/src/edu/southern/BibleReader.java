@@ -140,8 +140,8 @@ public class BibleReader extends Fragment {
 
 		String bibleInfo = "&nbsp;&nbsp;&nbsp;&nbsp;" + "<strong>" + verseNumber + "</strong>" + " "
 				+ "<font size=\"10\">" + verse + "</font>";
-		if(i==0)bibleDisplay.setPadding(2, 20, 0, 10);
-		else bibleDisplay.setPadding(2, 0, 0, 6);
+		if(i==0)bibleDisplay.setPadding(18, 20, 16, 10);
+		else bibleDisplay.setPadding(18, 0, 16, 6);
 		
 		bibleDisplay.setLineSpacing(0.0f, 1.3f);
 		

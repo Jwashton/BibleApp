@@ -5,13 +5,12 @@
 
     <ScrollView	
 	    android:id="@+id/BibleReaderScroll"
-	    style="@style/LayoutPadding"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:paddingTop="2dp"
 	    android:paddingBottom="2dp"
 	>
-</ScrollView>
+	</ScrollView>
     
     <ImageButton
          android:id="@+id/back"
