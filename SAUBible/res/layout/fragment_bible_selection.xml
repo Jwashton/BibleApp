@@ -4,7 +4,9 @@
   android:orientation="horizontal"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
-  android:tag="ScreenFragment">
+  android:tag="ScreenFragment"
+  android:background="@android:drawable/list_selector_background"
+>
 <TextView 
   android:id="@+id/row_textview1"
   android:layout_width="0dip" 
@@ -13,6 +15,7 @@
   android:textSize="20sp"
   android:padding="10dip"
   android:drawableRight="@drawable/arrow" 
+  
 />
 
 </LinearLayout>

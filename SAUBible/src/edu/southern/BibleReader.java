@@ -94,7 +94,7 @@ public class BibleReader extends Fragment {
 		
 		// display the text of the chapter
 		ArrayList<Verse> bible = chapter.verses;
-		int toSetTextSize = prefs.getInt("fontSize",10);
+		int toSetTextSize = prefs.getInt("fontSize",17);
 		for (int i = 0; i < chapter.numVerses; i++) {
 			displayVerseText(linearLayout, verse_value, bible, i, toSetTextSize);
 		}
