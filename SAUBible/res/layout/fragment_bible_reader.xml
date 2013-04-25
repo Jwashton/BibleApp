@@ -13,20 +13,24 @@
 	>
 </ScrollView>
     
-    <Button
+    <ImageButton
          android:id="@+id/back"
+         android:src="@drawable/left"
+         android:background="@null"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_alignParentBottom="true"
          android:layout_alignParentLeft="true"
-         android:text="Back" />
+         />
 
-    <Button
+    <ImageButton
         android:id="@+id/next"
+        android:src="@drawable/right"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Next" />
+        />
 </RelativeLayout>
 

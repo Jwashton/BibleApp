@@ -29,7 +29,7 @@ public class Settings extends Fragment {
 		int currentFontSize;
 		SharedPreferences settings = getActivity().getSharedPreferences(
 				"edu.southern", 0);
-		currentFontSize = settings.getInt("fontSize",10);
+		currentFontSize = settings.getInt("fontSize",17);
 		picker.setValue(currentFontSize);
 		
 		//when the number picker has a changed value

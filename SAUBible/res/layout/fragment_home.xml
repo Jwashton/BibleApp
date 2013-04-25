@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent" >
     
+    <!-- Imageview still has issues with small screens with bitmaps being scaled over 2048x2048
+    	 See github issue for more details  -->
+    <ImageView
+        android:id="@+id/dailyVerseBackground"
+        style="@style/DailyVerseBackground"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dailyverse"
+        android:layout_alignParentTop="true"
+         />
+
+    
     <TextView
-        android:id="@+id/HomeTextView"
+        android:id="@+id/DailyVerse"
+        style="@style/DailyVerseHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/HomeTextFrag" />
+        android:layout_alignLeft="@+id/dailyVerseBackground"
+        android:layout_alignTop="@+id/dailyVerseBackground"
+        android:layout_alignRight="@+id/dailyVerseBackground"
+        android:layout_alignBottom="@+id/dailyVerseBackground"
+        android:text=""
+        
+         />
+    
+    
+    <TextView
+        android:id="@+id/DailyVerseText"
+        style="@style/DailyVerseText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dailyVerseBackground"
+        android:layout_alignTop="@+id/dailyVerseBackground"
+        android:layout_alignRight="@+id/dailyVerseBackground"
+        android:layout_alignBottom="@+id/dailyVerseBackground"
+        android:text="" />
+    
 
-</LinearLayout>
+</RelativeLayout>

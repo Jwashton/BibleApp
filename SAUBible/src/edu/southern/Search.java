@@ -162,7 +162,7 @@ public class Search extends Fragment implements OnClickListener{
 		setResultCounter();
 		SharedPreferences settings = getActivity().getSharedPreferences(
 				"edu.southern", 0);
-		int toSetFontSize = settings.getInt("fontSize",10);
+		int toSetFontSize = settings.getInt("fontSize",17);
 		// If no results found, display useful search terms to assist the user
 		if(_end == 0 && _searchResult.getTerms().size()>0){
 			showPossibleSearchTerms(resultsDisplay, toSetFontSize);
@@ -241,7 +241,7 @@ public class Search extends Fragment implements OnClickListener{
 		text.setText("Select a related term to search");
 		resultsDisplay.addView(text);
 		for(String term : _searchResult.getTerms()){
-			Spannable termSpan = new SpannableString(" • ".concat(term));
+			Spannable termSpan = new SpannableString(" ï¿½ ".concat(term));
 			termSpan.setSpan(new UnderlineSpan(), 3, termSpan.length(), 0);
 			int textColor = _activity.getResources().getColor(R.color.Highlight);
 			termSpan.setSpan(new ForegroundColorSpan(textColor), 3, termSpan.length(), 0);
