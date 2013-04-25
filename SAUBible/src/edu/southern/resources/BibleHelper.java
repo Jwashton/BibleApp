@@ -194,30 +194,33 @@ public class BibleHelper {
 
 	public String completeReferenceString(String refString)
 			throws ReferenceStringException {
-		String book = "", chapter = "", verse = "";
-		String patString = "(\\w{2,})(?:\\W+(\\d{1,3})(?:\\D+(\\d{1,3})){0,1}\\W*){0,1}";
+		String prefix = "", book = "", chapter = "", verse = "";
+		String patString = "(\\d{0,1})\\W*(\\w{2,})(?:\\W+(\\d{1,3})(?:\\D+(\\d{1,3})){0,1}\\W*){0,1}";
 		Pattern p = Pattern.compile(patString);
 		Matcher m = p.matcher(refString);
 		if (m.find()) {
 			int count = m.groupCount();
+			if(count > 0){
+				prefix = m.group(1) == null ? "" : m.group(1).concat(" ");
+			}
 			// must at least have a book or things will eventually fail
-			if (count > 0) {
-				book = m.group(1) == null ? "" : m.group(1);
+			if (count > 1) {
+				book = m.group(2) == null ? "" : m.group(2);
 			}
 			// default chapter to 1
-			if (count > 1) {
-				chapter = m.group(2) == null ? "1" : m.group(2);
+			if (count > 2) {
+				chapter = m.group(3) == null ? "1" : m.group(3);
 			}
 			// default verse to 1
-			if (count > 2) {
-				verse = m.group(3) == null ? "1" : m.group(3);
+			if (count > 3) {
+				verse = m.group(4) == null ? "1" : m.group(4);
 			}
 		}
 		// The bible engine doesn't recognize 'psalms'
 		if (book.toLowerCase(Locale.ENGLISH).contains("psalm")) {
 			book = "Psalm";
 		}
-		refString = book.concat(" ").concat(chapter).concat(":").concat(verse);
+		refString = prefix.concat(book).concat(" ").concat(chapter).concat(":").concat(verse);
 		return refString;
 	}
 

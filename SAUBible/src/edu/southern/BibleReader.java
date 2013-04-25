@@ -37,38 +37,6 @@ public class BibleReader extends Fragment {
 				false);
 	}
 
-	/**
-	 * Go through the activity to display the correct action bar layout for this
-	 * fragment Initiallize the button to display the current book and chapter
-	 * 
-	 * @param book
-	 *            Current book name
-	 * @param chapter
-	 *            Current chapter number
-	 */
-	public void initializeActionBar(String book, int chapter) {
-		HomeScreen home = (HomeScreen) getActivity();
-		home.setActionBarView(R.layout.actionbar_reading);
-		updateActionBar(book, chapter);
-	}
-
-	/**
-	 * Set the text of the action bar button to display the current book and
-	 * chapter
-	 * 
-	 * @param book
-	 *            Current book name
-	 * @param chapter
-	 *            Current chapter number
-	 */
-	public void updateActionBar(String book, int chapter) {
-		// String building
-		String currentLocation = book.concat(" ").concat(
-				Integer.toString(chapter));
-		((Button) getActivity().findViewById(R.id.ActionBarReading))
-				.setText(currentLocation);
-	}
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -95,44 +63,51 @@ public class BibleReader extends Fragment {
 		   }
          });	    
 	}
+	
+	private void displayChapterText(){
+		displayChapterText(true);
+	}
 
-	private void displayChapterText() {
-		final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.bibleReaderScroll);
-		scrollview.
+	private void displayChapterText(boolean shouldScroll) {
+		final ScrollView scrollview = (ScrollView)getActivity().findViewById(R.id.BibleReaderScroll);
+		scrollview.removeAllViews();
+		// Adding the layout programmatically
 		final LinearLayout linearLayout = new LinearLayout(getActivity());
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
 		scrollview.addView(linearLayout);
 		// Get the value of the book selected from SharedPreferences
 		SharedPreferences prefs = this.getActivity().getSharedPreferences(
 				"edu.southern", Context.MODE_PRIVATE);
+		
+		// prevent a bad book value from crashing the program by defaulting to Genesis
 		int book_value = prefs.getInt("book_value", 0);
-		// prevent a bad book value from crashing the program by defaulting to
-		// Genesis
 		if (book_value < 0 || book_value > 65)
 			book_value = 0;
 		int chapter_value = prefs.getInt("chapter_value", 0) + 1;
 		int verse_value = prefs.getInt("verse_value", 0) + 1;
 		final String bookName = bibleHelper.getBookName(book_value);
+		
 		Chapter chapter = null;
 		try {
 			chapter = bibleHelper.getChapterText(bookName, chapter_value);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 
 		// set the action bar layout
 		initializeActionBar(bookName, chapter_value);
-
+		
+		// display the text of the chapter
 		ArrayList<Verse> bible = chapter.verses;
+		int toSetTextSize = prefs.getInt("fontSize",10);
 		for (int i = 0; i < chapter.numVerses; i++) {
-			displayVerseText(linearLayout, verse_value, bible, i);
+			displayVerseText(linearLayout, verse_value, bible, i, toSetTextSize);
 		}
 
 		// set the text on the currently reading button in the nav drawer
 		((HomeScreen) getActivity()).updateCurrentlyReading(book_value,
 				chapter_value, verse_value);
-		scroll(scrollview);
+		if(shouldScroll){
+			scroll(scrollview);
+		}
 		
 		//Button stuff		
 		// Get the value of the book selected from SharedPreferences
@@ -140,32 +115,44 @@ public class BibleReader extends Fragment {
 		Button backBtn = (Button) getActivity().findViewById(R.id.back);
 		Button nextBtn = (Button) getActivity().findViewById(R.id.next);
 			//Disable button logic
+		boolean shouldEnable = true;
 		if (book_value == 0 && chapter_value == 1){ //If at Gen 1, Disable the Back button
-			backBtn.setEnabled(false);
-			backBtn.setClickable(false);
+			shouldEnable = false;
 		}
-		if (book_value == 65 && chapter_value == 20){ // If at Rev 20, Disable the Next button
-			nextBtn.setEnabled(false);
-			nextBtn.setClickable(false);
-		}
+		backBtn.setEnabled(shouldEnable);
+		backBtn.setClickable(shouldEnable);
+		shouldEnable = true;
+		int numBooks = bibleHelper.getBooks().length;
+		try {
+			if (book_value == numBooks-1 && chapter_value == bibleHelper.getChapterCount(numBooks-1)){ // If at Rev 22, Disable the Next button
+				shouldEnable = false;
+			}
+		} catch (Exception e) {}
+		nextBtn.setEnabled(shouldEnable);
+		nextBtn.setClickable(shouldEnable);
 	}
 
 	private void displayVerseText(final LinearLayout linearLayout,
-			int verse_value, ArrayList<Verse> bible, int i) {
+		int verse_value, ArrayList<Verse> bible, int i, int textSize) {
 		// Populating the layout with verses with different id
 		TextView bibleDisplay = new TextView(getActivity());
+		bibleDisplay.setTextSize(textSize);
 		bibleDisplay.setId(i + 1);
 		Verse verseInfo = bible.get(i);
 		String verse = verseInfo.getText();
 		int verseNumber = verseInfo.getVerseNumber();
 
-		String bibleInfo = "<strong>" + verseNumber + "</strong>" + " "
-				+ "<font size=\"10\">" + verse + "</font>";
 
-		bibleDisplay.setPadding(10, 0, 10, 0);
+		String bibleInfo = "&nbsp;&nbsp;&nbsp;&nbsp;" + "<strong>" + verseNumber + "</strong>" + " "
+				+ "<font size=\"10\">" + verse + "</font>";
+		if(i==0)bibleDisplay.setPadding(2, 20, 0, 10);
+		else bibleDisplay.setPadding(2, 0, 0, 6);
+		
+		bibleDisplay.setLineSpacing(0.0f, 1.3f);
+		
 		bibleDisplay.setText(Html.fromHtml(bibleInfo));
 		if(i+1==verse_value)
-			scrollto = i+1;
+	    	scrollto = i+1;
 		linearLayout.addView(bibleDisplay);
 		// Verses onClick handler
 		bibleDisplay.setOnClickListener(new OnClickListener() {
@@ -216,7 +203,7 @@ public class BibleReader extends Fragment {
 			editor.putInt("verse_value", 0);
 			editor.commit();
 		} catch (Exception e) {}
-		displayChapterText();
+		displayChapterText(false);
 	}
 	
 	private void openPreviousChapter(Button b){
@@ -238,6 +225,38 @@ public class BibleReader extends Fragment {
 		editor.putInt("chapter_value", chapter_value);
 		editor.putInt("verse_value", 0);
 		editor.commit();
-		displayChapterText();
+		displayChapterText(false);
+	}
+	
+	/**
+	 * Go through the activity to display the correct action bar layout for this
+	 * fragment Initiallize the button to display the current book and chapter
+	 * 
+	 * @param book
+	 *            Current book name
+	 * @param chapter
+	 *            Current chapter number
+	 */
+	public void initializeActionBar(String book, int chapter) {
+		HomeScreen home = (HomeScreen) getActivity();
+		home.setActionBarView(R.layout.actionbar_reading);
+		updateActionBar(book, chapter);
+	}
+
+	/**
+	 * Set the text of the action bar button to display the current book and
+	 * chapter
+	 * 
+	 * @param book
+	 *            Current book name
+	 * @param chapter
+	 *            Current chapter number
+	 */
+	public void updateActionBar(String book, int chapter) {
+		// String building
+		String currentLocation = book.concat(" ").concat(
+				Integer.toString(chapter));
+		((Button) getActivity().findViewById(R.id.ActionBarReading))
+				.setText(currentLocation);
 	}
 }
