@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -43,15 +44,15 @@ public class BibleReader extends Fragment {
 
 		// Adding the layout programatically
 		displayChapterText();
-		Button backBtn = (Button) getActivity().findViewById(R.id.back);
-		Button nextBtn = (Button) getActivity().findViewById(R.id.next);
+		ImageButton backBtn = (ImageButton) getActivity().findViewById(R.id.back);
+		ImageButton nextBtn = (ImageButton) getActivity().findViewById(R.id.next);
 		//Button click logic
 		//On NextBtn click, check if end of book
 		//If true, go to next book chapter 1
 		//If false, go to same book next chapter
 		nextBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-            	openNextChapter((Button)v);
+            	openNextChapter((ImageButton)v);
             }
         });
 				//On BackBtn click, check if beginning of book
@@ -59,7 +60,7 @@ public class BibleReader extends Fragment {
 					//If false, go to same book previous chapter
 		backBtn.setOnClickListener(new OnClickListener() {
 		   public void onClick(View v) {
-			   openPreviousChapter((Button)v);
+			   openPreviousChapter((ImageButton)v);
 		   }
          });	    
 	}
@@ -106,8 +107,8 @@ public class BibleReader extends Fragment {
 		//Button stuff		
 		// Get the value of the book selected from SharedPreferences
 			//Get button IDs
-		Button backBtn = (Button) getActivity().findViewById(R.id.back);
-		Button nextBtn = (Button) getActivity().findViewById(R.id.next);
+		ImageButton backBtn = (ImageButton) getActivity().findViewById(R.id.back);
+		ImageButton nextBtn = (ImageButton) getActivity().findViewById(R.id.next);
 			//Disable button logic
 		boolean shouldEnable = true;
 		if (book_value == 0 && chapter_value == 1){ //If at Gen 1, Disable the Back button
@@ -177,7 +178,7 @@ public class BibleReader extends Fragment {
 	    });
 	}
 	
-	private void openNextChapter(Button b){
+	private void openNextChapter(ImageButton b){
 		SharedPreferences prefs = this.getActivity().getSharedPreferences(
 				"edu.southern", Context.MODE_PRIVATE);
 		int book_value = prefs.getInt("book_value", 0);
@@ -200,7 +201,7 @@ public class BibleReader extends Fragment {
 		displayChapterText();
 	}
 	
-	private void openPreviousChapter(Button b){
+	private void openPreviousChapter(ImageButton b){
 		SharedPreferences prefs = this.getActivity().getSharedPreferences(
 				"edu.southern", Context.MODE_PRIVATE);
 		int book_value = prefs.getInt("book_value", 0);
