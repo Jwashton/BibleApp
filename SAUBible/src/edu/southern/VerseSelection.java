@@ -66,11 +66,8 @@ public class VerseSelection extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// Save the value of the chapter selected in SharePreferences
-				SharedPreferences settings = getActivity()
-						.getSharedPreferences("edu.southern", 0);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putInt("verse_value", position);
-				editor.commit();
+				HomeScreen home = ((HomeScreen)getActivity());
+				home.changeReadingVerse(position);
 
 				// Create new fragment
 				Fragment readerFragment = new BibleReader();
@@ -78,8 +75,7 @@ public class VerseSelection extends Fragment {
 				// Replace whatever is in the fragment_container view with this
 				// fragment,
 				// and add the transaction to the back stack
-				HomeScreen activity = (HomeScreen) getActivity();
-				activity.replaceFragment(readerFragment);
+				home.replaceFragment(readerFragment);
 				// activity.setActionBarView(R.layout.actionbar_reading); Do
 				// this in the reading fragment, not here.
 			}

@@ -2,6 +2,7 @@ package edu.southern;
 
 import java.util.ArrayList;
 
+import android.R.bool;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
@@ -35,6 +36,7 @@ public class BibleReader extends Fragment {
 	LayoutInflater inflater;
 	ActionMode mActionMode;
 	Drawable background = null; //store the default view's background color
+
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -166,8 +168,21 @@ public class BibleReader extends Fragment {
 	        public void run() {
 	        	View contextV  = (TextView) getView().findViewById(scrollto);
 	        	scrollto = contextV.getTop();
-            	scrollview.scrollTo(0, scrollto);
-	        }
+	        	SharedPreferences prefs = getActivity().getSharedPreferences(
+	    				"edu.southern", Context.MODE_PRIVATE);
+	    		int oldscrollPos = prefs.getInt("scroll_value", 0);
+	    		int oldbookVal = prefs.getInt("oldbook_value", 0);
+	    		int oldchapterVal = prefs.getInt("oldchapter_value", 0);
+	    		int oldVerseVal = prefs.getInt("oldverse_value", 0);
+	    		int book_value = prefs.getInt("book_value", 0);
+	    		int chapter_value = prefs.getInt("chapter_value", 0) + 1;
+	    		int verse_value = prefs.getInt("verse_value", 0) + 1;
+	    		if(oldbookVal == book_value && oldchapterVal == chapter_value && oldVerseVal == verse_value){
+	    			scrollview.scrollTo(0, oldscrollPos);
+	    		}
+	    		else
+	    			scrollview.scrollTo(0, scrollto);
+        	}
 	    });
 	}
 	
@@ -252,4 +267,18 @@ public class BibleReader extends Fragment {
 	 				0, verse.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); //Need to get deflt bckgrnd
 	 		verseDisplay.setText(spanString);
 	} 
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		ScrollView scrollview = (ScrollView) getActivity().findViewById(
+				R.id.BibleReaderScrollView);
+		int oldscrollPos = scrollview.getScrollY();
+		SharedPreferences settings = getActivity()
+				.getSharedPreferences("edu.southern", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt("scroll_value", oldscrollPos);
+		editor.commit();
+	}
+	
 }	

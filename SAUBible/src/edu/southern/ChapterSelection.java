@@ -67,11 +67,8 @@ public class ChapterSelection extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// Save the value of the chapter selected in SharePreferences
-				SharedPreferences settings = getActivity()
-						.getSharedPreferences("edu.southern", 0);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putInt("chapter_value", position);
-				editor.commit();
+				HomeScreen home = ((HomeScreen)getActivity());
+				home.changeReadingChapter(position);
 
 				// Create new fragment
 				Fragment chapterFragment = new VerseSelection();

@@ -152,15 +152,11 @@ public class HomeScreen extends SlidingFragmentActivity {
 		try {
 			Reference reference = helper.parseReference(text);
 			// Save the value of the chapter selected in SharePreferences
-			SharedPreferences settings = getSharedPreferences("edu.southern", 0);
-			SharedPreferences.Editor editor = settings.edit();
 			// I'd like to refactor how the numbers are handled eventually
 			// But I'm conforming to the in-place model for now
 			// ~Isaac Hermens
-			editor.putInt("book_value", reference.getBookNumber());
-			editor.putInt("chapter_value", reference.getChapterNumber() - 1);
-			editor.putInt("verse_value", reference.getVerseNumber() - 1);
-			editor.commit();
+			changeReadingLocation(reference.getBookNumber(), reference.getChapterNumber() 
+					- 1, reference.getVerseNumber() - 1);
 
 			// Create new fragment and transaction
 			Fragment readerFragment = new BibleReader();
@@ -277,18 +273,85 @@ public class HomeScreen extends SlidingFragmentActivity {
 		// If no book number has been stored in the preferences
 		// Initiallize it to Genesis 1:1
 		if (book == -1) {
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putInt("book_value", 0);
-			editor.putInt("chapter_value", 0);
-			editor.putInt("verse_value", 0);
-			editor.commit();
+			changeReadingLocation(0, 0, 0);
 			book = 0;
 		}
 		int chapter = prefs.getInt("chapter_value", 0) + 1;
 		int verse = prefs.getInt("verse_value", 0) + 1;
 		updateCurrentlyReading(book, chapter, verse);
 	}
+	
+	
+	public void changeReadingLocation(int bookNumber, int chapterNumber, int verseNumber){
+		SharedPreferences prefs = getSharedPreferences("edu.southern",
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		//save current book, chapter, verse as old values
+		int bookvalue = prefs.getInt("book_value", 0);
+		int chaptervalue = prefs.getInt("chapter_value", 0)+1;
+		int versevalue = prefs.getInt("verse_value", 0)+1;
+		editor.putInt("oldbook_value", bookvalue);
+		editor.putInt("oldchapter_value", chaptervalue);
+		editor.putInt("oldverse_value", versevalue);
+		
+		//replace current values with new values
+		
+		editor.putInt("book_value", bookNumber);
+		editor.putInt("chapter_value", chapterNumber);
+		editor.putInt("verse_value", verseNumber);
+		editor.commit();
+	}
+	
+	public void changeReadingBook(int bookNumber){
+		SharedPreferences prefs = getSharedPreferences("edu.southern",
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		//save current book value
+		int bookvalue = prefs.getInt("book_value", 0);
+		editor.putInt("oldbook_value", bookvalue);
+		//replace current values with new values
+		editor.putInt("book_value", bookNumber);
+		editor.commit();
+	}
+	
+	public void changeReadingChapter(int chapterNumber){
+		SharedPreferences prefs = getSharedPreferences("edu.southern",
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		//save current chapter value
+		int chaptervalue = prefs.getInt("chapter_value", 0)+1;
+		editor.putInt("oldchapter_value", chaptervalue);
+		//replace current values with new values
+		editor.putInt("chapter_value", chapterNumber);
+		editor.commit();
+	}
 
+	public void changeReadingVerse(int verseNumber){
+		SharedPreferences prefs = getSharedPreferences("edu.southern",
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		//save current verse value
+		int versevalue = prefs.getInt("verse_value", 0);
+		editor.putInt("oldverse_value", versevalue);
+		//replace current values with new values
+		editor.putInt("verse_value", verseNumber);
+		editor.commit();
+	}
+	
+	public void changeOldReadingLocation(){
+		SharedPreferences prefs = getSharedPreferences("edu.southern",
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		//save current book, chapter, verse as old values
+		int bookvalue = prefs.getInt("book_value", 0);
+		int chaptervalue = prefs.getInt("chapter_value", 0)+1;
+		int versevalue = prefs.getInt("verse_value", 0)+1;
+		editor.putInt("oldbook_value", bookvalue);
+		editor.putInt("oldchapter_value", chaptervalue);
+		editor.putInt("oldverse_value", versevalue);
+		editor.commit();
+	}
+	
 	/**
 	 * Set the text of the Currently Reading button in the nav drawer To show
 	 * what book, chapter, and verse the user has selected

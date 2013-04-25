@@ -30,11 +30,8 @@ public class Bible extends ListFragment {
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// Save the value of the book selected in SharedPreferences
-		SharedPreferences settings = this.getActivity().getSharedPreferences(
-				"edu.southern", 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putInt("book_value", position);
-		editor.commit();
+		HomeScreen home = ((HomeScreen)getActivity());
+		home.changeReadingBook(position);
 
 		// Create new fragment and transaction
 		Fragment chapterFragment = new ChapterSelection();

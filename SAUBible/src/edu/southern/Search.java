@@ -214,13 +214,8 @@ public class Search extends Fragment implements OnClickListener{
 	}
 	
 	private void openBibleReader(Reference ref){
-		SharedPreferences settings = _activity.getSharedPreferences("edu.southern", 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putInt("book_value", ref.getBookNumber());
-		editor.putInt("chapter_value", ref.getChapterNumber() - 1);
-		editor.putInt("verse_value", ref.getVerseNumber() - 1);
-		editor.commit();
-		
-		((HomeScreen)_activity).replaceFragment(new BibleReader());
+		HomeScreen home = ((HomeScreen)_activity);
+		home.changeReadingLocation(ref.getBookNumber(), ref.getChapterNumber()-1, ref.getVerseNumber()-1);
+		home.replaceFragment(new BibleReader());
 	}
 }
