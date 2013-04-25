@@ -16,7 +16,6 @@ File | Description
 --- | ---
 createDailyVerseSQLiteDB.rb | ruby script to generate daily verse sqlfile for assets
 iconset.psd | photoshop file for icons in drawer menu, can be rasterized for multiple resolutions
-[Files to Note]
 
 ## /SAUBible
 
