@@ -89,7 +89,7 @@
 	        android:gravity="left|center_vertical"
 	        android:text="@string/DrawerBibleButton"
 	        android:drawablePadding="2sp"
-	        android:drawableLeft="@drawable/menu_chapter_select2" />
+	        android:drawableLeft="@drawable/menu_chapter_select" />
 
     </LinearLayout>
     
@@ -178,7 +178,7 @@
 		       android:gravity="left|center_vertical"
 		       android:text="@string/DrawerSettingsButton"
 		       android:drawablePadding="2sp"
-		       android:drawableLeft="@drawable/menu_settings2" />
+		       android:drawableLeft="@drawable/menu_settings" />
 	
     </LinearLayout>
 </LinearLayout>
