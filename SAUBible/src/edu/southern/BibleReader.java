@@ -170,18 +170,18 @@ public class BibleReader extends Fragment {
 	        	scrollto = contextV.getTop();
 	        	SharedPreferences prefs = getActivity().getSharedPreferences(
 	    				"edu.southern", Context.MODE_PRIVATE);
-	    		int oldscrollPos = prefs.getInt("scroll_value", 0);
+	    		/*int oldscrollPos = prefs.getInt("scroll_value", 0);
 	    		int oldbookVal = prefs.getInt("oldbook_value", 0);
-	    		int oldchapterVal = prefs.getInt("oldchapter_value", 0);
-	    		int oldVerseVal = prefs.getInt("oldverse_value", 0);
+	    		int oldchapterVal = prefs.getInt("oldchapter_value", 0)+1;
+	    		int oldVerseVal = prefs.getInt("oldverse_value", 0)+1;*/
 	    		int book_value = prefs.getInt("book_value", 0);
 	    		int chapter_value = prefs.getInt("chapter_value", 0) + 1;
 	    		int verse_value = prefs.getInt("verse_value", 0) + 1;
-	    		if(oldbookVal == book_value && oldchapterVal == chapter_value && oldVerseVal == verse_value){
+	    		/*if(oldbookVal == book_value && oldchapterVal == chapter_value && oldVerseVal == verse_value){
 	    			scrollview.scrollTo(0, oldscrollPos);
 	    		}
-	    		else
-	    			scrollview.scrollTo(0, scrollto);
+	    		else*/
+	    		scrollview.scrollTo(0, scrollto);
         	}
 	    });
 	}
@@ -207,11 +207,11 @@ public class BibleReader extends Fragment {
 	    @Override
 	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 	        switch (item.getItemId()) {
-	            case R.id.Highlight:
+	           /* case R.id.Highlight:
 	            	int viewId =  (Integer) mActionMode.getTag();
 	            	highlightVerse(viewId);
 	                mode.finish(); // Action picked, so close the CAB
-	                return true;
+	                return true;*/
 	            default:
 	                return false;
 	        }
@@ -230,7 +230,7 @@ public class BibleReader extends Fragment {
 	 * Prototype for highlighting verses
 	 * @param ID
 	 *       textview ID
-	 */
+	 *//*
 	public void highlightVerse(int id) {  
 	 	TextView verseDisplay = (TextView) getView().findViewById(id);
 	 	int textcolor = ((TextView) verseDisplay).getCurrentTextColor();
@@ -243,7 +243,7 @@ public class BibleReader extends Fragment {
 	 				0, verse.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	 		verseDisplay.setText(spanString);
 		}
-	} 
+	} */
 	
 	/**
 	 * Selected view is highlighted on/off with context menu
@@ -273,12 +273,18 @@ public class BibleReader extends Fragment {
 		super.onPause();
 		ScrollView scrollview = (ScrollView) getActivity().findViewById(
 				R.id.BibleReaderScrollView);
-		int oldscrollPos = scrollview.getScrollY();
+		//int oldscrollPos = scrollview.getScrollY();
 		SharedPreferences settings = getActivity()
 				.getSharedPreferences("edu.southern", 0);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putInt("scroll_value", oldscrollPos);
+		//editor.putInt("scroll_value", oldscrollPos);
 		editor.commit();
 	}
+	/*@Override
+	public void onResume() {
+        super.onResume();
+        HomeScreen home = ((HomeScreen)getActivity());
+		home.changeOldReadingLocation(false);
+    }*/
 	
 }	

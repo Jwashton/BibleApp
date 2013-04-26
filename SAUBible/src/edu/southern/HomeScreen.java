@@ -287,12 +287,12 @@ public class HomeScreen extends SlidingFragmentActivity {
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 		//save current book, chapter, verse as old values
-		int bookvalue = prefs.getInt("book_value", 0);
-		int chaptervalue = prefs.getInt("chapter_value", 0)+1;
-		int versevalue = prefs.getInt("verse_value", 0)+1;
+		/*int bookvalue = prefs.getInt("book_value", 0);
+		int chaptervalue = prefs.getInt("chapter_value", 0);
+		int versevalue = prefs.getInt("verse_value", 0);
 		editor.putInt("oldbook_value", bookvalue);
 		editor.putInt("oldchapter_value", chaptervalue);
-		editor.putInt("oldverse_value", versevalue);
+		editor.putInt("oldverse_value", versevalue);*/
 		
 		//replace current values with new values
 		
@@ -307,8 +307,8 @@ public class HomeScreen extends SlidingFragmentActivity {
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 		//save current book value
-		int bookvalue = prefs.getInt("book_value", 0);
-		editor.putInt("oldbook_value", bookvalue);
+		//int bookvalue = prefs.getInt("book_value", 0);
+		//editor.putInt("oldbook_value", bookvalue);
 		//replace current values with new values
 		editor.putInt("book_value", bookNumber);
 		editor.commit();
@@ -319,8 +319,8 @@ public class HomeScreen extends SlidingFragmentActivity {
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 		//save current chapter value
-		int chaptervalue = prefs.getInt("chapter_value", 0)+1;
-		editor.putInt("oldchapter_value", chaptervalue);
+		//int chaptervalue = prefs.getInt("chapter_value", 0);
+		//editor.putInt("oldchapter_value", chaptervalue);
 		//replace current values with new values
 		editor.putInt("chapter_value", chapterNumber);
 		editor.commit();
@@ -331,14 +331,14 @@ public class HomeScreen extends SlidingFragmentActivity {
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 		//save current verse value
-		int versevalue = prefs.getInt("verse_value", 0);
-		editor.putInt("oldverse_value", versevalue);
+		//int versevalue = prefs.getInt("verse_value", 0);
+		//editor.putInt("oldverse_value", versevalue);
 		//replace current values with new values
 		editor.putInt("verse_value", verseNumber);
 		editor.commit();
 	}
 	
-	public void changeOldReadingLocation(){
+	/*public void changeOldReadingLocation(boolean onpause){
 		SharedPreferences prefs = getSharedPreferences("edu.southern",
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
@@ -346,11 +346,25 @@ public class HomeScreen extends SlidingFragmentActivity {
 		int bookvalue = prefs.getInt("book_value", 0);
 		int chaptervalue = prefs.getInt("chapter_value", 0)+1;
 		int versevalue = prefs.getInt("verse_value", 0)+1;
-		editor.putInt("oldbook_value", bookvalue);
-		editor.putInt("oldchapter_value", chaptervalue);
-		editor.putInt("oldverse_value", versevalue);
+		
+		int book_value = prefs.getInt("oldbook_value", 0);
+		int chapter_value = prefs.getInt("oldchapter_value", 0);
+		int verse_value = prefs.getInt("oldverse_value", 0);
+		if(bookvalue==book_value && chaptervalue==chapter_value && versevalue==verse_value)
+			return;
+		else if(onpause == true){
+			editor.putInt("oldbook_value", bookvalue);
+			editor.putInt("oldchapter_value", chaptervalue);
+			editor.putInt("oldverse_value", versevalue);
+		}
+		else {
+			editor.putInt("book_value", bookvalue);
+			editor.putInt("chapter_value", chaptervalue-1);
+			editor.putInt("verse_value", versevalue-1);
+		}
 		editor.commit();
-	}
+		
+	}*/
 	
 	/**
 	 * Set the text of the Currently Reading button in the nav drawer To show
