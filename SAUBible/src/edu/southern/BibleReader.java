@@ -6,34 +6,27 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.SyncStateContract.Helpers;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import edu.southern.resources.BibleHelper;
 import edu.southern.resources.Chapter;
 import edu.southern.resources.Verse;
 
 public class BibleReader extends Fragment {
-	static ArrayAdapter<Verse> adapter;
 	BibleHelper bibleHelper = new BibleHelper();
 	int scrollto = 0; //Keeps track of the selected verse's textview
-	LayoutInflater inflater;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		this.inflater = inflater;
 		return inflater.inflate(R.layout.fragment_bible_reader, container,
 				false);
 	}
@@ -154,10 +147,6 @@ public class BibleReader extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// create Account
-				int id = v.getId();
-				String text = String.valueOf(id);
-				Toast.makeText(getActivity().getApplicationContext(), text,
-						Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -172,6 +161,8 @@ public class BibleReader extends Fragment {
 	        @Override
 	        public void run() {
 	        	View contextV  = (TextView) getView().findViewById(scrollto);
+	        	if(contextV == null)
+	        		return;
 	        	scrollto = contextV.getTop();
             	scrollview.scrollTo(0, scrollto);
 	        }

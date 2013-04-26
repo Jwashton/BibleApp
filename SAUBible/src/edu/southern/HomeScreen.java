@@ -5,20 +5,13 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 import android.os.Bundle;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -31,8 +24,6 @@ import edu.southern.resources.*;
 
 // Inherit from Sliding Fragment
 public class HomeScreen extends SlidingFragmentActivity {
-
-	private FragmentManager fragmentManager = getFragmentManager();
 	private int ActionBarView;
 
 	@Override
@@ -72,8 +63,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 			transferAssetFiles();
 			initiallizeSharedPreferences(); // place Genesis 1:1 in preferences
 											// and set text in nav drawer
-			FragmentTransaction fragmentTransaction = fragmentManager
-					.beginTransaction();
+			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 			Home homeFragment = new Home();
 			fragmentTransaction.add(R.id.homeFragmentContainer, homeFragment);
 			fragmentTransaction.commit();
@@ -121,7 +111,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 	 *            ID of the fragment layout to display
 	 */
 	public void replaceFragment(Fragment newFrag) {
-		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 		transaction.replace(R.id.homeFragmentContainer, newFrag);
 		transaction.addToBackStack(null);
 		transaction.commit();
@@ -153,7 +143,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 		try {
 			Reference reference = helper.parseReference(text);
 			// Save the value of the chapter selected in SharePreferences
-			SharedPreferences settings = getSharedPreferences("edu.southern", 0);
+			SharedPreferences settings = getSharedPreferences("edu.southern", Context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = settings.edit();
 			// I'd like to refactor how the numbers are handled eventually
 			// But I'm conforming to the in-place model for now
@@ -177,10 +167,10 @@ public class HomeScreen extends SlidingFragmentActivity {
 			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		} catch (ReferenceStringException e) {
 			// TODO prevent keyboard from closing on enter key press if possible
-			Context context = getApplicationContext();
-			CharSequence toastText = e.getMessage();
-			int duration = Toast.LENGTH_LONG;
-			Toast.makeText(context, toastText, duration).show();
+			//CharSequence toastText = e.getMessage();
+			//int duration = Toast.LENGTH_LONG;
+			Toast.makeText(HomeScreen.this, "Reference not found, please enter a reference such as \"Exodus\", \"John 3\" or \"Matthew 3 17\"", Toast.LENGTH_LONG).show();
+			
 		}
 	}
 
