@@ -40,8 +40,7 @@ public class HomeScreen extends SlidingFragmentActivity {
 		referenceSearch.setOnEditorActionListener(new OnEditorActionListener() {
 			public boolean onEditorAction(TextView v, int actionId,
 					KeyEvent event) {
-				if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
-						|| (actionId == EditorInfo.IME_ACTION_DONE)) {
+				if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
 					findViewById(R.id.referenceGo).performClick();
 				}
 				return false;
@@ -169,8 +168,8 @@ public class HomeScreen extends SlidingFragmentActivity {
 			// TODO prevent keyboard from closing on enter key press if possible
 			//CharSequence toastText = e.getMessage();
 			//int duration = Toast.LENGTH_LONG;
-			Toast.makeText(HomeScreen.this, "Reference not found, please enter a reference such as \"Exodus\", \"John 3\" or \"Matthew 3 17\"", Toast.LENGTH_LONG).show();
-			
+			//Toast.makeText(HomeScreen.this, "Reference not found, please enter a reference such as \"Exodus\", \"John 3\" or \"Matthew 3 17\"", Toast.LENGTH_LONG).show();
+			// crashes
 		}
 	}
 
